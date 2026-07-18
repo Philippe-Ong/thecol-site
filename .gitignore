@@ -1,0 +1,12 @@
+# Images sources (lourdes, ~209 Mo) — seules les versions optimisées assets/web/ sont versionnées
+assets/Membre/
+assets/image deco/
+assets/image produit/
+assets/logo/
+
+# Divers
+__pycache__/
+*.pyc
+.agents/
+Thumbs.db
+.DS_Store

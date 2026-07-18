@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nous contacter — ThéCol</title>
+  <meta name="description" content="Une question, une idée de point de vente, une commande distributeur ? Contactez l'équipe ThéCol — nous vous répondons avec plaisir.">
+  <link rel="icon" type="image/svg+xml" href="assets/web/montagne.svg">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/web/icon-192.png">
+  <link rel="apple-touch-icon" href="assets/web/icon-192.png">
+  <link rel="stylesheet" href="css/style.css?v=5">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="index.html" aria-label="ThéCol — accueil">
+        <img src="assets/web/logo-header.png" alt="ThéCol">
+      </a>
+      <nav class="main-nav" aria-label="Navigation principale">
+        <a href="index.html">Accueil</a>
+        <a href="produits.html">Nos produits</a>
+        <a href="points-de-vente.html">Points de vente</a>
+        <a href="a-propos.html">À propos</a>
+        <a href="contact.html" class="btn small">Nous contacter</a>
+      </nav>
+      <div class="header-actions">
+        <button class="cart-btn" aria-label="Ouvrir le panier">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 7V6a6 6 0 0 1 12 0v1"/><path d="M4 7h16l-1.2 12.1a2 2 0 0 1-2 1.9H7.2a2 2 0 0 1-2-1.9L4 7Z"/></svg>
+          <span class="cart-count" data-cart-count hidden>0</span>
+        </button>
+        <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ======================= En-tête de page ======================= -->
+    <section class="page-hero">
+      <div class="hero-mountain" aria-hidden="true"></div>
+      <div class="wrap">
+        <span class="overline">
+          <svg width="28" height="18" viewBox="0 0 28 18" aria-hidden="true"><g fill="currentColor"><path d="M2 16C8 14 16 9 26 2" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/><ellipse cx="8" cy="11" rx="4.5" ry="2.2" transform="rotate(-30 8 11)"/><ellipse cx="15" cy="7.5" rx="4.5" ry="2.2" transform="rotate(-30 15 7.5)"/><ellipse cx="22" cy="4" rx="4.5" ry="2.2" transform="rotate(-30 22 4)"/></g></svg>
+          On vous écoute
+        </span>
+        <h1>Contactez-nous</h1>
+        <p class="lead">Vous souhaitez nous dire un petit quelque chose&nbsp;? C'est par ici.</p>
+      </div>
+    </section>
+
+    <!-- ======================= Formulaire ======================= -->
+    <section class="section tight" style="padding-top: 20px;">
+      <div class="wrap contact-grid">
+        <form class="form-card reveal" id="contact-form">
+          <div class="form-row">
+            <div class="field">
+              <label for="f-nom">Nom <span>*</span></label>
+              <input type="text" id="f-nom" name="nom" required autocomplete="name">
+            </div>
+            <div class="field">
+              <label for="f-email">E-mail <span>*</span></label>
+              <input type="email" id="f-email" name="email" required autocomplete="email">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label for="f-societe">Société</label>
+              <input type="text" id="f-societe" name="societe" autocomplete="organization">
+            </div>
+            <div class="field">
+              <label for="f-sujet">Sujet <span>*</span></label>
+              <input type="text" id="f-sujet" name="sujet" required>
+            </div>
+          </div>
+          <div class="field">
+            <label for="f-question">Question <span>*</span></label>
+            <textarea id="f-question" name="question" required placeholder="Votre message…"></textarea>
+          </div>
+          <button type="submit" class="btn">Soumettre
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 2-11 11"/><path d="M22 2 15 22l-4-9-9-4L22 2Z"/></svg>
+          </button>
+          <p class="form-hint">L'envoi ouvre votre messagerie avec le message prérempli, à destination de commande@thecol.ch.</p>
+        </form>
+
+        <div>
+          <div class="aside-card reveal d1">
+            <h3>Nous joindre directement</h3>
+            <p>Question, idée de nouveau point de vente, envie de devenir distributeur&nbsp;: on vous répond avec plaisir.</p>
+            <a class="contact-line" href="mailto:commande@thecol.ch">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="3"/><path d="m3 7.5 9 6.5 9-6.5"/></svg>
+              commande@thecol.ch
+            </a>
+            <a class="contact-line" href="https://www.instagram.com/thecol.frib/" target="_blank" rel="noopener">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg>
+              @thecol.frib
+            </a>
+            <a class="contact-line" href="https://www.facebook.com/thecol.frib/" target="_blank" rel="noopener">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 22v-8h2.8l.5-3.5h-3.3V8.2c0-1 .3-1.7 1.7-1.7h1.7V3.4c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.9H7.5V14h2.7v8h3.3Z"/></svg>
+              ThéCol
+            </a>
+            <span class="contact-line">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+              ThéCol Sàrl — Fribourg, Suisse
+            </span>
+          </div>
+
+          <div class="aside-card reveal d2" style="background: var(--mint-soft);">
+            <h3>Distributeurs</h3>
+            <p>Vous êtes déjà distributeur&nbsp;? Envoyez votre commande directement par e-mail à <a href="mailto:commande@thecol.ch" style="color:var(--green-700);font-weight:600;">commande@thecol.ch</a>.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= CGV ======================= -->
+    <section class="section tight" id="cgv">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="overline">Bon à savoir</span>
+          <h2>Conditions générales de vente</h2>
+        </div>
+        <div class="cgv-list reveal">
+          <details class="faq">
+            <summary>Prix <span class="faq-plus">+</span></summary>
+            <div class="faq-body"><p>Les prix de notre boutique en ligne sont indiqués en francs suisses, montants nets, TVA incluse. Ils s'adressent aux clients privés.</p></div>
+          </details>
+          <details class="faq">
+            <summary>Disponibilité <span class="faq-plus">+</span></summary>
+            <div class="faq-body"><p>Notre engagement de livraison est nul en cas de défaillance ou de non-respect des délais de nos fournisseurs qui ne nous serait pas imputable.</p></div>
+          </details>
+          <details class="faq">
+            <summary>Modalités de paiement <span class="faq-plus">+</span></summary>
+            <div class="faq-body"><p>Le paiement en ligne s'effectue par carte bancaire (Visa, MasterCard) ou PayPal.</p></div>
+          </details>
+          <details class="faq">
+            <summary>Livraison et transport <span class="faq-plus">+</span></summary>
+            <div class="faq-body"><p>Envoi par la poste sous 3 à 5 jours. Une livraison par nos soins est également proposée dans le canton de Fribourg et les cantons limitrophes (Vaud, Genève, Valais, Neuchâtel, Jura) lors de nos tournées de distribution, sous 30 jours au maximum.</p></div>
+          </details>
+          <details class="faq">
+            <summary>Retour ou échange <span class="faq-plus">+</span></summary>
+            <div class="faq-body"><p>Merci de vérifier votre commande à réception. Les articles endommagés lors du transport doivent nous être signalés rapidement, photographies à l'appui&nbsp;; nous remboursons les articles concernés.</p></div>
+          </details>
+          <details class="faq">
+            <summary>Protection des données <span class="faq-plus">+</span></summary>
+            <div class="faq-body"><p>Vos informations personnelles restent confidentielles et sont traitées informatiquement dans le cadre de la gestion des commandes.</p></div>
+          </details>
+          <details class="faq">
+            <summary>Droit applicable <span class="faq-plus">+</span></summary>
+            <div class="faq-body"><p>Le droit suisse est applicable&nbsp;; le for juridique est dans le canton de Fribourg.</p></div>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="mountain" aria-hidden="true"></div>
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="foot-logo"><span class="m" aria-hidden="true"></span><b>ThéCol</b></div>
+          <p>Le terroir dans une boisson. Thé froid artisanal, swiss made, brassé avec passion à Fribourg.</p>
+          <div class="social-row">
+            <a href="https://www.instagram.com/thecol.frib/" target="_blank" rel="noopener" aria-label="Instagram">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg>
+            </a>
+            <a href="https://www.facebook.com/thecol.frib/" target="_blank" rel="noopener" aria-label="Facebook">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 22v-8h2.8l.5-3.5h-3.3V8.2c0-1 .3-1.7 1.7-1.7h1.7V3.4c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.9H7.5V14h2.7v8h3.3Z"/></svg>
+            </a>
+          </div>
+        </div>
+        <nav aria-label="Navigation du pied de page">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="produits.html">Nos produits</a></li>
+            <li><a href="points-de-vente.html">Points de vente</a></li>
+            <li><a href="a-propos.html">À propos</a></li>
+            <li><a href="contact.html">Nous contacter</a></li>
+          </ul>
+        </nav>
+        <div>
+          <h4>Nos saveurs</h4>
+          <ul>
+            <li><a href="produit-hibiscus.html">Hibiscus</a></li>
+            <li><a href="produit-mures.html">Mûres sauvages</a></li>
+            <li><a href="produit-sureau.html">Fleur de Sureau</a></li>
+            <li><a href="produit-herbes.html">Herbes des Alpes</a></li>
+            <li><a href="produit-poire.html">Poire à Botzi</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="mailto:commande@thecol.ch">commande@thecol.ch</a></li>
+            <li><a href="https://www.instagram.com/thecol.frib/" target="_blank" rel="noopener">@thecol.frib</a></li>
+            <li>Fribourg, Suisse</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span data-year>2026</span> ThéCol Sàrl — Fribourg, Suisse</span>
+        <a href="contact.html#cgv">Conditions générales de vente</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js?v=5"></script>
+</body>
+</html>
