@@ -5,12 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Points de vente — ThéCol | 34 distributeurs partenaires</title>
   <meta name="description" content="Trouvez du ThéCol près de chez vous : 34 distributeurs partenaires à Fribourg, Vaud, Valais et Jura. Épiceries, fromageries, boulangeries et cafés.">
+  <link rel="canonical" href="https://philippe-ong.github.io/thecol-site/points-de-vente.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ThéCol">
+  <meta property="og:title" content="Points de vente — ThéCol | 34 distributeurs partenaires">
+  <meta property="og:description" content="Trouvez du ThéCol près de chez vous : 34 distributeurs partenaires à Fribourg, Vaud, Valais et Jura. Épiceries, fromageries, boulangeries et cafés.">
+  <meta property="og:url" content="https://philippe-ong.github.io/thecol-site/points-de-vente.html">
+  <meta property="og:image" content="https://philippe-ong.github.io/thecol-site/assets/web/photo-groupe.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Points de vente — ThéCol | 34 distributeurs partenaires">
+  <meta name="twitter:description" content="Trouvez du ThéCol près de chez vous : 34 distributeurs partenaires à Fribourg, Vaud, Valais et Jura. Épiceries, fromageries, boulangeries et cafés.">
+  <meta name="twitter:url" content="https://philippe-ong.github.io/thecol-site/points-de-vente.html">
+  <meta name="twitter:image" content="https://philippe-ong.github.io/thecol-site/assets/web/photo-groupe.jpg">
   <link rel="icon" type="image/svg+xml" href="assets/web/montagne.svg">
   <link rel="icon" type="image/png" sizes="192x192" href="assets/web/icon-192.png">
   <link rel="apple-touch-icon" href="assets/web/icon-192.png">
-  <link rel="stylesheet" href="css/style.css?v=5">
+  <link rel="stylesheet" href="css/style.css?v=6">
 </head>
 <body>
+
+  <a class="skip-link" href="#main-content">Aller au contenu</a>
 
   <header class="site-header">
     <div class="wrap header-inner">
@@ -20,7 +34,7 @@
       <nav class="main-nav" aria-label="Navigation principale">
         <a href="index.html">Accueil</a>
         <a href="produits.html">Nos produits</a>
-        <a href="points-de-vente.html" class="active">Points de vente</a>
+        <a href="points-de-vente.html" class="active" aria-current="page">Points de vente</a>
         <a href="a-propos.html">À propos</a>
         <a href="contact.html" class="btn small">Nous contacter</a>
       </nav>
@@ -36,7 +50,7 @@
     </div>
   </header>
 
-  <main>
+  <main id="main-content">
     <!-- ======================= En-tête de page ======================= -->
     <section class="page-hero">
       <div class="hero-mountain" aria-hidden="true"></div>
@@ -45,8 +59,38 @@
           <svg width="28" height="18" viewBox="0 0 28 18" aria-hidden="true"><g fill="currentColor"><path d="M2 16C8 14 16 9 26 2" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/><ellipse cx="8" cy="11" rx="4.5" ry="2.2" transform="rotate(-30 8 11)"/><ellipse cx="15" cy="7.5" rx="4.5" ry="2.2" transform="rotate(-30 15 7.5)"/><ellipse cx="22" cy="4" rx="4.5" ry="2.2" transform="rotate(-30 22 4)"/></g></svg>
           Où nous trouver
         </span>
-        <h1>Points de vente</h1>
+        <h1>Points de <em style="color:var(--green-700)">vente</em></h1>
         <p class="lead">Nos bouteilles sont actuellement disponibles chez <b><span id="pos-total">34</span> distributeurs partenaires</b>. Trouvez celui qui vous convient&nbsp;!</p>
+        <div class="pos-stats" aria-label="Aperçu du réseau">
+          <div class="pos-stat"><b data-countup="34">34</b><span>distributeurs partenaires</span></div>
+          <div class="pos-stat"><b data-countup="4">4</b><span>cantons</span></div>
+          <div class="pos-stat"><b data-countup="27">27</b><span>localités</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= Carte ======================= -->
+    <section class="section tight pos-map-section">
+      <div class="wrap">
+        <div class="map-band reveal">
+          <div class="map-band-bg" aria-hidden="true"></div>
+          <div class="map-head">
+            <span class="map-kicker">La carte du terroir</span>
+            <h2>34 adresses qui ont du goût</h2>
+            <p class="map-sub">Survolez un point pour découvrir le commerce, cliquez pour le retrouver dans la liste.</p>
+            <div class="map-legend" id="map-legend" aria-label="Légende de la carte"></div>
+          </div>
+          <div class="map-stage" id="pos-map" aria-hidden="true">
+            <noscript>
+              <p style="color:#fff;padding:20px;text-align:center;">La liste des points de vente est disponible ci-dessous.</p>
+            </noscript>
+          </div>
+          <aside class="map-inset" id="pos-inset" aria-label="Zoom sur le canton de Fribourg">
+            <p class="inset-caption">Canton de Fribourg <span aria-hidden="true">— zoom ×3</span></p>
+            <div class="map-stage inset-stage" id="pos-inset-map"></div>
+          </aside>
+          <p class="map-credit">Tracé des cantons adapté de « Suisse cantons.svg » par Pymouss44 — Wikimedia Commons, licence CC BY-SA 4.0.</p>
+        </div>
       </div>
     </section>
 
@@ -59,9 +103,10 @@
             <input type="search" id="pos-search" placeholder="Rechercher un commerce ou une localité…" aria-label="Rechercher un point de vente">
           </div>
           <div class="chip-row" id="pos-chips" role="group" aria-label="Filtrer par canton"></div>
+          <span class="pos-count" id="pos-count" aria-live="off"></span>
         </div>
 
-        <div id="pos-root" aria-live="polite"></div>
+        <div id="pos-root"></div>
       </div>
     </section>
 
@@ -98,7 +143,7 @@
           </div>
         </div>
         <nav aria-label="Navigation du pied de page">
-          <h4>Navigation</h4>
+          <p class="footer-title">Navigation</p>
           <ul>
             <li><a href="index.html">Accueil</a></li>
             <li><a href="produits.html">Nos produits</a></li>
@@ -108,7 +153,7 @@
           </ul>
         </nav>
         <div>
-          <h4>Nos saveurs</h4>
+          <p class="footer-title">Nos saveurs</p>
           <ul>
             <li><a href="produit-hibiscus.html">Hibiscus</a></li>
             <li><a href="produit-mures.html">Mûres sauvages</a></li>
@@ -118,7 +163,7 @@
           </ul>
         </div>
         <div>
-          <h4>Contact</h4>
+          <p class="footer-title">Contact</p>
           <ul>
             <li><a href="mailto:commande@thecol.ch">commande@thecol.ch</a></li>
             <li><a href="https://www.instagram.com/thecol.frib/" target="_blank" rel="noopener">@thecol.frib</a></li>
@@ -133,6 +178,7 @@
     </div>
   </footer>
 
-  <script src="js/main.js?v=5"></script>
+  <script src="js/map-suisse.js?v=1"></script>
+  <script src="js/main.js?v=6"></script>
 </body>
 </html>

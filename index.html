@@ -4,13 +4,86 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ThéCol — Le terroir dans une boisson | Thé froid artisanal suisse</title>
-  <meta name="description" content="ThéCol brasse des thés froids artisanaux à Fribourg : Hibiscus, Mûres sauvages, Fleur de Sureau, Herbes des Alpes et Poire à Botzi. Swiss made, pas trop sucré.">
+  <meta name="description" content="ThéCol brasse à Fribourg des thés froids artisanaux suisses : Hibiscus, Mûres sauvages, Fleur de Sureau, Herbes des Alpes et Poire à Botzi.">
+  <link rel="canonical" href="https://philippe-ong.github.io/thecol-site/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ThéCol">
+  <meta property="og:title" content="ThéCol — Le terroir dans une boisson">
+  <meta property="og:description" content="ThéCol brasse à Fribourg des thés froids artisanaux suisses : Hibiscus, Mûres sauvages, Fleur de Sureau, Herbes des Alpes et Poire à Botzi.">
+  <meta property="og:url" content="https://philippe-ong.github.io/thecol-site/">
+  <meta property="og:image" content="https://philippe-ong.github.io/thecol-site/assets/web/photo-groupe.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ThéCol — Le terroir dans une boisson">
+  <meta name="twitter:description" content="ThéCol brasse à Fribourg des thés froids artisanaux suisses : Hibiscus, Mûres sauvages, Fleur de Sureau, Herbes des Alpes et Poire à Botzi.">
+  <meta name="twitter:url" content="https://philippe-ong.github.io/thecol-site/">
+  <meta name="twitter:image" content="https://philippe-ong.github.io/thecol-site/assets/web/photo-groupe.jpg">
   <link rel="icon" type="image/svg+xml" href="assets/web/montagne.svg">
   <link rel="icon" type="image/png" sizes="192x192" href="assets/web/icon-192.png">
   <link rel="apple-touch-icon" href="assets/web/icon-192.png">
-  <link rel="stylesheet" href="css/style.css?v=5">
+  <link rel="stylesheet" href="css/style.css?v=6">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "ThéCol Sàrl",
+    "url": "https://philippe-ong.github.io/thecol-site/",
+    "logo": "https://philippe-ong.github.io/thecol-site/assets/web/logo-header.png",
+    "description": "ThéCol brasse à Fribourg des thés froids artisanaux suisses : Hibiscus, Mûres sauvages, Fleur de Sureau, Herbes des Alpes et Poire à Botzi.",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Fribourg",
+      "addressCountry": "CH"
+    },
+    "sameAs": [
+      "https://www.instagram.com/thecol.frib/",
+      "https://www.facebook.com/thecol.frib/"
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Où puis-je trouver du ThéCol ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Nous nous efforçons d'améliorer notre disponibilité en proposant nos produits auprès de petits commerçants dans une région géographique la plus complète possible. Vous retrouverez l'ensemble de nos distributeurs actuels sur la page Points de vente. Vous pensez à un nouveau point de vente pour nous ou gérez un établissement ? Contactez-nous !"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Combien de temps tiennent les bouteilles et comment les stocker ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Nous appliquons une date de péremption de 6 mois à compter de la production à nos bouteilles. Hermétiquement fermées, il n'est pas nécessaire de les stocker au frigo. Une simple protection à l'abri de la lumière et de la chaleur garantira à vos thés froids un environnement parfait ! Une fois ouvert, laissez votre boisson préférée au frigo et finissez-la sans tarder."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Les bouteilles sont-elles consignées ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Pour des raisons de logistique, nous n'appliquons pas de consigne sur nos bouteilles. Vous pouvez donc les garder ou les rendre. La plupart de nos distributeurs acceptent de récupérer vos bouteilles vides et nous les transmettent lorsque nous les livrons à nouveau."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Comment passer ma commande en tant que distributeur ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Si vous êtes déjà distributeur, vous pouvez nous envoyer votre commande par mail à l'adresse commande@thecol.ch. Si vous n'êtes pas encore distributeur et souhaitez en savoir plus, n'hésitez pas à nous contacter, c'est avec plaisir que nous vous renseignerons."
+        }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
+
+  <a class="skip-link" href="#main-content">Aller au contenu</a>
 
   <!-- ======================= Header ======================= -->
   <header class="site-header">
@@ -19,7 +92,7 @@
         <img src="assets/web/logo-header.png" alt="ThéCol">
       </a>
       <nav class="main-nav" aria-label="Navigation principale">
-        <a href="index.html" class="active">Accueil</a>
+        <a href="index.html" class="active" aria-current="page">Accueil</a>
         <a href="produits.html">Nos produits</a>
         <a href="points-de-vente.html">Points de vente</a>
         <a href="a-propos.html">À propos</a>
@@ -37,7 +110,7 @@
     </div>
   </header>
 
-  <main>
+  <main id="main-content">
     <!-- ======================= Hero ======================= -->
     <section class="hero">
       <div class="wrap hero-inner">
@@ -254,7 +327,7 @@
           </div>
         </div>
         <nav aria-label="Navigation du pied de page">
-          <h4>Navigation</h4>
+          <p class="footer-title">Navigation</p>
           <ul>
             <li><a href="index.html">Accueil</a></li>
             <li><a href="produits.html">Nos produits</a></li>
@@ -264,7 +337,7 @@
           </ul>
         </nav>
         <div>
-          <h4>Nos saveurs</h4>
+          <p class="footer-title">Nos saveurs</p>
           <ul>
             <li><a href="produit-hibiscus.html">Hibiscus</a></li>
             <li><a href="produit-mures.html">Mûres sauvages</a></li>
@@ -274,7 +347,7 @@
           </ul>
         </div>
         <div>
-          <h4>Contact</h4>
+          <p class="footer-title">Contact</p>
           <ul>
             <li><a href="mailto:commande@thecol.ch">commande@thecol.ch</a></li>
             <li><a href="https://www.instagram.com/thecol.frib/" target="_blank" rel="noopener">@thecol.frib</a></li>
@@ -289,6 +362,6 @@
     </div>
   </footer>
 
-  <script src="js/main.js?v=5"></script>
+  <script src="js/main.js?v=6"></script>
 </body>
 </html>

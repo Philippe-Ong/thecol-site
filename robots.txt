@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://philippe-ong.github.io/thecol-site/sitemap.xml

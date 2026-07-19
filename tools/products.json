@@ -1,0 +1,52 @@
+{
+  "hibiscus": {
+    "name": "Hibiscus",
+    "page": "produit-hibiscus.html",
+    "image": "assets/web/produit-hibiscus.jpg",
+    "formats": {
+      "25": "3.00",
+      "50": "5.00",
+      "100": "8.50"
+    }
+  },
+  "mures": {
+    "name": "Mûres sauvages",
+    "page": "produit-mures.html",
+    "image": "assets/web/produit-mures.jpg",
+    "formats": {
+      "25": "3.00",
+      "50": "5.00",
+      "100": "8.50"
+    }
+  },
+  "sureau": {
+    "name": "Fleur de Sureau",
+    "page": "produit-sureau.html",
+    "image": "assets/web/produit-sureau.jpg",
+    "formats": {
+      "25": "3.00",
+      "50": "5.00",
+      "100": "8.50"
+    }
+  },
+  "herbes": {
+    "name": "Herbes des Alpes",
+    "page": "produit-herbes.html",
+    "image": "assets/web/produit-herbes.jpg",
+    "formats": {
+      "25": "3.00",
+      "50": "5.00",
+      "100": "8.50"
+    }
+  },
+  "poire": {
+    "name": "Poire à Botzi",
+    "page": "produit-poire.html",
+    "image": "assets/web/produit-poire.jpg",
+    "formats": {
+      "25": "3.00",
+      "50": "5.00",
+      "100": "8.50"
+    }
+  }
+}
