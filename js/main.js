@@ -12,6 +12,8 @@
   /* ---------- Header : état scroll + menu mobile ---------- */
   var header = document.querySelector(".site-header");
   var toggle = document.querySelector(".nav-toggle");
+  var navEl = document.querySelector(".main-nav");
+  var mobileNav = window.matchMedia("(max-width: 860px)");
 
   function onScroll() {
     if (header) header.classList.toggle("scrolled", window.scrollY > 10);
@@ -25,31 +27,45 @@
     toggle.setAttribute("aria-label", isOpen ? "Fermer le menu" : "Ouvrir le menu");
   }
 
+  function setMenuOpen(isOpen) {
+    document.body.classList.toggle("nav-open", isOpen);
+    setToggleState(isOpen);
+    if (isOpen && navEl) {
+      var first = navEl.querySelector(focusableSelector());
+      if (first) first.focus();
+    }
+  }
+
   if (toggle) {
     // État initial explicite
     setToggleState(false);
 
     toggle.addEventListener("click", function () {
       var open = !document.body.classList.contains("nav-open");
-      document.body.classList.toggle("nav-open", open);
-      setToggleState(open);
+      setMenuOpen(open);
     });
 
     var navLinks = document.querySelectorAll(".main-nav a");
     navLinks.forEach(function (a) {
       a.addEventListener("click", function () {
-        document.body.classList.remove("nav-open");
-        setToggleState(false);
+        setMenuOpen(false);
       });
     });
 
-    // Navigation clavier raisonnable : piège de focus simple quand le menu est ouvert
-    var navEl = document.querySelector(".main-nav");
+    // Le bouton de fermeture et les liens partagent le même cycle clavier.
+    mobileNav.addEventListener("change", function () {
+      var active = document.activeElement;
+      setMenuOpen(false);
+      if (mobileNav.matches && navEl && navEl.contains(active)) toggle.focus();
+      if (!mobileNav.matches && active === toggle && navEl) {
+        var first = navEl.querySelector(focusableSelector());
+        if (first) first.focus();
+      }
+    });
     document.addEventListener("keydown", function (e) {
-      if (!document.body.classList.contains("nav-open")) return;
+      if (!mobileNav.matches || !document.body.classList.contains("nav-open")) return;
       if (e.key === "Escape") {
-        document.body.classList.remove("nav-open");
-        setToggleState(false);
+        setMenuOpen(false);
         toggle.focus();
         return;
       }
@@ -59,12 +75,12 @@
       var first = focusables[0];
       var last = focusables[focusables.length - 1];
       var active = document.activeElement;
-      if (e.shiftKey && active === first) {
+      if (active === toggle || !navEl.contains(active)) {
         e.preventDefault();
-        last.focus();
-      } else if (!e.shiftKey && active === last) {
+        (e.shiftKey ? last : first).focus();
+      } else if ((e.shiftKey && active === first) || (!e.shiftKey && active === last)) {
         e.preventDefault();
-        first.focus();
+        toggle.focus();
       }
     });
   }
@@ -1139,6 +1155,7 @@
   function cartOpen() {
     if (isCartOpen()) return;
     lastCartTrigger = document.activeElement;
+    setMenuOpen(false);
     document.body.classList.add("cart-open");
     drawerOverlay.hidden = false;
     lockScroll();
@@ -1253,7 +1270,15 @@
     } else if (t.dataset.ciRm !== undefined) {
       items.splice(+t.dataset.ciRm, 1);
     } else { return; }
+    var action = t.hasAttribute("data-ci-dec") ? "data-ci-dec" :
+      t.hasAttribute("data-ci-inc") ? "data-ci-inc" : "data-ci-rm";
+    var focusIndex = Math.min(+t.getAttribute(action), items.length - 1);
     cartSave(items);
+    // Le rendu remplace le bouton activé : retrouver le même contrôle, ou
+    // l'article voisin après suppression, puis le lien du panier vide.
+    var nextFocus = drawerItems.querySelector('[' + action + '="' + focusIndex + '"]') ||
+      drawerItems.querySelector(".cart-empty a") || document.getElementById("cart-close");
+    nextFocus.focus();
   });
 
   cartRender();
