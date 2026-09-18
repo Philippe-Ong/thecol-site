@@ -71,11 +71,11 @@
           <div class="form-row">
             <div class="field">
               <label for="f-nom">Nom <span>*</span></label>
-              <input type="text" id="f-nom" name="nom" required autocomplete="name">
+              <input type="text" id="f-nom" name="nom" required autocomplete="name" aria-describedby="contact-feedback">
             </div>
             <div class="field">
               <label for="f-email">E-mail <span>*</span></label>
-              <input type="email" id="f-email" name="email" required autocomplete="email">
+              <input type="email" id="f-email" name="email" required autocomplete="email" aria-describedby="contact-feedback">
             </div>
           </div>
           <div class="form-row">
@@ -85,12 +85,12 @@
             </div>
             <div class="field">
               <label for="f-sujet">Sujet <span>*</span></label>
-              <input type="text" id="f-sujet" name="sujet" required>
+              <input type="text" id="f-sujet" name="sujet" required aria-describedby="contact-feedback">
             </div>
           </div>
           <div class="field">
             <label for="f-question">Question <span>*</span></label>
-            <textarea id="f-question" name="question" required placeholder="Votre message…"></textarea>
+            <textarea id="f-question" name="question" required placeholder="Votre message…" aria-describedby="contact-feedback"></textarea>
           </div>
           <p class="form-hint">Ce site statique n'envoie rien au serveur&nbsp;: le bouton ci-dessous ouvre votre messagerie avec un message prérempli à destination de <a href="mailto:commande@thecol.ch">commande@thecol.ch</a>. Aucune commande ni message n'est transmis tant que vous n'avez pas envoyé le mail vous-même.</p>
           <div class="buy-actions" data-contact-actions>
@@ -213,7 +213,7 @@
         <div>
           <p class="footer-title">Contact</p>
           <ul>
-            <li><a href="mailto:commande@thecol.ch">commande@thecol.ch</a></li>
+            <li><a href="mailto:contact@thecol.ch">contact@thecol.ch</a></li>
             <li><a href="https://www.instagram.com/thecol.frib/" target="_blank" rel="noopener">@thecol.frib</a></li>
             <li>Fribourg, Suisse</li>
           </ul>

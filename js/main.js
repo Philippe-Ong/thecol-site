@@ -176,6 +176,16 @@
     { n: "Shop de la Communance", a: "Rue Victor Helg 8, 2800 Delémont", c: "Jura", loc: "Delémont", t: "Épicerie" }
   ];
 
+  // Compteurs « N distributeurs » injectés depuis POS (toutes pages) :
+  // les éléments [data-pos-count] existent aussi sur index.html qui n'a
+  // pas la section points de vente — POS vit donc à la racine de l'IIFE.
+  function syncPosCounters() {
+    document.querySelectorAll("[data-pos-count]").forEach(function (el) {
+      el.textContent = String(POS.length);
+    });
+  }
+  syncPosCounters();
+
   var CANTONS = ["Fribourg", "Vaud", "Valais", "Jura", "Genève", "Neuchâtel"];
   var EMPTY_MSG = "Pas trop vite ! Notre petite entreprise se développe à son rythme. " +
     "Nous n'avons malheureusement pas encore de distributeurs dans le canton de ";
@@ -784,6 +794,25 @@
     }
 
     (function setupCountUp() {
+      // Statistiques injectées depuis POS : nombre de distributeurs, de
+      // cantons et de localités distinctes — le HTML n'affiche que des
+      // valeurs de secours visibles (34/4/27) en attendant ce calcul.
+      var statEls = document.querySelectorAll(".pos-stats b[data-countup]");
+      if (statEls.length) {
+        var cantonSet = {};
+        var locSet = {};
+        POS.forEach(function (p) {
+          if (p.c) cantonSet[p.c] = true;
+          if (p.loc) locSet[p.loc] = true;
+        });
+        var stats = [POS.length, Object.keys(cantonSet).length, Object.keys(locSet).length];
+        Array.prototype.forEach.call(statEls, function (el, i) {
+          var v = stats[i];
+          if (v === undefined) return;
+          el.setAttribute("data-countup", String(v));
+          el.textContent = String(v);
+        });
+      }
       var els = document.querySelectorAll(".pos-stats b[data-countup]");
       if (!els.length) return;
       var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -897,6 +926,18 @@
   if (form) {
     var formFeedback = document.getElementById("contact-feedback");
 
+    // Expose l'état de validité aux lecteurs d'écran (la validation reste native)
+    form.addEventListener("invalid", function (e) {
+      var f = e.target;
+      if (f && f.setAttribute) f.setAttribute("aria-invalid", "true");
+    }, true);
+    form.addEventListener("input", function (e) {
+      var f = e.target;
+      if (f && f.setAttribute && f.getAttribute("aria-invalid") === "true" && f.validity && f.validity.valid) {
+        f.removeAttribute("aria-invalid");
+      }
+    }, true);
+
     // Bouton principal : détecté par son type (submit explicite) ou, à défaut,
     // premier bouton du formulaire (HTML5 default <button> = type="submit").
     var submitBtn = form.querySelector('button[type="submit"]') || form.querySelector("button");
@@ -1008,18 +1049,31 @@
      ================================================================== */
 
   var PRODUCTS = {
-    hibiscus: { name: "Hibiscus", img: "assets/web/produit-hibiscus.jpg", page: "produit-hibiscus.html", formats: { 25: 3.0, 50: 5.0, 100: 8.5 } },
-    mures:    { name: "Mûres sauvages", img: "assets/web/produit-mures.jpg", page: "produit-mures.html", formats: { 25: 3.0, 50: 5.0, 100: 8.5 } },
-    sureau:   { name: "Fleur de Sureau", img: "assets/web/produit-sureau.jpg", page: "produit-sureau.html", formats: { 25: 3.0, 50: 5.0, 100: 8.5 } },
-    herbes:   { name: "Herbes des Alpes", img: "assets/web/produit-herbes.jpg", page: "produit-herbes.html", formats: { 25: 3.0, 50: 5.0, 100: 8.5 } },
-    poire:    { name: "Poire à Botzi", img: "assets/web/produit-poire.jpg", page: "produit-poire.html", formats: { 25: 3.0, 50: 5.0, 100: 8.5 } }
+    hibiscus: { name: "Hibiscus", img: "assets/web/produit-hibiscus-480.webp", page: "produit-hibiscus.html", formats: { 25: 3.0, 50: 5.0, 100: 8.5 } },
+    mures:    { name: "Mûres sauvages", img: "assets/web/produit-mures-480.webp", page: "produit-mures.html", formats: { 25: 3.0, 50: 5.0, 100: 8.5 } },
+    sureau:   { name: "Fleur de Sureau", img: "assets/web/produit-sureau-480.webp", page: "produit-sureau.html", formats: { 25: 3.0, 50: 5.0, 100: 8.5 } },
+    herbes:   { name: "Herbes des Alpes", img: "assets/web/produit-herbes-480.webp", page: "produit-herbes.html", formats: { 25: 3.0, 50: 5.0, 100: 8.5 } },
+    poire:    { name: "Poire à Botzi", img: "assets/web/produit-poire-480.webp", page: "produit-poire.html", formats: { 25: 3.0, 50: 5.0, 100: 8.5 } }
   };
 
   var CART_KEY = "thecol-cart";
+  // Détection d'un stockage indisponible (navigation privée, quota, etc.) :
+  // le panier bascule alors en mémoire, sans crash ni échec silencieux.
+  var memoryCart = null;
+  try {
+    localStorage.setItem("thecol-test", "1");
+    localStorage.removeItem("thecol-test");
+  } catch (e) { memoryCart = []; }
+  var storageUnavailable = memoryCart !== null;
 
   function chf(n) { return "CHF " + n.toFixed(2); }
 
   function cartLoad() {
+    if (storageUnavailable) {
+      return (memoryCart || []).filter(function (it) {
+        return PRODUCTS[it.id] && PRODUCTS[it.id].formats[it.size] && it.qty > 0;
+      });
+    }
     try {
       var items = JSON.parse(localStorage.getItem(CART_KEY)) || [];
       return items.filter(function (it) {
@@ -1028,7 +1082,12 @@
     } catch (e) { return []; }
   }
   function cartSave(items) {
-    try { localStorage.setItem(CART_KEY, JSON.stringify(items)); } catch (e) {}
+    if (storageUnavailable) {
+      memoryCart.length = 0;
+      items.forEach(function (it) { memoryCart.push(it); });
+    } else {
+      try { localStorage.setItem(CART_KEY, JSON.stringify(items)); } catch (e) {}
+    }
     cartRender();
   }
   function cartAdd(id, size, qty) {
@@ -1143,6 +1202,19 @@
     drawerOverlay.hidden = false;
     lockScroll();
     setBackgroundInert(true);
+    if (storageUnavailable && !document.getElementById("cart-storage-note")) {
+      // Navigation privée / stockage bloqué : le panier ne survit pas au
+      // changement de page, on le signale une fois par session de page.
+      var storageNote = document.createElement("p");
+      storageNote.id = "cart-storage-note";
+      storageNote.className = "form-hint";
+      storageNote.setAttribute("role", "status");
+      storageNote.style.margin = "10px 0 0";
+      storageNote.textContent = "Votre navigateur ne conserve pas les données entre les pages : le panier ne sera pas gardé d'une page à l'autre.";
+      var cartNote = drawerFoot.querySelector(".cart-note");
+      if (cartNote) drawerFoot.insertBefore(storageNote, cartNote);
+      else drawerFoot.appendChild(storageNote);
+    }
     // Focus sur le bouton de fermeture dès l'ouverture
     setTimeout(function () {
       var closeBtn = document.getElementById("cart-close");
@@ -1199,10 +1271,36 @@
     var body = "Bonjour,\n\nJe souhaite passer commande des articles suivants :\n" + lines.join("\n") +
       "\n\nTotal indicatif : " + chf(cartTotal(items)) +
       "\n\nMerci de me confirmer la disponibilité, les frais de livraison et les modalités de paiement.\n\nNom :\nAdresse de livraison :\nTéléphone (facultatif) :";
-    // Simple déclenchement du client mail, sans message de confirmation serveur.
-    window.location.href = "mailto:commande@thecol.ch" +
+    var mailtoUrl = "mailto:commande@thecol.ch" +
       "?subject=" + encodeURIComponent("[thecol.ch] Demande de commande") +
       "&body=" + encodeURIComponent(body);
+    if (mailtoUrl.length > 2000) {
+      // Garde-fou : au-delà de 2000 caractères, certains clients mail
+      // tronquent ou refusent le mailto. On bascule sur une copie du
+      // message dans le presse-papiers, avec un retour explicite.
+      var note = document.getElementById("cart-feedback");
+      if (!note) {
+        note = document.createElement("p");
+        note.id = "cart-feedback";
+        note.className = "form-hint";
+        note.setAttribute("role", "status");
+        note.setAttribute("aria-live", "polite");
+        note.style.margin = "10px 0 0";
+        var cartNote = drawerFoot.querySelector(".cart-note");
+        if (cartNote) drawerFoot.insertBefore(note, cartNote);
+        else drawerFoot.appendChild(note);
+      }
+      var text = "À : commande@thecol.ch\nObjet : [thecol.ch] Demande de commande\n\n" + body;
+      fallbackCopy(text, function (ok) {
+        note.textContent = ok ?
+          "Votre demande est trop longue pour être transmise automatiquement. Le message a été copié dans le presse-papiers : collez-le (Ctrl/Cmd+V) dans un mail à commande@thecol.ch." :
+          "Copie impossible dans ce navigateur. Merci de nous écrire directement à commande@thecol.ch en indiquant votre commande.";
+      });
+      return;
+    }
+    // Simple déclenchement du client mail, sans message de confirmation serveur.
+    if (note) note.textContent = "";
+    window.location.href = mailtoUrl;
   });
 
   function cartRender() {
@@ -1226,7 +1324,7 @@
     drawerItems.innerHTML = items.map(function (it, i) {
       var p = PRODUCTS[it.id];
       return '<div class="cart-item">' +
-        '<a href="' + p.page + '"><img src="' + p.img + '" alt="' + p.name + '"></a>' +
+        '<a href="' + p.page + '"><img src="' + p.img + '" alt="' + p.name + '" loading="lazy"></a>' +
         '<div><div class="ci-name">' + p.name + "</div>" +
         '<div class="ci-size">' + it.size + " cl · " + chf(p.formats[it.size]) + "</div>" +
         '<div class="qty sm">' +

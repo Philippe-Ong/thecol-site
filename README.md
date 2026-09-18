@@ -177,7 +177,9 @@ python tools/build_webp.py
 ## À ajuster si besoin
 
 - **Points de vente** : la liste et les cantons vivent dans `js/main.js` (tableaux `POS`, `CANTONS`).
-  Ajouter/retirer une entrée suffit ; le compteur et les chips sont automatiques. La **carte
+  Ajouter/retirer une entrée suffit ; le compteur et les chips sont automatiques. Les compteurs
+  « N distributeurs » (`data-pos-count`) et les statistiques de la page (`data-countup`) sont
+  injectés automatiquement depuis le tableau `POS` — inutile de les mettre à jour à la main. La **carte
   interactive** (`js/map-suisse.js`) comporte deux niveaux : la carte Suisse complète (pin cluster
   agrégé pour Fribourg + pins individuels Yverdon/Crissier/Champoussin/Delémont + rectangle de zoom
   en pointillés) et un **inset « Canton de Fribourg — zoom ×3 »** flottant en bas à droite (empilé
