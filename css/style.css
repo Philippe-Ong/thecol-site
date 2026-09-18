@@ -541,7 +541,7 @@ details.faq[open] .faq-plus { transform: rotate(45deg); background: var(--green)
 .arch {
   position: relative; display: block; width: min(340px, 84%);
   aspect-ratio: 9 / 16;
-  border-radius: 999px 999px 28px 28px;
+  border-radius: 28px;
   overflow: hidden;
   background: var(--accent-soft);
   box-shadow: 0 30px 60px -22px rgba(22, 52, 31, 0.38);
