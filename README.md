@@ -141,6 +141,16 @@ Il vérifie :
   - Tailles variables pour les photos de contenu (600–720 px / 1100–1280 px)
 - Les originaux JPEG/PNG sont conservés comme fallback.
 - Les petits fichiers (icônes, cut-*.png, logo-header, photos d'équipe) ne sont pas convertis.
+- Le visuel de bouteille de l'accueil est un rendu Blender transparent :
+  `hero-hibiscus-3d.webp`, avec `hero-hibiscus-3d.png` en secours. Il réutilise
+  la géométrie et les textures du modèle Hibiscus, avec un éclairage studio.
+  Pour le régénérer, ouvrir une copie du modèle dans Blender en arrière-plan,
+  exécuter `tools/render_hero.py --final`, puis `python tools/export_hero.py`.
+  Exemple : `blender --factory-startup -b .render-work/hibiscus-source.blend --python tools/render_hero.py -- --final`.
+  Avec une carte NVIDIA compatible, ajouter `--gpu` au rendu et à l'export
+  pour utiliser OptiX dans le processus Blender en arrière-plan.
+  Les rendus intermédiaires et la scène autonome avec textures incorporées
+  (`hibiscus-studio.blend`) restent dans `.render-work/`, exclu de Git.
 - Les **sources originales** (`assets/logo`, `assets/image produit`, `assets/image deco`,
   `assets/Membre`) sont ignorées par `.gitignore` — ne pas y toucher.
 
