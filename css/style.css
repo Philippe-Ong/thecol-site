@@ -437,14 +437,6 @@ h3 { font-size: 1.22rem; line-height: 1.3; }
 }
 .flavor-card b { display: block; margin-top: 14px; font-weight: 600; font-size: 1.02rem; }
 .flavor-card span { font-size: 0.85rem; color: var(--ink-soft); }
-.badge-new {
-  position: absolute; top: 20px; left: 20px; z-index: 2;
-  background: var(--badge-red); color: #fff;
-  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
-  padding: 6px 12px; border-radius: 999px;
-  box-shadow: 0 6px 16px -6px rgba(214, 58, 38, 0.6);
-}
-
 /* ---------- FAQ ---------- */
 
 .faq-list { max-width: 780px; margin: 0 auto; display: grid; gap: 14px; }
@@ -561,7 +553,6 @@ a.arch:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
 
 .flavor-body h2 a { color: inherit; text-decoration: none; transition: color 0.2s ease; }
 .flavor-body h2 a:hover { color: var(--accent); }
-.arch .badge-new { top: 26px; left: 50%; transform: translateX(-50%); }
 
 .flavor-visual .halo {
   content: ""; position: absolute; z-index: -1;
@@ -1176,7 +1167,6 @@ button.pos-locate svg { width: 16px; height: 16px; }
   box-shadow: var(--shadow);
 }
 .pd-main img { width: 100%; aspect-ratio: 3 / 4; object-fit: contain; display: block; }
-.pd-main .badge-new { top: 20px; left: 20px; }
 .pd-thumbs { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 14px; }
 .pd-thumb {
   width: 84px; flex: none; padding: 0;
