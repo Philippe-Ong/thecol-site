@@ -1,0 +1,10 @@
+00:00.234  color_management | Using OCIO=C:\Program Files\WindowsApps\BlenderFoundation.Blender_5.2.2.0_x64__ppwjx1n5r4v9t\Blender\5.2\datafiles\colormanagement\config.ocio
+00:54.546  blend            | Read blend: "C:\Code\thecol-site\.render-work\hibiscus-source.blend"
+00:55.109  cycles           | WARNING HIPEW initialization failed: Error opening HIP dynamic library
+Rendering with ['NVIDIA GeForce RTX 4060 Laptop GPU']
+03:49.203  render           | Saved: 'C:\Code\thecol-site\.render-work\hibiscus-final-gpu.png'
+Info: Saved as "hibiscus-studio.blend"
+THECOL_RENDER_COMPLETE C:\Code\thecol-site\.render-work\hibiscus-final-gpu.png
+Blender 5.2.2 LTS (hash d13f752e3b9c built 2026-09-15 01:37:04)
+
+Blender quit
