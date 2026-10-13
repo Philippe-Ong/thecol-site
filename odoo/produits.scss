@@ -1,0 +1,134 @@
+// ==========================================================================
+//  ThéCol — page Nos produits (à coller À LA SUITE des blocs précédents
+//  dans user_custom_rules.scss ; réutilise tc-page-hero, tc-btn, tc-section…)
+//  Couleurs par saveur précalculées : pas de color-mix() pour rester
+//  compatible avec le compilateur SCSS d'Odoo.
+// ==========================================================================
+
+// ---------- Bandeau de prix ----------
+
+.tc-price-wrap { padding: 10px 0 56px; }
+.tc-price-banner {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 18px 30px;
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 26px 34px;
+  box-shadow: var(--shadow-soft);
+}
+.tc-price-intro { font-weight: 600; }
+.tc-prices { display: flex; flex-wrap: wrap; gap: 10px 34px; }
+.tc-price { display: flex; align-items: baseline; gap: 9px; }
+.tc-price-size { font-family: var(--font-display); font-weight: 600; font-size: 1.35rem; color: var(--green-800); }
+.tc-price-amount { color: var(--ink-soft); font-weight: 600; font-size: 0.98rem; }
+
+// ---------- Sections saveurs ----------
+
+.tc.tc-flavor {
+  --accent: #29a151; --accent-soft: #e2f6e6; --accent-line: #b3dfc0;
+  --accent-halo: rgba(41, 161, 81, 0.16); --accent-tag: rgba(41, 161, 81, 0.25);
+  overflow: clip;
+  background: linear-gradient(180deg, var(--accent-soft), var(--cream) 135%);
+  border-top: 3px solid var(--accent-line);
+}
+.tc.tc-hibiscus { --accent: #d43e4b; --accent-soft: #fcdfdb; --accent-line: #efb6bb; --accent-halo: rgba(212, 62, 75, 0.16); --accent-tag: rgba(212, 62, 75, 0.25); }
+.tc.tc-mures    { --accent: #ad3f7f; --accent-soft: #f8d9ea; --accent-line: #e0b6ce; --accent-halo: rgba(173, 63, 127, 0.16); --accent-tag: rgba(173, 63, 127, 0.25); }
+.tc.tc-sureau   { --accent: #a5731f; --accent-soft: #f9e8c4; --accent-line: #ddcaaa; --accent-halo: rgba(165, 115, 31, 0.16); --accent-tag: rgba(165, 115, 31, 0.25); }
+.tc.tc-herbes   { --accent: #63a832; --accent-soft: #e5f3cd; --accent-line: #c4deb1; --accent-halo: rgba(99, 168, 50, 0.16); --accent-tag: rgba(99, 168, 50, 0.25); }
+.tc.tc-poire    { --accent: #7d8f1d; --accent-soft: #eef3c4; --accent-line: #ced4a9; --accent-halo: rgba(125, 143, 29, 0.16); --accent-tag: rgba(125, 143, 29, 0.25); border-bottom: 1px solid var(--line); }
+
+.tc-flavor-inner {
+  display: grid; grid-template-columns: 0.85fr 1.15fr;
+  gap: clamp(34px, 6vw, 84px); align-items: center;
+  padding-top: 76px; padding-bottom: 76px;
+}
+.tc-rev .tc-flavor-inner > .tc-flavor-visual { order: 2; }
+
+.tc-flavor-visual { position: relative; display: flex; justify-content: center; }
+.tc-halo {
+  position: absolute; z-index: 0;
+  inset: 8% -4% -6% -4%;
+  background: radial-gradient(closest-side, var(--accent-halo), transparent);
+}
+.tc-flavor-visual .tc-sprig { color: var(--accent); opacity: 0.55; z-index: 1; }
+.tc-flavor-visual .tc-sprig.tc-f1 { top: 2%; left: 4%; transform: rotate(-18deg); }
+.tc-flavor-visual .tc-sprig.tc-f2 { bottom: 4%; right: 2%; transform: rotate(150deg); }
+
+.tc .tc-arch {
+  position: relative; z-index: 1; display: block;
+  width: 84%; max-width: 340px;
+  aspect-ratio: 9 / 16;
+  border-radius: 28px; overflow: hidden;
+  background: var(--accent-soft);
+  box-shadow: 0 30px 60px -22px rgba(22, 52, 31, 0.38);
+  transform: rotate(-2deg);
+  transition: transform 0.35s ease;
+  img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+  &:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+}
+.tc-rev .tc-arch { transform: rotate(2deg); }
+.tc-flavor:hover .tc-arch { transform: rotate(0deg) scale(1.015); }
+
+.tc-flavor-tag {
+  display: inline-block;
+  font-size: 0.75rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--accent);
+  background: #fff; border: 1px solid var(--accent-tag);
+  padding: 7px 16px; border-radius: 999px; margin-bottom: 18px;
+}
+.tc .tc-flavor-body h2 { margin-bottom: 6px; }
+.tc .tc-flavor-body h2 a { color: inherit; text-decoration: none; transition: color 0.2s ease; }
+.tc .tc-flavor-body h2 a:hover { color: var(--accent); }
+.tc .tc-flavor-sub {
+  font-family: var(--font-display); font-style: italic;
+  color: var(--accent); font-size: 1.25rem; margin-bottom: 18px;
+}
+.tc .tc-flavor-desc { color: var(--ink-soft); max-width: 52ch; margin-bottom: 26px; font-size: 1.04rem; }
+.tc-flavor-meta {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 26px;
+  margin-bottom: 26px;
+}
+.tc-flavor-m {
+  display: flex; align-items: center; gap: 9px;
+  font-weight: 600; font-size: 0.95rem; color: var(--ink);
+  svg { color: var(--accent); flex: none; }
+}
+.tc .tc-btn-small { padding: 10px 20px; font-size: 0.92rem; }
+
+// ---------- Bon à savoir ----------
+
+.tc-note-strip {
+  display: flex; align-items: flex-start; gap: 16px;
+  background: var(--mint-soft); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 22px 26px;
+  color: var(--ink-soft);
+  svg { flex: none; color: var(--green-700); margin-top: 3px; }
+  b { color: var(--ink); }
+  a { color: var(--green-700); font-weight: 600; }
+}
+
+// ---------- Comment commander ----------
+
+.tc-order-section { padding-top: 8px; }
+.tc-order-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
+.tc-order-card {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 40px 36px;
+  .tc-ico { width: 54px; height: 54px; border-radius: 16px; margin-bottom: 20px; }
+  p { color: var(--ink-soft); margin-bottom: 22px; }
+}
+.tc .tc-order-card h3 { margin-bottom: 10px; font-size: 1.35rem; }
+
+// ---------- Responsive ----------
+
+@media (max-width: 860px) {
+  .tc-flavor-inner { grid-template-columns: 1fr; padding-top: 56px; padding-bottom: 56px; gap: 36px; }
+  .tc-rev .tc-flavor-inner > .tc-flavor-visual { order: 0; }
+  .tc .tc-arch { max-width: 300px; width: 82%; }
+  .tc-price-banner { flex-direction: column; align-items: flex-start; }
+  .tc-order-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 560px) {
+  .tc-order-card { padding: 30px 24px; }
+  .tc-price-banner { padding: 22px 24px; }
+}

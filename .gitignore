@@ -11,3 +11,7 @@ __pycache__/
 Thumbs.db
 .DS_Store
 .render-work/
+
+# Déploiement Odoo (tools/deploy_odoo.py)
+.odoo-api-key
+.odoo-backup/

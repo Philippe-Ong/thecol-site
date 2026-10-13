@@ -1,0 +1,326 @@
+// ==========================================================================
+//  ThéCol — page Distributeurs (à coller À LA SUITE du bloc de l'accueil
+//  dans user_custom_rules.scss : réutilise les classes tc-* de l'accueil)
+// ==========================================================================
+
+.tc [hidden] { display: none !important; }
+
+.tc-visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0);
+  white-space: nowrap; border: 0;
+}
+
+// ---------- En-tête de page ----------
+
+.tc-page-hero { padding: 72px 0 56px; overflow: clip; }
+.tc .tc-page-hero h1, .tc.tc-page-hero h1 { font-size: clamp(2.4rem, 4.6vw, 3.4rem); margin-bottom: 18px; }
+.tc-page-hero h1 em { font-style: italic; color: var(--green-700); }
+.tc-page-hero .tc-lead { max-width: 62ch; }
+.tc-page-hero .tc-hero-mountain {
+  top: auto; bottom: -12%; left: auto; right: -18%;
+  width: 70%; height: 80%;
+  opacity: 0.05; transform: none;
+}
+.tc-page-hero .container { position: relative; }
+
+.tc-pos-stats { display: flex; flex-wrap: wrap; gap: 22px 36px; margin-top: 28px; }
+.tc-pos-stat {
+  display: flex; flex-direction: column; gap: 2px;
+  b { font-family: var(--font-display); font-weight: 600; font-size: 2.2rem; color: var(--green-800); line-height: 1; letter-spacing: -0.02em; }
+  span { font-size: 0.92rem; color: var(--ink-soft); font-weight: 500; }
+}
+
+// ---------- Carte ----------
+
+.tc-map-band {
+  position: relative; overflow: hidden;
+  border-radius: 28px;
+  background: linear-gradient(120deg, #0f3d21, var(--green-700) 55%, #23984f);
+  padding: 44px 40px 36px;
+  box-shadow: var(--shadow);
+  color: #fff;
+  > * { position: relative; z-index: 1; }
+}
+.tc-map-band > .tc-map-band-bg {
+  position: absolute; z-index: 0;
+  right: -6%; bottom: -60%; width: 46%; height: 170%;
+  background: #fff; opacity: 0.07; pointer-events: none;
+  -webkit-mask: url("https://philippe-ong.github.io/thecol-site/assets/web/montagne.svg") no-repeat center bottom / contain;
+  mask: url("https://philippe-ong.github.io/thecol-site/assets/web/montagne.svg") no-repeat center bottom / contain;
+}
+.tc-map-head { max-width: 720px; margin-bottom: 26px; }
+.tc-map-kicker {
+  display: inline-block;
+  font-size: 0.78rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--mint); margin-bottom: 14px;
+}
+.tc .tc-map-head h2 { color: #fff; margin-bottom: 12px; font-size: clamp(1.7rem, 3vw, 2.3rem); }
+.tc .tc-map-sub { color: var(--mint); max-width: 56ch; font-size: 1rem; }
+
+.tc-map-legend { display: flex; flex-wrap: wrap; gap: 8px 14px; margin-top: 18px; }
+.tc-leg {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 0.82rem; color: rgba(255, 255, 255, 0.88);
+  background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.14);
+  padding: 6px 12px; border-radius: 999px;
+}
+.tc-leg-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--mint); box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.85); }
+.tc-leg-cnt { color: rgba(255, 255, 255, 0.7); font-weight: 600; }
+
+.tc-map-stage {
+  position: relative; width: 100%; margin-top: 4px;
+  svg { width: 100%; height: auto; display: block; }
+}
+.tc .tc-map-fallback {
+  padding: 40px 20px; text-align: center;
+  color: var(--mint); font-size: 0.95rem;
+  border: 1px dashed rgba(200, 244, 210, 0.35); border-radius: 18px;
+}
+.tc-canton {
+  fill: rgba(255, 255, 255, 0.06);
+  stroke: rgba(255, 255, 255, 0.22); stroke-width: 1;
+  transition: fill 0.25s ease, stroke 0.25s ease;
+  &.has-pos { fill: rgba(200, 244, 210, 0.16); }
+  &.lit { fill: rgba(200, 244, 210, 0.34); stroke: var(--mint); stroke-width: 1.2; }
+  &.soon { stroke-dasharray: 5 5; opacity: 0.55; }
+}
+.tc-canton-label {
+  font-family: var(--font-body); font-size: 11px; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  fill: rgba(255, 255, 255, 0.85); pointer-events: none;
+  paint-order: stroke; stroke: rgba(15, 61, 33, 0.6); stroke-width: 2px; stroke-linejoin: round;
+}
+.tc-soon-label {
+  font-family: var(--font-body); font-size: 10px; font-weight: 600; font-style: italic;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  fill: rgba(255, 255, 255, 0.7); pointer-events: none;
+}
+.tc-zoom-rect { fill: none; stroke: var(--mint); stroke-width: 1.4; stroke-dasharray: 6 5; opacity: 0.85; pointer-events: none; }
+
+.tc .tc-map-pin {
+  position: absolute; z-index: 2;
+  transform: translate(-50%, -50%);
+  width: 18px; height: 18px; padding: 0;
+  background: transparent; border: 0; border-radius: 50%;
+  cursor: pointer;
+  &::after {
+    content: ""; position: absolute; left: 50%; top: 50%;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: var(--mint); opacity: 0.55; pointer-events: none;
+    transform: translate(-50%, -50%) scale(1);
+    animation: tc-pin-pulse 2.2s ease-out infinite;
+    animation-delay: var(--d, 0s);
+  }
+  &:hover, &:focus-visible { z-index: 5; }
+  &:hover .tc-pin-dot, &:focus-visible .tc-pin-dot { transform: translate(-50%, -50%) scale(1.35); }
+  &:hover::after, &:focus-visible::after { animation-play-state: paused; opacity: 0; }
+  &:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
+  &.dim { opacity: 0.22; transform: translate(-50%, -50%) scale(0.8); }
+  &.dim:hover { opacity: 1; transform: translate(-50%, -50%) scale(1.35); }
+  &.hi .tc-pin-dot { transform: translate(-50%, -50%) scale(1.5); }
+  &.hi::after { animation-duration: 0.9s; opacity: 0.7; }
+}
+.tc-pin-dot {
+  position: absolute; left: 50%; top: 50%;
+  width: 14px; height: 14px; border-radius: 50%;
+  background: var(--mint); border: 2px solid #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+  transform: translate(-50%, -50%);
+  transition: transform 0.18s ease;
+}
+.tc-pin-badge {
+  position: absolute; top: -4px; right: -6px;
+  min-width: 16px; height: 16px; padding: 0 4px;
+  border-radius: 999px; border: 1.5px solid #fff;
+  background: var(--green-light); color: #12301c;
+  font-size: 10px; font-weight: 700; line-height: 13px; text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+.tc .tc-map-pin.is-cluster {
+  width: 36px; height: 36px;
+  &::after { width: 36px; height: 36px; }
+  .tc-pin-dot { width: 36px; height: 36px; background: var(--green-light); border-width: 2.5px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); }
+  .tc-pin-badge {
+    top: 50%; left: 50%; right: auto; transform: translate(-50%, -50%);
+    background: transparent; border: 0; box-shadow: none; padding: 0;
+    min-width: 0; height: auto; line-height: 1;
+    font-size: 0.85rem; font-weight: 800; letter-spacing: -0.02em;
+  }
+  &:hover .tc-pin-dot, &:focus-visible .tc-pin-dot { transform: translate(-50%, -50%) scale(1.18); }
+}
+@keyframes tc-pin-pulse {
+  0% { transform: translate(-50%, -50%) scale(1); opacity: 0.55; }
+  80%, 100% { transform: translate(-50%, -50%) scale(2.4); opacity: 0; }
+}
+
+.tc-map-tip {
+  position: absolute; z-index: 6;
+  min-width: 170px; max-width: 240px;
+  background: var(--card); color: var(--ink);
+  border-radius: 14px; box-shadow: var(--shadow);
+  padding: 12px 14px; font-size: 0.88rem;
+  pointer-events: none; opacity: 0;
+  transform: translate(-50%, -100%) translateY(-14px);
+  transition: opacity 0.16s ease, transform 0.16s ease;
+  &.show { opacity: 1; }
+  &.flip { transform: translate(-50%, 0) translateY(14px); }
+  &::after {
+    content: ""; position: absolute; left: 50%; bottom: -7px;
+    width: 14px; height: 14px; background: var(--card);
+    transform: translateX(-50%) rotate(45deg);
+  }
+  &.flip::after { top: -7px; bottom: auto; }
+  b { display: block; font-weight: 700; margin-bottom: 2px; font-size: 0.95rem; }
+  ul { display: grid; gap: 3px; color: var(--ink-soft); }
+  li { font-size: 0.84rem; line-height: 1.35; }
+}
+.tc-tip-canton { font-size: 0.78rem; color: var(--ink-soft); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.1em; }
+.tc .tc-tip-hint { margin-top: 6px; color: var(--ink-soft); font-size: 0.82rem; }
+
+.tc .tc-map-credit { font-size: 0.78rem; color: rgba(255, 255, 255, 0.55); margin-top: 14px; }
+
+// Inset « Canton de Fribourg » : visible seulement quand la carte est dessinée
+.tc-map-inset {
+  display: none;
+  position: absolute; right: 28px; bottom: 28px; z-index: 6;
+  width: 36%; max-width: 300px;
+  background: rgba(9, 42, 23, 0.72);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(200, 244, 210, 0.18);
+  border-radius: 18px;
+  padding: 12px 12px 14px;
+  box-shadow: 0 18px 40px -16px rgba(0, 0, 0, 0.55), 0 2px 8px rgba(0, 0, 0, 0.25);
+  &.flash { animation: tc-inset-flash 1.2s ease-out; }
+}
+.tc-map-band.tc-map-ready > .tc-map-inset { display: block; }
+.tc .tc-inset-caption {
+  margin: 0 4px 8px;
+  font-size: 0.78rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--mint);
+}
+.tc-inset-stage {
+  svg { border-radius: 10px; }
+  .tc-canton { vector-effect: non-scaling-stroke; opacity: 0.35; }
+  .tc-canton.has-pos, .tc-canton.lit { opacity: 1; }
+  .tc-canton.soon { display: none; }
+}
+@keyframes tc-inset-flash {
+  0% { box-shadow: 0 0 0 0 rgba(200, 244, 210, 0.85), 0 18px 40px -16px rgba(0, 0, 0, 0.55); }
+  100% { box-shadow: 0 0 0 16px rgba(200, 244, 210, 0), 0 18px 40px -16px rgba(0, 0, 0, 0.55); }
+}
+
+// ---------- Barre de recherche + filtres ----------
+
+.tc-pos-list-section { padding-top: 20px; }
+.tc-pos-toolbar {
+  display: flex; flex-wrap: wrap; gap: 14px; align-items: center;
+  margin-bottom: 32px;
+  background: var(--card);
+  border: 1px solid var(--line); border-radius: 999px;
+  box-shadow: var(--shadow-soft);
+  padding: 10px 14px;
+}
+.tc-pos-search {
+  flex: 1 1 240px; position: relative;
+  svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--ink-soft); }
+  input {
+    width: 100%; padding: 11px 18px 11px 42px;
+    border-radius: 999px; border: 1.5px solid var(--line);
+    background: var(--cream); font: inherit; color: var(--ink);
+    outline: none; transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    &:focus { border-color: var(--green-light); box-shadow: 0 0 0 4px rgba(73, 189, 88, 0.15); }
+  }
+}
+.tc-chip-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.tc .tc-chip {
+  border: 1.5px solid var(--line); background: var(--card);
+  border-radius: 999px; padding: 8px 16px;
+  font-family: var(--font-body); font-weight: 600; font-size: 0.88rem; line-height: 1.4;
+  color: var(--ink-soft); cursor: pointer;
+  transition: all 0.2s ease;
+  &:hover { border-color: var(--green-light); color: var(--green-700); }
+  &.is-active { background: var(--green); border-color: var(--green); color: #fff; }
+  &:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 3px; }
+}
+.tc-chip-count { opacity: 0.65; font-weight: 500; margin-left: 2px; }
+.tc-pos-count { margin-left: auto; font-size: 0.86rem; font-weight: 600; color: var(--ink-soft); white-space: nowrap; }
+
+// ---------- Liste ----------
+
+.tc-canton-title {
+  display: flex; align-items: center; gap: 14px; margin: 44px 0 20px;
+  &::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+}
+.tc .tc-canton-title h2 { font-size: 1.5rem; }
+.tc-canton-group:first-child .tc-canton-title { margin-top: 0; }
+.tc-count-pill { background: var(--mint); color: var(--green-800); font-weight: 700; font-size: 0.85rem; padding: 4px 13px; border-radius: 999px; }
+
+.tc-pos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.tc-pos-card {
+  position: relative;
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-sm);
+  padding: 22px 22px 18px;
+  display: flex; flex-direction: column; align-items: flex-start; gap: 8px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  &:hover { transform: translateY(-4px); box-shadow: var(--shadow-soft); border-color: #d3dcc8; }
+  &.flash { border-color: var(--green-light); box-shadow: 0 0 0 3px var(--green-light), var(--shadow-soft); }
+  &:focus { outline: none; }
+  address { margin: 0; font-style: normal; color: var(--ink-soft); font-size: 0.94rem; flex: 1; line-height: 1.45; }
+  address span { display: block; }
+  address b { color: var(--ink); font-weight: 600; }
+}
+.tc .tc-pos-card h3 { font-family: var(--font-body); font-weight: 650; font-size: 1.04rem; line-height: 1.3; }
+.tc-pos-type {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--mint-soft); color: var(--green-800);
+  border-radius: 999px; padding: 4px 10px 4px 8px;
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  svg { color: var(--green-700); flex: none; }
+}
+.tc-pos-links {
+  display: flex; flex-wrap: wrap; gap: 4px 16px; margin-top: 6px;
+  a {
+    display: inline-flex; align-items: center; gap: 5px;
+    color: var(--green-700); font-weight: 600; font-size: 0.9rem; text-decoration: none;
+    border-bottom: 2px solid transparent;
+    &:hover { color: var(--green-700); border-color: var(--green-light); text-decoration: none; }
+    &[target="_blank"]::after { content: "\2197"; font-size: 0.85em; }
+  }
+}
+
+.tc-empty-canton {
+  background: var(--mint-soft); border: 1px dashed #c8d8c3; border-radius: var(--radius);
+  padding: 34px 30px; color: var(--ink-soft); max-width: 720px;
+  b { color: var(--ink); }
+}
+
+// ---------- Responsive ----------
+
+@media (max-width: 1020px) {
+  .tc-pos-grid { grid-template-columns: repeat(2, 1fr); }
+  .tc-map-band { padding: 36px 30px 28px; }
+  .tc-canton-label { font-size: 10px; }
+}
+
+@media (max-width: 860px) {
+  .tc-map-band { padding: 30px 22px 22px; border-radius: 22px; }
+  .tc-canton-label { font-size: 9px; }
+  .tc-map-inset { position: static; width: 100%; max-width: none; margin-top: 16px; }
+  .tc-pos-toolbar { border-radius: 22px; }
+  .tc-chip-row { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 4px; }
+  .tc .tc-chip { white-space: nowrap; flex: none; }
+  .tc-pos-count { display: none; }
+}
+
+@media (max-width: 560px) {
+  .tc-pos-grid { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tc .tc-map-pin::after { animation: none; opacity: 0; }
+  .tc-map-tip { transition: none; }
+  .tc-map-inset.flash { animation: none; }
+}

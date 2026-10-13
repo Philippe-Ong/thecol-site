@@ -1,0 +1,126 @@
+// ==========================================================================
+//  ThéCol — fiche produit façon prototype (à coller À LA SUITE de
+//  boutique.scss dans user_custom_rules.scss).
+//  La couleur de chaque saveur et l'étiquette au-dessus du titre sont
+//  déduites du bloc de description (.tc-pd-hibiscus, .tc-pd-mures…).
+// ==========================================================================
+
+#wrap.o_wsale_product_page {
+  --accent: #29a151; --accent-soft: #e2f6e6;
+  --accent-ring: rgba(41, 161, 81, 0.2); --accent-tag: rgba(41, 161, 81, 0.25);
+}
+#wrap.o_wsale_product_page:has(.tc-pd-hibiscus) { --accent: #d43e4b; --accent-soft: #fcdfdb; --accent-ring: rgba(212, 62, 75, 0.2); --accent-tag: rgba(212, 62, 75, 0.25); --tc-tag: "Floral & éclatant"; }
+#wrap.o_wsale_product_page:has(.tc-pd-mures)    { --accent: #ad3f7f; --accent-soft: #f8d9ea; --accent-ring: rgba(173, 63, 127, 0.2); --accent-tag: rgba(173, 63, 127, 0.25); --tc-tag: "Fruité & gourmand"; }
+#wrap.o_wsale_product_page:has(.tc-pd-sureau)   { --accent: #a5731f; --accent-soft: #f9e8c4; --accent-ring: rgba(165, 115, 31, 0.2); --accent-tag: rgba(165, 115, 31, 0.25); --tc-tag: "Doux & délicat"; }
+#wrap.o_wsale_product_page:has(.tc-pd-herbes)   { --accent: #63a832; --accent-soft: #e5f3cd; --accent-ring: rgba(99, 168, 50, 0.2); --accent-tag: rgba(99, 168, 50, 0.25); --tc-tag: "Frais & herbacé"; }
+#wrap.o_wsale_product_page:has(.tc-pd-poire)    { --accent: #7d8f1d; --accent-soft: #eef3c4; --accent-ring: rgba(125, 143, 29, 0.2); --accent-tag: rgba(125, 143, 29, 0.25); --tc-tag: "La fierté fribourgeoise"; }
+
+// ---------- Galerie sur fond de la couleur de la saveur ----------
+// (la carte n'entoure que la grande photo ; les miniatures restent sur le fond crème)
+
+#wrap.o_wsale_product_page #o-carousel-product { background: transparent; border: 0; box-shadow: none; border-radius: 0; }
+#wrap.o_wsale_product_page .o_carousel_product_outer {
+  background-color: var(--accent-soft);
+  border: 1px solid var(--line); border-radius: 26px;
+  box-shadow: var(--shadow);
+}
+#wrap.o_wsale_product_page .carousel-indicators li.active { border-color: var(--accent); }
+
+// ---------- Étiquette, titre, sous-titre ----------
+
+#wrap.o_wsale_product_page:has(.tc-pd) #product_details h1::before {
+  content: var(--tc-tag);
+  display: table;
+  margin-bottom: 16px;
+  font-family: var(--font-body); font-size: 0.75rem; font-weight: 700; font-style: normal;
+  letter-spacing: 0.18em; text-transform: uppercase; line-height: 1.4;
+  color: var(--accent);
+  background: #fff; border: 1px solid var(--accent-tag);
+  padding: 7px 16px; border-radius: 999px;
+}
+#wrap.o_wsale_product_page:has(.tc-pd) #product_details h1 { font-size: clamp(2rem, 3.6vw, 2.8rem); margin-bottom: 4px; }
+
+#wrap.o_wsale_product_page .tc-pd { color: var(--ink-soft); }
+#wrap.o_wsale_product_page .tc-pd-sub {
+  font-family: var(--font-display); font-style: italic;
+  font-size: 1.2rem; color: var(--accent);
+  margin: 0 0 20px;
+}
+#wrap.o_wsale_product_page .tc-pd-desc { display: grid; gap: 13px; max-width: 58ch; margin-bottom: 22px; }
+#wrap.o_wsale_product_page .tc-pd-desc p { margin: 0; color: var(--ink-soft); font-size: 1rem; line-height: 1.65; }
+
+// Pastilles
+#wrap.o_wsale_product_page .tc-pd-feats { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+#wrap.o_wsale_product_page .tc-pd-feat {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: 999px; padding: 8px 15px;
+  font-size: 0.87rem; font-weight: 600; color: var(--ink-soft);
+}
+#wrap.o_wsale_product_page .tc-pd-feat::before {
+  content: ""; flex: none;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--accent);
+}
+#wrap.o_wsale_product_page .tc-pd-feat.tc-pd-swiss::before {
+  width: 16px; height: 16px; border-radius: 4px;
+  background:
+    linear-gradient(#fff, #fff) center / 10px 3px no-repeat,
+    linear-gradient(#fff, #fff) center / 3px 10px no-repeat,
+    #e04b38;
+}
+
+// ---------- Carte d'achat (prix + format + panier) ----------
+
+#wrap.o_wsale_product_page .o_wsale_product_details_content_section_price,
+#wrap.o_wsale_product_page .o_wsale_product_details_content_section_attributes,
+#wrap.o_wsale_product_page .o_wsale_product_details_content_section_cta {
+  background: var(--card);
+  border: solid var(--line); border-width: 0 1px;
+  padding: 0 26px;
+  margin-bottom: 0 !important;
+}
+#wrap.o_wsale_product_page .o_wsale_product_details_content_section_price {
+  border-top-width: 1px; border-radius: 22px 22px 0 0;
+  padding-top: 24px; padding-bottom: 18px;
+}
+#wrap.o_wsale_product_page .o_wsale_product_details_content_section_attributes { padding-bottom: 18px; }
+#wrap.o_wsale_product_page .o_wsale_product_details_content_section_cta {
+  border-bottom-width: 1px; border-radius: 0 0 22px 22px;
+  padding-bottom: 8px;
+  margin-bottom: 1.5rem !important;
+}
+
+// Libellé « FORMAT »
+#wrap.o_wsale_product_page .o_wsale_product_page_variants .attribute_name {
+  font-family: var(--font-body);
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ink-soft); margin-bottom: 10px !important;
+}
+
+// Pilules de format
+#wrap.o_wsale_product_page .o_variant_pills {
+  min-width: 92px; padding: 12px 18px;
+  border: 1.5px solid var(--line) !important; border-radius: 14px;
+  background: var(--cream) !important; color: var(--ink) !important;
+  font-family: var(--font-body); font-weight: 650; font-size: 1rem;
+  box-shadow: none;
+  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+#wrap.o_wsale_product_page .o_variant_pills:hover { border-color: var(--accent) !important; }
+#wrap.o_wsale_product_page .o_variant_pills.active {
+  border-color: var(--accent) !important; background: #fff !important;
+  box-shadow: 0 0 0 3px var(--accent-ring);
+}
+#wrap.o_wsale_product_page .o_variant_pills { border-radius: 14px !important; }
+// Le supplément « (+ CHF 2.00) » est remplacé par le prix complet (prix-formats.js)
+#wrap.o_wsale_product_page .o_variant_pills .small.text-muted { display: none; }
+#wrap.o_wsale_product_page .o_variant_pills_input_value {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+}
+#wrap.o_wsale_product_page .tc-pill-price { font-size: 0.88rem; font-weight: 700; color: var(--green-800); }
+
+// Bouton panier sur toute la largeur de la carte
+#wrap.o_wsale_product_page #o_wsale_cta_wrapper,
+#wrap.o_wsale_product_page #add_to_cart_wrap { width: 100%; }
+#wrap.o_wsale_product_page #add_to_cart { flex: 1 1 auto; justify-content: center; padding: 14px 26px; font-size: 1.05rem; }

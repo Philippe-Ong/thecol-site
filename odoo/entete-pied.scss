@@ -1,0 +1,162 @@
+// ==========================================================================
+//  ThéCol — en-tête et pied de page (à coller À LA SUITE des blocs
+//  précédents dans user_custom_rules.scss). L'en-tête Odoo (menu, panier,
+//  recherche, menu mobile) est seulement habillé : sa structure ne change pas.
+// ==========================================================================
+
+// Palette disponible aussi hors des sections .tc (en-tête, pied de page)
+#top, #bottom {
+  --ink: #16341f;
+  --ink-soft: #48604f;
+  --green-800: #14613a;
+  --green-700: #1b8347;
+  --green: #29a151;
+  --green-light: #49bd58;
+  --mint: #c8f4d2;
+  --mint-soft: #e2f6e6;
+  --cream: #faf7ee;
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "Outfit", "Segoe UI", sans-serif;
+}
+
+// ---------- En-tête ----------
+
+// Pas de backdrop-filter ici : il transformerait la barre en conteneur des
+// éléments « fixed » qu'elle contient (menu mobile, fenêtre de recherche).
+#top .navbar {
+  background-color: #faf7ee !important;
+  box-shadow: 0 8px 30px -20px rgba(22, 52, 31, 0.25) !important;
+  border-bottom: 1px solid #dce6cf;
+  font-family: var(--font-body);
+}
+#top .navbar-brand img { height: 46px; max-height: none; width: auto; }
+
+#top .navbar .nav-link {
+  position: relative;
+  font-family: var(--font-body); font-weight: 500; font-size: 0.98rem;
+  color: var(--ink);
+  border-radius: 999px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+// Odoo force la couleur du texte DANS les liens du menu et des badges
+// (`header .nav-item > .nav-link > *`, `header .badge` … avec !important) :
+// on rend la main à la couleur du lien, avec un sélecteur plus précis.
+#wrapwrap #top .nav-item > .nav-link > * { color: inherit !important; }
+#wrapwrap #top .my_cart_quantity { color: #fff !important; }
+
+#top #top_menu .nav-link { padding: 9px 14px; }
+#top #top_menu .nav-link:hover,
+#top #top_menu .nav-link:focus-visible { background-color: var(--mint-soft); color: var(--green-800); }
+#top #top_menu .nav-link.active { color: var(--green-700); font-weight: 600; }
+#top #top_menu .nav-link.active::after {
+  content: ""; position: absolute; left: 14px; right: 14px; bottom: 2px;
+  height: 3px; border-radius: 3px; background: var(--green-light);
+}
+
+// « Nous contacter » en bouton
+#top #top_menu .nav-link[href="/contactus"] {
+  margin-left: 12px; padding: 10px 20px;
+  background: linear-gradient(135deg, #1b8347, #14613a);
+  color: #fff; font-weight: 600;
+  box-shadow: 0 14px 30px -10px rgba(20, 97, 58, 0.7);
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+#top #top_menu .nav-link[href="/contactus"]:hover,
+#top #top_menu .nav-link[href="/contactus"]:focus-visible { color: #fff; filter: brightness(1.08); transform: translateY(-2px); }
+#top #top_menu .nav-link[href="/contactus"].active::after { display: none; }
+
+// Panier, recherche, réseaux sociaux
+#top .o_wsale_my_cart > a,
+#top a[data-bs-target="#o_search_modal"] {
+  color: var(--ink) !important;
+  background-color: transparent;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+#top .o_wsale_my_cart > a:hover,
+#top a[data-bs-target="#o_search_modal"]:hover { background-color: var(--mint-soft); color: var(--green-800) !important; }
+#top .my_cart_quantity { background-color: #d63a26 !important; color: #fff; }
+#top .o_header_social_links a { color: var(--green-700); }
+#top .o_header_social_links a:hover { color: var(--green-800); }
+
+// Menu mobile (panneau latéral)
+#top .offcanvas { background-color: var(--cream); font-family: var(--font-body); }
+#top .offcanvas .nav-link { padding: 13px 16px; font-size: 1.05rem; }
+#top .offcanvas .nav-link.active { background-color: var(--mint-soft); color: var(--green-700); font-weight: 600; }
+#top .offcanvas .nav-link[href="/contactus"] {
+  margin-top: 12px; text-align: center; color: #fff; font-weight: 600;
+  background: linear-gradient(135deg, #1b8347, #14613a);
+}
+
+// ---------- Pied de page ----------
+
+#bottom.o_footer { background-color: #12301c !important; color: #cfe8d4; }
+#bottom .o_footer_copyright {
+  background-color: #0e2716 !important;
+  border-top: 1px solid rgba(219, 254, 224, 0.15);
+  color: #8bb495; font-family: var(--font-body); font-size: 0.87rem;
+}
+#bottom .o_footer_copyright .text-muted { color: #8bb495 !important; }
+#bottom .o_footer_copyright a { color: #cfe8d4; }
+
+.tc.tc-footer {
+  position: relative; overflow: hidden;
+  background-color: transparent;
+  color: #cfe8d4;
+}
+.tc-footer-mountain {
+  position: absolute; right: -8%; bottom: -18%; width: 55%; height: 85%;
+  background: var(--mint); opacity: 0.05; pointer-events: none;
+  -webkit-mask: url("https://philippe-ong.github.io/thecol-site/assets/web/montagne.svg") no-repeat center bottom / contain;
+  mask: url("https://philippe-ong.github.io/thecol-site/assets/web/montagne.svg") no-repeat center bottom / contain;
+}
+.tc-footer-grid {
+  position: relative;
+  display: grid; grid-template-columns: 1.4fr 1fr 1fr 1.1fr; gap: 44px;
+  padding: 72px 0 54px;
+}
+.tc-foot-logo {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 18px;
+  b { font-family: var(--font-display); font-size: 1.5rem; font-weight: 600; color: #fff; }
+}
+.tc-foot-m {
+  width: 54px; height: 30px; background: var(--green-light);
+  -webkit-mask: url("https://philippe-ong.github.io/thecol-site/assets/web/montagne.svg") no-repeat center / contain;
+  mask: url("https://philippe-ong.github.io/thecol-site/assets/web/montagne.svg") no-repeat center / contain;
+}
+.tc .tc-footer-brand p { font-size: 0.95rem; color: #9dc4a6; max-width: 30ch; }
+.tc .tc-footer-title {
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+  color: #7fae89; margin-bottom: 18px;
+}
+.tc-footer ul { display: grid; gap: 10px; }
+.tc-footer ul li { color: #cfe8d4; font-size: 0.97rem; }
+.tc.tc-footer ul a { color: #cfe8d4; font-size: 0.97rem; text-decoration: none; transition: color 0.2s ease; }
+.tc.tc-footer ul a:hover { color: #fff; }
+
+.tc-social-row { display: flex; gap: 10px; margin-top: 18px; }
+.tc .tc-social-row a {
+  width: 42px; height: 42px; border-radius: 12px;
+  border: 1px solid rgba(219, 254, 224, 0.25);
+  display: grid; place-items: center; color: #cfe8d4;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  &:hover { background-color: var(--green); border-color: var(--green); color: #fff; transform: translateY(-3px); }
+}
+
+.tc-footer-bottom {
+  position: relative;
+  border-top: 1px solid rgba(219, 254, 224, 0.15);
+  padding: 20px 0;
+  display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px;
+  font-size: 0.87rem; color: #8bb495;
+}
+.tc .tc-footer-bottom a { color: #8bb495; }
+.tc .tc-footer-bottom a:hover { color: #fff; }
+
+// ---------- Responsive ----------
+
+@media (max-width: 1020px) {
+  .tc-footer-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 560px) {
+  .tc-footer-grid { grid-template-columns: 1fr; gap: 32px; padding: 54px 0 40px; }
+}

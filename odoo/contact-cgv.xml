@@ -1,0 +1,40 @@
+            <!-- ======================= CGV (texte officiel de la boutique) ======================= -->
+            <section class="tc tc-section tc-section-tight" id="cgv">
+                <div class="container">
+                    <div class="tc-section-head">
+                        <span class="tc-overline">Bon à savoir</span>
+                        <h2>Conditions générales de vente</h2>
+                        <p class="tc-lead">De la boutique en ligne <a href="https://www.thecol.ch/shop">www.thecol.ch</a></p>
+                    </div>
+                    <div class="tc-cgv-list">
+                        <details class="tc-faq">
+                            <summary>Prix <span class="tc-faq-plus" aria-hidden="true">+</span></summary>
+                            <div class="tc-faq-body"><p>Les prix de notre boutique en ligne sont indiqués en francs suisses, montants nets, TVA incluse.</p><p>Les prix affichés sont les prix destinés aux clients privés. Les distributeurs et autres clients commerciaux ne passent pas par la boutique en ligne pour passer leurs commandes en bénéficiant des rabais, paiements sur facture et des autres modalités de ventes qui leurs sont réservées.</p></div>
+                        </details>
+                        <details class="tc-faq">
+                            <summary>Disponibilité <span class="tc-faq-plus" aria-hidden="true">+</span></summary>
+                            <div class="tc-faq-body"><p>Notre engagement de livraison est nul en cas de défaillance ou non-respect des délais d'approvisionnement de la part de nos propres fournisseurs, et dans la mesure où cette indisponibilité n'est pas imputable à ThéCol SàRL. En cas d'indisponibilité d'un produit, nous vous informerons dans les meilleurs délais.</p></div>
+                        </details>
+                        <details class="tc-faq">
+                            <summary>Modalités de paiement <span class="tc-faq-plus" aria-hidden="true">+</span></summary>
+                            <div class="tc-faq-body"><p>Les méthodes de paiement disponibles dans la boutique en ligne sont le paiement par carte bancaire (Visa, MasterCard) et Paypal.</p><p>Les clients qui souhaitent d'autres moyens de paiement (virement bancaire, twint ou cash à la livraison si elle est réalisée par nos soins) peuvent nous contacter. Nous nous réservons le droit d'accepter ou refuser la demande au cas par cas.</p></div>
+                        </details>
+                        <details class="tc-faq">
+                            <summary>Livraison et transport <span class="tc-faq-plus" aria-hidden="true">+</span></summary>
+                            <div class="tc-faq-body"><p>Les différentes options de livraison possibles sont automatiquement affichées pour chaque commande au moment de la validation du panier en fonction du montant de la commande et de l'adresse de livraison (basé sur le canton sélectionné).</p><p>L'envoi des articles disponibles est effectué par poste dans un délai de 3 à 5 jours environ. Une participation de votre part est demandée lors du paiement et est calculée en fonction du montant de votre commande.</p><p>Dans le canton de Fribourg, nous proposons également d'effectuer nous-mêmes la livraison sous 3 à 5 jours.</p><p>Dans les cantons de Vaud, Genève, Valais, Neuchâtel et Jura nous proposons de livrer nous-mêmes votre commande lorsque nous livrons nos distributeurs dans la région, sous un délai de 30 jours maximum.</p><p>ThéCol SàRL se réserve le droit d'effectuer la livraison y compris si l'option d'envoi postal est sélectionné, si le délai de livraison n'est pas impacté négativement. La différence de coût des différentes méthodes d'expédition n'est pas remboursée.</p><p>Si les délais de livraison annoncés ne peuvent être respectés, ThéCol SàRL en informe le client dans les meilleurs délais.</p></div>
+                        </details>
+                        <details class="tc-faq">
+                            <summary>Retour ou échange de marchandises <span class="tc-faq-plus" aria-hidden="true">+</span></summary>
+                            <div class="tc-faq-body"><p>Malgré le plus grand soin apporté lors de l'emballage des bouteilles, ces dernières peuvent être exposées à des chocs lors de l'expédition postale. Le client est tenu de vérifier l'état des marchandises livrées sans attendre et en cas de dommage d'en informer ThéCol SàRL dans les plus brefs délais. Nous renverrons les articles concernés sans frais supplémentaire. Nous nous réservons le droit de demander des éléments de preuve (par exemple&#160;: photos) et de refuser le renvoi ou remboursement en cas d'abus.</p></div>
+                        </details>
+                        <details class="tc-faq">
+                            <summary>Protection des données <span class="tc-faq-plus" aria-hidden="true">+</span></summary>
+                            <div class="tc-faq-body"><p>Toutes les données à caractère personnel seront considérées comme confidentielles. Les informations nécessaires à la gestion de la commande feront l'objet d'un traitement informatique et peuvent être communiquées à des entreprises associées dans le cadre de la gestion de la commande.</p></div>
+                        </details>
+                        <details class="tc-faq">
+                            <summary>Droit applicable et for juridique <span class="tc-faq-plus" aria-hidden="true">+</span></summary>
+                            <div class="tc-faq-body"><p>Le droit applicable est le droit Suisse, et tout litige sera traité dans le canton de Fribourg.</p></div>
+                        </details>
+                    </div>
+                </div>
+            </section>

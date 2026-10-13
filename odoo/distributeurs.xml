@@ -1,0 +1,455 @@
+    <t t-call="website.layout">
+        <div id="wrap" class="oe_structure oe_empty">
+
+            <!-- ======================= En-tête de page ======================= -->
+            <section class="tc tc-page-hero">
+                <div class="tc-hero-mountain" aria-hidden="true"></div>
+                <div class="container">
+                    <span class="tc-overline">
+                        <svg width="28" height="18" viewBox="0 0 28 18" aria-hidden="true"><g fill="currentColor"><path d="M2 16C8 14 16 9 26 2" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/><ellipse cx="8" cy="11" rx="4.5" ry="2.2" transform="rotate(-30 8 11)"/><ellipse cx="15" cy="7.5" rx="4.5" ry="2.2" transform="rotate(-30 15 7.5)"/><ellipse cx="22" cy="4" rx="4.5" ry="2.2" transform="rotate(-30 22 4)"/></g></svg>
+                        Où nous trouver
+                    </span>
+                    <h1>Points de <em>vente</em></h1>
+                    <p class="tc-lead">Nos bouteilles sont actuellement disponibles chez <b><span data-tc-stat="pos">34</span> distributeurs partenaires</b>. Trouvez celui qui vous convient&#160;!</p>
+                    <div class="tc-pos-stats" aria-label="Aperçu du réseau">
+                        <div class="tc-pos-stat"><b data-tc-stat="pos">34</b><span>distributeurs partenaires</span></div>
+                        <div class="tc-pos-stat"><b data-tc-stat="cantons">4</b><span>cantons</span></div>
+                        <div class="tc-pos-stat"><b data-tc-stat="locs">27</b><span>localités</span></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ======================= Carte (dessinée par le JS) ======================= -->
+            <section class="tc tc-section tc-section-tight tc-pos-map-section">
+                <div class="container">
+                    <div class="tc-map-band">
+                        <div class="tc-map-band-bg" aria-hidden="true"></div>
+                        <div class="tc-map-head">
+                            <span class="tc-map-kicker">La carte du terroir</span>
+                            <h2><span data-tc-stat="pos">34</span> adresses qui ont du goût</h2>
+                            <p class="tc-map-sub">Survolez un point pour découvrir le commerce, cliquez pour le retrouver dans la liste.</p>
+                            <div class="tc-map-legend" id="tc-map-legend" aria-label="Légende de la carte"></div>
+                        </div>
+                        <div class="tc-map-stage" id="tc-pos-map">
+                            <p class="tc-map-fallback">La carte interactive s'affiche sur le site publié (elle est désactivée dans l'éditeur Odoo).</p>
+                        </div>
+                        <aside class="tc-map-inset" id="tc-pos-inset" aria-label="Zoom sur le canton de Fribourg">
+                            <p class="tc-inset-caption">Canton de Fribourg <span aria-hidden="true">— zoom ×3</span></p>
+                            <div class="tc-map-stage tc-inset-stage" id="tc-pos-inset-map"></div>
+                        </aside>
+                        <p class="tc-map-credit">Tracé des cantons adapté de « Suisse cantons.svg » par Pymouss44 — Wikimedia Commons, licence CC BY-SA 4.0.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ======================= Liste ======================= -->
+            <section class="tc tc-section tc-section-tight tc-pos-list-section">
+                <div class="container">
+                    <div class="tc-pos-toolbar">
+                        <div class="tc-pos-search">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+                            <input type="search" id="tc-pos-search" placeholder="Rechercher un commerce ou une localité…" aria-label="Rechercher un point de vente"/>
+                        </div>
+                        <div class="tc-chip-row" id="tc-pos-chips" role="group" aria-label="Filtrer par canton">
+                        <button type="button" class="tc-chip is-active" data-canton="Tous" aria-pressed="true">Tous <span class="tc-chip-count"></span></button>
+                        <button type="button" class="tc-chip" data-canton="Fribourg" aria-pressed="false">Fribourg <span class="tc-chip-count"></span></button>
+                        <button type="button" class="tc-chip" data-canton="Vaud" aria-pressed="false">Vaud <span class="tc-chip-count"></span></button>
+                        <button type="button" class="tc-chip" data-canton="Valais" aria-pressed="false">Valais <span class="tc-chip-count"></span></button>
+                        <button type="button" class="tc-chip" data-canton="Jura" aria-pressed="false">Jura <span class="tc-chip-count"></span></button>
+                        <button type="button" class="tc-chip" data-canton="Genève" aria-pressed="false">Genève <span class="tc-chip-count"></span></button>
+                        <button type="button" class="tc-chip" data-canton="Neuchâtel" aria-pressed="false">Neuchâtel <span class="tc-chip-count"></span></button>
+                        </div>
+                        <span class="tc-pos-count" id="tc-pos-count"></span>
+                    </div>
+
+                    <div class="tc-pos-list">
+                    <div class="tc-canton-group" data-canton="Fribourg">
+                        <div class="tc-canton-title"><h2>Fribourg</h2><span class="tc-count-pill">30</span></div>
+                        <div class="tc-pos-grid">
+                            <article class="tc-pos-card" data-canton="Fribourg" data-loc="Marly">
+                                <span class="tc-pos-type"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9h18l-1.5 11a2 2 0 0 1-2 1.8H6.5a2 2 0 0 1-2-1.8L3 9Z"/><path d="M8 9V6a4 4 0 0 1 8 0v3"/></svg><span>Épicerie</span></span>
+                                <h3>Au Bon Moment</h3>
+                                <address><span>Route de Fribourg 17,</span> <b>1723 Marly</b></address>
+                                <div class="tc-pos-links">
+                                    <a href="https://www.google.com/maps/search/?api=1&amp;query=Au%20Bon%20Moment%2C%20Route%20de%20Fribourg%2017%2C%201723%20Marly" target="_blank" rel="noopener">Itinéraire</a>
+                                    <a href="https://www.aubonmoment.ch/" target="_blank" rel="noopener">Site web</a>
+                                    <a href="tel:0265552323">Appeler</a>
+                                </div>
+                            </article>
+                            <article class="tc-pos-card" data-canton="Fribourg" data-loc="Fribourg">
+                                <span class="tc-pos-type"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9h18l-1.5 11a2 2 0 0 1-2 1.8H6.5a2 2 0 0 1-2-1.8L3 9Z"/><path d="M8 9V6a4 4 0 0 1 8 0v3"/></svg><span>Boutique</span></span>
+                                <h3>Audiopur</h3>
+                                <address><span>Rue de Lausanne 12,</span> <b>1700 Fribourg</b></address>
+                                <div class="tc-pos-links">
+                                    <a href="https://www.google.com/maps/search/?api=1&amp;query=Audiopur%2C%20Rue%20de%20Lausanne%2012%2C%201700%20Fribourg" target="_blank" rel="noopener">Itinéraire</a>
+                                    <a href="http://www.audiopur.ch" target="_blank" rel="noopener">Site web</a>
+                                    <a href="tel:0263225100">Appeler</a>
+                                </div>
+                            </article>
+                            <article class="tc-pos-card" data-canton="Fribourg" data-loc="Fribourg">
+                                <span class="tc-pos-type"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 8h1a3 3 0 0 1 0 6h-1"/><path d="M3 8h14v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V8Z"/><path d="M7 4v2M11 4v2M15 4v2"/></svg><span>Café</span></span>
+                                <h3>Café de la Marionnette</h3>
+                                <address><span>Derrière les Jardins 2,</span> <b>1700 Fribourg</b></address>
+                                <div class="tc-pos-links">
+                                    <a href="https://www.google.com/maps/search/?api=1&amp;query=Caf%C3%A9%20de%20la%20Marionnette%2C%20Derri%C3%A8re%20les%20Jardins%202%2C%201700%20Fribourg" target="_blank" rel="noopener">Itinéraire</a>
+                                    <a href="https://lecafedelamarionnette.ch/" target="_blank" rel="noopener">Site web</a>
+                                    <a href="tel:0263213632">Appeler</a>
+                                </div>
+                            </article>
+                            <article class="tc-pos-card" data-canton="Fribourg" data-loc="Treyvaux">
+                                <span class="tc-pos-type"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9h18l-1.5 11a2 2 0 0 1-2 1.8H6.5a2 2 0 0 1-2-1.8L3 9Z"/><path d="M8 9V6a4 4 0 0 1 8 0v3"/></svg><span>Épicerie</span></span>
+                                <h3>Terre d'elles</h3>
+                                <address><span>Route du Barrage 14,</span> <b>1733 Treyvaux</b></address>
+                                <div class="tc-pos-links">
+                                    <a href="https://www.google.com/maps/search/?api=1&amp;query=Terre%20d%27elles%2C%20Route%20du%20Barrage%2014%2C%201733%20Treyvaux" target="_blank" rel="noopener">Itinéraire</a>
+                                    <a href="https://www.terroir-fribourg.ch/fr/membres/producteurs/terre-d-elles" target="_blank" rel="noopener">Site web</a>
+                                    <a href="tel:0265434349">Appeler</a>
+                                </div>
+                            </article>
+                            <article class="tc-pos-card" data-canton="Fribourg" data-loc="Prez-vers-Noréaz">
+                                <span class="tc-pos-type"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 22h14"/><path d="M6 18c0-3 1-5 3-7 1 2 2 3 3 3s2-1 3-3c2 2 3 4 3 7"/><path d="M7 11c0-3 2-5 5-5s5 2 5 5"/></svg><span>Pâtisserie</span></span>
+                                <h3>L'ART'isan Pâtissier</h3>
+                                <address><span>Route de Fribourg 12,</span> <b>1746 Prez-vers-Noréaz</b></address>
+                                <div class="tc-pos-links">
+                                    <a href="https://www.google.com/maps/search/?api=1&amp;query=L%27ART%27isan%20P%C3%A2tissier%2C%20Route%20de%20Fribourg%2012%2C%201746%20Prez-vers-Nor%C3%A9az" target="_blank" rel="noopener">Itinéraire</a>
+                                    <a href="https://art-isan.ch/" target="_blank" rel="noopener">Site web</a>
+                                    <a href="tel:0264700579">Appeler</a>
+                                </div>
+                            </article>
+                            <article class="tc-pos-card" data-canton="Fribourg" data-loc="Courtepin">
+                                <span class="tc-pos-type"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9h18l-1.5 11a2 2 0 0 1-2 1.8H6.5a2 2 0 0 1-2-1.8L3 9Z"/><path d="M8 9V6a4 4 0 0 1 8 0v3"/></svg><span>Épicerie vrac</span></span>
+                                <h3>1.2.3. Bocal</h3>
+                                <address><span>Route de Fribourg 7A,</span> <b>1784 Courtepin</b></address>
+                                <div class="tc-pos-links">
+                                    <a href="https://www.google.com/maps/search/?api=1&amp;query=1.2.3.%20Bocal%2C%20Route%20de%20Fribourg%207A%2C%201784%20Courtepin" target="_blank" rel="noopener">Itinéraire</a>
+                                    <a href="https://123bocal.ch/" target="_blank" rel="noopener">Site web</a>
+                                    <a href="tel:0793778505">Appeler</a>
+                                </div>
+                            </article>
+                            <article class="tc-pos-card" data-canton="Fribourg" data-loc="Praz (Vully)">
+                                <span class="tc-pos-type"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9h18l-1.5 11a2 2 0 0 1-2 1.8H6.5a2 2 0 0 1-2-1.8L3 9Z"/><path d="M8 9V6a4 4 0 0 1 8 0v3"/></svg><span>Épicerie vrac</span></span>
+                                <h3>La Vracrie</h3>
+                                <address><span>Route Principale 90,</span> <b>1788 Praz (Vully)</b></address>
+                                <div class="tc-pos-links">
+                                    <a href="https://www.google.com/maps/search/?api=1&amp;query=La%20Vracrie%2C%20Route%20Principale%2090%2C%201788%20Praz%20%28Vully%29" target="_blank" rel="noopener">Itinéraire</a>
+                                    <a href="https://lavracrie.ch/" target="_blank" rel="noopener">Site web</a>
+                                    <a href="mailto:info@lavracrie.ch">Écrire</a>
+                                </div>
+                            </article>
+                            <article class="tc-pos-card" data-canton="Fribourg" data-loc="Domdidier">
+                                <span class="tc-pos-type"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 22h8"/><path d="M9 22V11l3-7 3 7v11"/><path d="M9 14h6"/></svg><span>Caviste</span></span>
+                                <h3>Piccand Vins &amp; Boissons</h3>
+                                <address><span>Route des Grandseys 81,</span> <b>1564 Domdidier</b></address>
+                                <div class="tc-pos-links">
+                                    <a href="https://www.google.com/maps/search/?api=1&amp;query=Piccand%20Vins%20%26%20Boissons%2C%20Route%20des%20Grandseys%2081%2C%201564%20Domdidier" target="_blank" rel="noopener">Itinéraire</a>
+                                    <a href="https://www.piccand-vins.ch/" target="_blank" rel="noopener">Site web</a>
+                                    <a href="tel:0266751324">Appeler</a>
+                                </div>
+                            </article>
+                            <article class="tc-pos-card" data-canton="Fribourg" data-loc="Châtel-Saint-Denis">
+                                <span class="tc-pos-type"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9h18l-1.5 11a2 2 0 0 1-2 1.8H6.5a2 2 0 0 1-2-1.8L3 9Z"/><path d="M8 9V6a4 4 0 0 1 8 0v3"/></svg><span>Épicerie</span></span>
+                                <h3>L'épicerie Papiy</h3>
+                                <address><span>Grand-Rue 64,</span> <b>1618 Châtel-Saint-Denis</b></address>
+                                <div class="tc-pos-links">
+                                    <a href="https://www.google.com/maps/search/?api=1&amp;query=L%27%C3%A9picerie%20Papiy%2C%20Grand-Rue%2064%2C%201618%20Ch%C3%A2tel-Saint-Denis" target="_blank" rel="noopener">Itinéraire</a>
+                                    <a href="https://www.facebook.com/p/Papiych-100076657790987/" target="_blank" rel="noopener">Site web</a>
+                                    <a href="tel:0782446696">Appeler</a>
+                                </div>
+                            </article>
+                            <article class="tc-pos-card" data-canton="Fribourg" data-loc="Romont">
+                                <span class="tc-pos-type"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 22h14"/><path d="M6 18c0-3 1-5 3-7 1 2 2 3 3 3s2-1 3-3c2 2 3 4 3 7"/><path d="M7 11c0-3 2-5 5-5s5 2 5 5"/></svg><span>Boulangerie</span></span>
+                                <h3>Boulangerie Didier Ecoffey</h3>
+                                <address><span>Grand-Rue 4,</span> <b>1680 Romont</b></address>
+                                <div class="tc-pos-links">
+                                    <a href="https://www.google.com/maps/search/?api=1&amp;query=Boulangerie%20Didier%20Ecoffey%2C%20Grand-Rue%204%2C%201680%20Romont" target="_blank" rel="noopener">Itinéraire</a>
+                                    <a href="https://www.boulangerie-ecoffey.ch/" target="_blank" rel="noopener">Site web</a>
+                                    <a href="tel:0266522307">Appeler</a>
+                                </div>
+                            </article>
+                            <article class="tc-pos-card" data-canton="Fribourg" data-loc="Rossens">
+                                <span class="tc-pos-type"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11h16v3a6 6 0 0 1-6 6h-4a6 6 0 0 1-6-6v-3Z"/><path d="M4 11c0-3 2-5 4-5s4 2 4 5"/><path d="M12 6c0-2 1.5-3 4-3s4 1 4 3"/></svg><span>Fromagerie</span></span>
+                                <h3>Fromagerie de Rossens</h3>
+                                <address><span>Route du Barrage 100,</span> <b>1728 Rossens</b></address>
+                                <div class="tc-pos-links">
+                                    <a href="https://www.google.com/maps/search/?api=1&amp;query=Fromagerie%20de%20Rossens%2C%20Route%20du%20Barrage%20100%2C%201728%20Rossens" target="_blank" rel="noopener">Itinéraire</a>
+                                    <a href="https://www.fromagerie-rossens.ch/" target="_blank" rel="noopener">Site web</a>
+                                    <a href="tel:0264112400">Appeler</a>
+                                </div>
+                            </article>
+                            <article class="tc-pos-card" data-canton="Fribourg" data-loc="Ponthaux">
+                                <span class="tc-pos-type"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11h16v3a6 6 0 0 1-6 6h-4a6 6 0 0 1-6-6v-3Z"/><path d="M4 11c0-3 2-5 4-5s4 2 4 5"/><path d="M12 6c0-2 1.5-3 4-3s4 1 4 3"/></svg><span>Fromagerie</span></span>
+                                <h3>Fromagerie de Ponthaux</h3>
+                                <address><span>Au Village 13,</span> <b>1772 Ponthaux</b></address>
+                                <div class="tc-pos-links">
+                                    <a href="https://www.google.com/maps/search/?api=1&amp;query=Fromagerie%20de%20Ponthaux%2C%20Au%20Village%2013%2C%201772%20Ponthaux" target="_blank" rel="noopener">Itinéraire</a>
+                                    <a href="https://www.facebook.com/famillewohlhauser/?locale=fr_FR" target="_blank" rel="noopener">Site web</a>
+                                    <a href="tel:0798743692">Appeler</a>
+                                </div>
+                            </article>
+                            <article class="tc-pos-card" data-canton="Fribourg" data-loc="Fribourg">
+                                <span class="tc-pos-type"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9h18l-1.5 11a2 2 0 0 1-2 1.8H6.5a2 2 0 0 1-2-1.8L3 9Z"/><path d="M8 9V6a4 4 0 0 1 8 0v3"/></svg><span>Épicerie</span></span>
+                                <h3>Au Petit Marché</h3>
+                                <address><span>Rue de la Neuveville 68,</span> <b>1700 Fribourg</b></address>
+                                <div class="tc-pos-links">
+                                    <a href="https://www.google.com/maps/search/?api=1&amp;query=Au%20Petit%20March%C3%A9%2C%20Rue%20de%20la%20Neuveville%2068%2C%201700%20Fribourg" target="_blank" rel="noopener">Itinéraire</a>
+                                    <a href="https://www.local.ch/fr/d/fribourg/1700/epicerie/au-petit-marche-GJtGb7F1wrW2SrjYYE-QTQ" target="_blank" rel="noopener">Site web</a>
+                                    <a href="tel:0791367397">Appeler</a>
+                                </div>
+                            </article>
+                            <article class="tc-pos-card" data-canton="Fribourg" data-loc="Romont">
+                                <span class="tc-pos-type"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9h18l-1.5 11a2 2 0 0 1-2 1.8H6.5a2 2 0 0 1-2-1.8L3 9Z"/><path d="M8 9V6a4 4 0 0 1 8 0v3"/></svg><span>Épicerie vrac</span></span>
+                                <h3>Au Bocal du Coin</h3>
+                                <address><span>Grand-Rue 26,</span> <b>1680 Romont</b></address>
+                                <div class="tc-pos-links">
+                                    <a href="https://www.google.com/maps/search/?api=1&amp;query=Au%20Bocal%20du%20Coin%2C%20Grand-Rue%2026%2C%201680%20Romont" target="_blank" rel="noopener">Itinéraire</a>
+                                    <a href="https://aubocalducoin.ch/" target="_blank" rel="noopener">Site web</a>
+                                    <a href="tel:0265655601">Appeler</a>
+                                </div>
+                            </article>
+                            <article class="tc-pos-card" data-canton="Fribourg" data-loc="Villaz-St-Pierre">
+                                <span class="tc-pos-type"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11h16v3a6 6 0 0 1-6 6h-4a6 6 0 0 1-6-6v-3Z"/><path d="M4 11c0-3 2-5 4-5s4 2 4 5"/><path d="M12 6c0-2 1.5-3 4-3s4 1 4 3"/></svg><span>Fromagerie</span></span>
+                                <h3>Fromagerie de Villaz-St-Pierre</h3>
+                                <address><span>Route de Fuyens 14,</span> <b>1690 Villaz-St-Pierre</b></address>
+                                <div class="tc-pos-links">
+                                    <a href="https://www.google.com/maps/search/?api=1&amp;query=Fromagerie%20de%20Villaz-St-Pierre%2C%20Route%20de%20Fuyens%2014%2C%201690%20Villaz-St-Pierre" target="_blank" rel="noopener">Itinéraire</a>
+                                    <a href="https://www.fromagerievillaz.ch/" target="_blank" rel="noopener">Site web</a>
+                                    <a href="tel:0266531141">Appeler</a>
+                                </div>
+                            </article>
+                            <article class="tc-pos-card" data-canton="Fribourg" data-loc="Rueyres-St-Laurent">
+                                <span class="tc-pos-type"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 20A7 7 0 0 1 4 13c0-3 1.5-4.5 3-6 0 2 1 3 2 3 0-2 1-3 2-4 1 1 2 2 2 4 1 0 2-1 2-3 1.5 1.5 3 3 3 6a7 7 0 0 1-7 7Z"/></svg><span>Ferme</span></span>
+                                <h3>La Ferme du Ferrage</h3>
+                                <address><span>Route du Ferrage 21,</span> <b>1695 Rueyres-St-Laurent</b></address>
+                                <div class="tc-pos-links">
+                                    <a href="https://www.google.com/maps/search/?api=1&amp;query=La%20Ferme%20du%20Ferrage%2C%20Route%20du%20Ferrage%2021%2C%201695%20Rueyres-St-Laurent" target="_blank" rel="noopener">Itinéraire</a>
+                                    <a href="https://www.facebook.com/profile.php?id=100063567788779#" target="_blank" rel="noopener">Site web</a>
+                                    <a href="tel:0797380230">Appeler</a>
+                                </div>
+                            </article>
+                            <article class="tc-pos-card" data-canton="Fribourg" data-loc="Fribourg">
+                                <span class="tc-pos-type"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9h18l-1.5 11a2 2 0 0 1-2 1.8H6.5a2 2 0 0 1-2-1.8L3 9Z"/><path d="M8 9V6a4 4 0 0 1 8 0v3"/></svg><span>Épicerie</span></span>
+                                <h3>Moi Aussi</h3>
+                                <address><span>Rue de la Neuveville 52,</span> <b>1700 Fribourg</b></address>
+                                <div class="tc-pos-links">
+                                    <a href="https://www.google.com/maps/search/?api=1&amp;query=Moi%20Aussi%2C%20Rue%20de%20la%20Neuveville%2052%2C%201700%20Fribourg" target="_blank" rel="noopener">Itinéraire</a>
+                                    <a href="https://www.local.ch/fr/d/fribourg/1700/gelateria/bar-gelateria-verani-GHnDZ56dQnQOjLNMRsimBg" target="_blank" rel="noopener">Site web</a>
+                                    <a href="tel:0265439721">Appeler</a>
+                                </div>
+                            </article>
+                            <article class="tc-pos-card" data-canton="Fribourg" data-loc="Ependes">
+                                <span class="tc-pos-type"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 22h14"/><path d="M6 18c0-3 1-5 3-7 1 2 2 3 3 3s2-1 3-3c2 2 3 4 3 7"/><path d="M7 11c0-3 2-5 5-5s5 2 5 5"/></svg><span>Boulangerie</span></span>
+                                <h3>Aux Pains d'Ependes</h3>
+                                <address><span>Au Village 8,</span> <b>1731 Ependes</b></address>
+                                <div class="tc-pos-links">
+                                    <a href="https://www.google.com/maps/search/?api=1&amp;query=Aux%20Pains%20d%27Ependes%2C%20Au%20Village%208%2C%201731%20Ependes" target="_blank" rel="noopener">Itinéraire</a>
+                                    <a href="https://auxpainsdependes.digitalone.site/" target="_blank" rel="noopener">Site web</a>
+                                    <a href="tel:0264132020">Appeler</a>
+                                </div>
+                            </article>
+                            <article class="tc-pos-card" data-canton="Fribourg" data-loc="Neyruz">
+                                <span class="tc-pos-type"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11h16v3a6 6 0 0 1-6 6h-4a6 6 0 0 1-6-6v-3Z"/><path d="M4 11c0-3 2-5 4-5s4 2 4 5"/><path d="M12 6c0-2 1.5-3 4-3s4 1 4 3"/></svg><span>Fromagerie</span></span>
+                                <h3>Fromagerie de Neyruz</h3>
+                                <address><span>Route du Puits 2,</span> <b>1740 Neyruz</b></address>
+                                <div class="tc-pos-links">
+                                    <a href="https://www.google.com/maps/search/?api=1&amp;query=Fromagerie%20de%20Neyruz%2C%20Route%20du%20Puits%202%2C%201740%20Neyruz" target="_blank" rel="noopener">Itinéraire</a>
+                                    <a href="https://www.laiterie-neyruz.ch/" target="_blank" rel="noopener">Site web</a>
+                                    <a href="tel:0264771812">Appeler</a>
+                                </div>
+                            </article>
+                            <article class="tc-pos-card" data-canton="Fribourg" data-loc="Givisiez">
+                                <span class="tc-pos-type"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 22h14"/><path d="M6 18c0-3 1-5 3-7 1 2 2 3 3 3s2-1 3-3c2 2 3 4 3 7"/><path d="M7 11c0-3 2-5 5-5s5 2 5 5"/></svg><span>Boulangerie</span></span>
+                                <h3>Boulangerie Les Arcades</h3>
+                                <address><span>Route de Belfaux 2,</span> <b>1762 Givisiez</b></address>
+                                <div class="tc-pos-links">
+                                    <a href="https://www.google.com/maps/search/?api=1&amp;query=Boulangerie%20Les%20Arcades%2C%20Route%20de%20Belfaux%202%2C%201762%20Givisiez" target="_blank" rel="noopener">Itinéraire</a>
+                                    <a href="https://www.boulangerie-les-arcades.ch/" target="_blank" rel="noopener">Site web</a>
+                                    <a href="tel:0264663356">Appeler</a>
+                                </div>
+                            </article>
+                            <article class="tc-pos-card" data-canton="Fribourg" data-loc="Rossens">
+                                <span class="tc-pos-type"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 4c1.5 0 3 1.5 3 4s-1.5 4-3 4"/><path d="M9 4c-1.5 0-3 1.5-3 4s1.5 4 3 4"/><path d="M9 12v8M15 12v8"/><path d="M9 4h6"/></svg><span>Boucherie</span></span>
+                                <h3>Boucherie Yerly</h3>
+                                <address><span>Route du Barrage 73,</span> <b>1728 Rossens</b></address>
+                                <div class="tc-pos-links">
+                                    <a href="https://www.google.com/maps/search/?api=1&amp;query=Boucherie%20Yerly%2C%20Route%20du%20Barrage%2073%2C%201728%20Rossens" target="_blank" rel="noopener">Itinéraire</a>
+                                    <a href="https://www.boucherieyerly.ch/fr" target="_blank" rel="noopener">Site web</a>
+                                    <a href="tel:0264110318">Appeler</a>
+                                </div>
+                            </article>
+                            <article class="tc-pos-card" data-canton="Fribourg" data-loc="Charmey">
+                                <span class="tc-pos-type"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9h18l-1.5 11a2 2 0 0 1-2 1.8H6.5a2 2 0 0 1-2-1.8L3 9Z"/><path d="M8 9V6a4 4 0 0 1 8 0v3"/></svg><span>Épicerie vrac</span></span>
+                                <h3>Epi'Vrac</h3>
+                                <address><span>Rue du Centre 22,</span> <b>1637 Charmey</b></address>
+                                <div class="tc-pos-links">
+                                    <a href="https://www.google.com/maps/search/?api=1&amp;query=Epi%27Vrac%2C%20Rue%20du%20Centre%2022%2C%201637%20Charmey" target="_blank" rel="noopener">Itinéraire</a>
+                                    <a href="https://www.epivrac-charmey.ch/" target="_blank" rel="noopener">Site web</a>
+                                    <a href="tel:0269272020">Appeler</a>
+                                </div>
+                            </article>
+                            <article class="tc-pos-card" data-canton="Fribourg" data-loc="Marly">
+                                <span class="tc-pos-type"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9h18l-1.5 11a2 2 0 0 1-2 1.8H6.5a2 2 0 0 1-2-1.8L3 9Z"/><path d="M8 9V6a4 4 0 0 1 8 0v3"/></svg><span>Épicerie</span></span>
+                                <h3>Assemblage</h3>
+                                <address><span>Place de l'Ancienne Papeterie 4,</span> <b>1723 Marly</b></address>
+                                <div class="tc-pos-links">
+                                    <a href="https://www.google.com/maps/search/?api=1&amp;query=Assemblage%2C%20Place%20de%20l%27Ancienne%20Papeterie%204%2C%201723%20Marly" target="_blank" rel="noopener">Itinéraire</a>
+                                    <a href="https://www.akdagsa.ch/restaurant/assemblage/" target="_blank" rel="noopener">Site web</a>
+                                    <a href="tel:0264356994">Appeler</a>
+                                </div>
+                            </article>
+                            <article class="tc-pos-card" data-canton="Fribourg" data-loc="Belfaux">
+                                <span class="tc-pos-type"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11h16v3a6 6 0 0 1-6 6h-4a6 6 0 0 1-6-6v-3Z"/><path d="M4 11c0-3 2-5 4-5s4 2 4 5"/><path d="M12 6c0-2 1.5-3 4-3s4 1 4 3"/></svg><span>Laiterie</span></span>
+                                <h3>Laiterie de Belfaux</h3>
+                                <address><span>Route du Centre 30,</span> <b>1782 Belfaux</b></address>
+                                <div class="tc-pos-links">
+                                    <a href="https://www.google.com/maps/search/?api=1&amp;query=Laiterie%20de%20Belfaux%2C%20Route%20du%20Centre%2030%2C%201782%20Belfaux" target="_blank" rel="noopener">Itinéraire</a>
+                                    <a href="https://laiteriedebelfaux.ch/fr" target="_blank" rel="noopener">Site web</a>
+                                    <a href="tel:0264752601">Appeler</a>
+                                </div>
+                            </article>
+                            <article class="tc-pos-card" data-canton="Fribourg" data-loc="La Joux">
+                                <span class="tc-pos-type"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 8h1a3 3 0 0 1 0 6h-1"/><path d="M3 8h14v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V8Z"/><path d="M7 4v2M11 4v2M15 4v2"/></svg><span>Restaurant</span></span>
+                                <h3>Self des Pralies</h3>
+                                <address><span>Route du Crêt 1,</span> <b>1697 La Joux</b></address>
+                                <div class="tc-pos-links">
+                                    <a href="https://www.google.com/maps/search/?api=1&amp;query=Self%20des%20Pralies%2C%20Route%20du%20Cr%C3%AAt%201%2C%201697%20La%20Joux" target="_blank" rel="noopener">Itinéraire</a>
+                                    <a href="https://www.instagram.com/selfdespralies/" target="_blank" rel="noopener">Site web</a>
+                                    <a href="mailto:selfdespralies@gmail.com">Écrire</a>
+                                </div>
+                            </article>
+                            <article class="tc-pos-card" data-canton="Fribourg" data-loc="Lossy">
+                                <span class="tc-pos-type"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9h18l-1.5 11a2 2 0 0 1-2 1.8H6.5a2 2 0 0 1-2-1.8L3 9Z"/><path d="M8 9V6a4 4 0 0 1 8 0v3"/></svg><span>Épicerie</span></span>
+                                <h3>Le Sarrazin</h3>
+                                <address><span>Route des Sarrazins 115,</span> <b>1782 Lossy</b></address>
+                                <div class="tc-pos-links">
+                                    <a href="https://www.google.com/maps/search/?api=1&amp;query=Le%20Sarrazin%2C%20Route%20des%20Sarrazins%20115%2C%201782%20Lossy" target="_blank" rel="noopener">Itinéraire</a>
+                                    <a href="https://lesarrazin.ch/" target="_blank" rel="noopener">Site web</a>
+                                    <a href="tel:0264751244">Appeler</a>
+                                </div>
+                            </article>
+                            <article class="tc-pos-card" data-canton="Fribourg" data-loc="Arconciel">
+                                <span class="tc-pos-type"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11h16v3a6 6 0 0 1-6 6h-4a6 6 0 0 1-6-6v-3Z"/><path d="M4 11c0-3 2-5 4-5s4 2 4 5"/><path d="M12 6c0-2 1.5-3 4-3s4 1 4 3"/></svg><span>Laiterie</span></span>
+                                <h3>Laiterie d'Arconciel</h3>
+                                <address><span>Au Village 50,</span> <b>1732 Arconciel</b></address>
+                                <div class="tc-pos-links">
+                                    <a href="https://www.google.com/maps/search/?api=1&amp;query=Laiterie%20d%27Arconciel%2C%20Au%20Village%2050%2C%201732%20Arconciel" target="_blank" rel="noopener">Itinéraire</a>
+                                    <a href="https://laiterie-arconciel.ch/" target="_blank" rel="noopener">Site web</a>
+                                    <a href="tel:0264131195">Appeler</a>
+                                </div>
+                            </article>
+                            <article class="tc-pos-card" data-canton="Fribourg" data-loc="Posieux">
+                                <span class="tc-pos-type"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9h18l-1.5 11a2 2 0 0 1-2 1.8H6.5a2 2 0 0 1-2-1.8L3 9Z"/><path d="M8 9V6a4 4 0 0 1 8 0v3"/></svg><span>Épicerie</span></span>
+                                <h3>Le Local Hauterive</h3>
+                                <address><span>Route de la Ria 3,</span> <b>1725 Posieux</b></address>
+                                <div class="tc-pos-links">
+                                    <a href="https://www.google.com/maps/search/?api=1&amp;query=Le%20Local%20Hauterive%2C%20Route%20de%20la%20Ria%203%2C%201725%20Posieux" target="_blank" rel="noopener">Itinéraire</a>
+                                    <a href="https://le-local-hauterive.ch/" target="_blank" rel="noopener">Site web</a>
+                                    <a href="tel:0797664370">Appeler</a>
+                                </div>
+                            </article>
+                            <article class="tc-pos-card" data-canton="Fribourg" data-loc="Fribourg">
+                                <span class="tc-pos-type"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 8h1a3 3 0 0 1 0 6h-1"/><path d="M3 8h14v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V8Z"/><path d="M7 4v2M11 4v2M15 4v2"/></svg><span>Bar / Café</span></span>
+                                <h3>Le Biergarten</h3>
+                                <address><span>Impasse de la Sous-Station 3,</span> <b>1700 Fribourg</b></address>
+                                <div class="tc-pos-links">
+                                    <a href="https://www.google.com/maps/search/?api=1&amp;query=Le%20Biergarten%2C%20Impasse%20de%20la%20Sous-Station%203%2C%201700%20Fribourg" target="_blank" rel="noopener">Itinéraire</a>
+                                    <a href="https://www.freiburger-biermanufaktur.ch/fr/" target="_blank" rel="noopener">Site web</a>
+                                    <a href="tel:0264115000">Appeler</a>
+                                </div>
+                            </article>
+                            <article class="tc-pos-card" data-canton="Fribourg" data-loc="Cugy">
+                                <span class="tc-pos-type"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9h18l-1.5 11a2 2 0 0 1-2 1.8H6.5a2 2 0 0 1-2-1.8L3 9Z"/><path d="M8 9V6a4 4 0 0 1 8 0v3"/></svg><span>Épicerie</span></span>
+                                <h3>L'éco des saisons</h3>
+                                <address><span>Route de Payerne 5,</span> <b>1482 Cugy</b></address>
+                                <div class="tc-pos-links">
+                                    <a href="https://www.google.com/maps/search/?api=1&amp;query=L%27%C3%A9co%20des%20saisons%2C%20Route%20de%20Payerne%205%2C%201482%20Cugy" target="_blank" rel="noopener">Itinéraire</a>
+                                    <a href="https://lecodessaisons.ch/" target="_blank" rel="noopener">Site web</a>
+                                    <a href="tel:0795457316">Appeler</a>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                    <div class="tc-canton-group" data-canton="Vaud">
+                        <div class="tc-canton-title"><h2>Vaud</h2><span class="tc-count-pill">2</span></div>
+                        <div class="tc-pos-grid">
+                            <article class="tc-pos-card" data-canton="Vaud" data-loc="Yverdon-les-Bains">
+                                <span class="tc-pos-type"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 22h8"/><path d="M9 22V11l3-7 3 7v11"/><path d="M9 14h6"/></svg><span>Caviste</span></span>
+                                <h3>Les Bièrosophes</h3>
+                                <address><span>Rue du Valentin 7,</span> <b>1400 Yverdon-les-Bains</b></address>
+                                <div class="tc-pos-links">
+                                    <a href="https://www.google.com/maps/search/?api=1&amp;query=Les%20Bi%C3%A8rosophes%2C%20Rue%20du%20Valentin%207%2C%201400%20Yverdon-les-Bains" target="_blank" rel="noopener">Itinéraire</a>
+                                    <a href="https://www.facebook.com/p/Les-Bi%C3%A8rosophes-61552500639112/?locale=fr_FR" target="_blank" rel="noopener">Site web</a>
+                                    <a href="tel:0794237476">Appeler</a>
+                                </div>
+                            </article>
+                            <article class="tc-pos-card" data-canton="Vaud" data-loc="Crissier">
+                                <span class="tc-pos-type"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9h18l-1.5 11a2 2 0 0 1-2 1.8H6.5a2 2 0 0 1-2-1.8L3 9Z"/><path d="M8 9V6a4 4 0 0 1 8 0v3"/></svg><span>Boutique</span></span>
+                                <h3>L'Esprit du Fruit</h3>
+                                <address><span>Rue d'Yverdon 19,</span> <b>1023 Crissier</b></address>
+                                <div class="tc-pos-links">
+                                    <a href="https://www.google.com/maps/search/?api=1&amp;query=L%27Esprit%20du%20Fruit%2C%20Rue%20d%27Yverdon%2019%2C%201023%20Crissier" target="_blank" rel="noopener">Itinéraire</a>
+                                    <a href="https://www.mblondel.ch/" target="_blank" rel="noopener">Site web</a>
+                                    <a href="tel:0795600657">Appeler</a>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                    <div class="tc-canton-group" data-canton="Valais">
+                        <div class="tc-canton-title"><h2>Valais</h2><span class="tc-count-pill">1</span></div>
+                        <div class="tc-pos-grid">
+                            <article class="tc-pos-card" data-canton="Valais" data-loc="Champoussin">
+                                <span class="tc-pos-type"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 8h1a3 3 0 0 1 0 6h-1"/><path d="M3 8h14v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V8Z"/><path d="M7 4v2M11 4v2M15 4v2"/></svg><span>Restaurant</span></span>
+                                <h3>L'antre d'Eux</h3>
+                                <address><span>Route de Champoussin 22,</span> <b>1873 Champoussin</b></address>
+                                <div class="tc-pos-links">
+                                    <a href="https://www.google.com/maps/search/?api=1&amp;query=L%27antre%20d%27Eux%2C%20Route%20de%20Champoussin%2022%2C%201873%20Champoussin" target="_blank" rel="noopener">Itinéraire</a>
+                                    <a href="https://lantredeux.ch/" target="_blank" rel="noopener">Site web</a>
+                                    <a href="tel:0244776213">Appeler</a>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                    <div class="tc-canton-group" data-canton="Jura">
+                        <div class="tc-canton-title"><h2>Jura</h2><span class="tc-count-pill">1</span></div>
+                        <div class="tc-pos-grid">
+                            <article class="tc-pos-card" data-canton="Jura" data-loc="Delémont">
+                                <span class="tc-pos-type"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9h18l-1.5 11a2 2 0 0 1-2 1.8H6.5a2 2 0 0 1-2-1.8L3 9Z"/><path d="M8 9V6a4 4 0 0 1 8 0v3"/></svg><span>Épicerie</span></span>
+                                <h3>Shop de la Communance</h3>
+                                <address><span>Rue Victor Helg 8,</span> <b>2800 Delémont</b></address>
+                                <div class="tc-pos-links">
+                                    <a href="https://www.google.com/maps/search/?api=1&amp;query=Shop%20de%20la%20Communance%2C%20Rue%20Victor%20Helg%208%2C%202800%20Del%C3%A9mont" target="_blank" rel="noopener">Itinéraire</a>
+                                    <a href="https://shopcommunance.ch/" target="_blank" rel="noopener">Site web</a>
+                                    <a href="tel:0324921140">Appeler</a>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                    <div class="tc-canton-group tc-canton-empty" data-canton="Genève">
+                        <div class="tc-canton-title"><h2>Genève</h2><span class="tc-count-pill">0</span></div>
+                        <div class="tc-empty-canton"><b>Pas trop vite&#160;!</b> Notre petite entreprise se développe à son rythme. Nous n'avons malheureusement pas encore de distributeurs dans le canton de Genève. Vous connaissez l’adresse idéale&#160;? <a class="tc-link-arrow" href="/contactus">Proposez-nous un point de vente</a></div>
+                    </div>
+                    <div class="tc-canton-group tc-canton-empty" data-canton="Neuchâtel">
+                        <div class="tc-canton-title"><h2>Neuchâtel</h2><span class="tc-count-pill">0</span></div>
+                        <div class="tc-empty-canton"><b>Pas trop vite&#160;!</b> Notre petite entreprise se développe à son rythme. Nous n'avons malheureusement pas encore de distributeurs dans le canton de Neuchâtel. Vous connaissez l’adresse idéale&#160;? <a class="tc-link-arrow" href="/contactus">Proposez-nous un point de vente</a></div>
+                    </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ======================= CTA distributeur ======================= -->
+            <section class="tc tc-section tc-section-tight">
+                <div class="container">
+                    <div class="tc-cta">
+                        <div class="tc-cta-mountain" aria-hidden="true"></div>
+                        <h2>Vous gérez un établissement&#160;?</h2>
+                        <p>Vous pensez à un nouveau point de vente pour nous&#160;? Contactez-nous, c'est avec plaisir que nous vous renseignerons.</p>
+                        <div class="tc-actions">
+                            <a class="btn tc-btn tc-btn-light" href="/contactus">Devenir distributeur</a>
+                            <a class="btn tc-btn tc-btn-ghost-light" href="mailto:commande@thecol.ch">commande@thecol.ch</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </t>
+</t>

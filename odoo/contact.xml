@@ -1,0 +1,133 @@
+        <div id="wrap" class="oe_structure oe_empty">
+
+            <!-- ======================= En-tête de page ======================= -->
+            <section class="tc tc-page-hero">
+                <div class="tc-hero-mountain" aria-hidden="true"></div>
+                <div class="container">
+                    <span class="tc-overline">
+                        <svg width="28" height="18" viewBox="0 0 28 18" aria-hidden="true"><g fill="currentColor"><path d="M2 16C8 14 16 9 26 2" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/><ellipse cx="8" cy="11" rx="4.5" ry="2.2" transform="rotate(-30 8 11)"/><ellipse cx="15" cy="7.5" rx="4.5" ry="2.2" transform="rotate(-30 15 7.5)"/><ellipse cx="22" cy="4" rx="4.5" ry="2.2" transform="rotate(-30 22 4)"/></g></svg>
+                        On vous écoute
+                    </span>
+                    <h1>Contactez-<em>nous</em></h1>
+                    <p class="tc-lead">Vous souhaitez nous dire un petit quelque chose&#160;? C'est par ici.</p>
+                </div>
+            </section>
+
+            <!-- ======================= Formulaire + coordonnées ======================= -->
+            <section class="tc tc-section tc-section-tight tc-contact-section">
+                <div class="container tc-contact-grid">
+
+                    <div class="tc-form-card">
+                        <!-- Formulaire Odoo d'origine (envoi réel, signature de sécurité conservée) -->
+                        <section class="s_website_form" data-vcss="001" data-snippet="s_website_form" data-name="Formulaire">
+                            <div class="container">
+                                <form id="contactus_form" action="/website/form/" method="post" enctype="multipart/form-data" class="o_mark_required" data-mark="*" data-model_name="mail.mail" data-success-mode="redirect" data-success-page="/contactus-thank-you" data-pre-fill="true">
+                                    <div class="s_website_form_rows row s_col_no_bgcolor">
+                                        <div class="s_website_form_field mb-3 col-lg-6 s_website_form_custom s_website_form_required" data-type="char" data-name="Field" data-translated-name="Champ"><label class="s_website_form_label" style="width: 200px" for="ofior5qcp9qn"><span class="s_website_form_label_content">Nom</span><span class="s_website_form_mark"> *</span></label><input class="form-control s_website_form_input" type="text" name="name" placeholder="" id="ofior5qcp9qn" data-fill-with="name" required=""/></div>
+                                        <div data-name="Field" class="s_website_form_field mb-3 col-lg-6 s_website_form_required" data-type="email" data-translated-name="Champ"><label class="s_website_form_label" style="width: 200px" for="oi7hc7rv0wx9"><span class="s_website_form_label_content">E-mail</span><span class="s_website_form_mark"> *</span></label><input class="form-control s_website_form_input" type="email" name="email_from" required="1" placeholder="" id="oi7hc7rv0wx9" data-fill-with="email"/></div>
+                                        <div class="mb-3 col-lg-6 s_website_form_field s_website_form_custom" data-type="char" data-name="Field">
+                                            <label class="s_website_form_label" style="width: 200px" for="contact4">
+                                                <span class="s_website_form_label_content">Société</span>
+                                            </label>
+                                            <input id="contact4" type="text" class="form-control s_website_form_input" name="company" data-fill-with="commercial_company_name"/>
+                                        </div>
+                                        <div class="mb-3 col-lg-6 s_website_form_field s_website_form_required s_website_form_model_required" data-type="char" data-name="Field">
+                                            <label class="s_website_form_label" style="width: 200px" for="contact5">
+                                                <span class="s_website_form_label_content">Sujet</span>
+                                                <span class="s_website_form_mark"> *</span></label>
+                                            <input id="contact5" type="text" class="form-control s_website_form_input" name="subject" required=""/>
+                                        </div>
+                                        <div class="mb-3 col-12 s_website_form_field s_website_form_custom s_website_form_required" data-type="text" data-name="Field">
+                                            <label class="s_website_form_label" style="width: 200px" for="contact6">
+                                                <span class="s_website_form_label_content">Question</span>
+                                                <span class="s_website_form_mark"> *</span></label>
+                                            <textarea id="contact6" class="form-control s_website_form_input" name="description" required="" rows="8" placeholder="Votre message…"></textarea>
+                                        </div>
+                                        <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_dnone"><div class="row s_col_no_resize s_col_no_bgcolor"><label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px"><span class="s_website_form_label_content"></span></label><div class="col-sm"><input type="hidden" class="form-control s_website_form_input" name="email_to" value="contact@thecol.ch"/><input type="hidden" value="8f95d161fdb2825cf92bf49d98dee11cc2332c9cea73adf67c24ac6127fbc998" class="form-control s_website_form_input s_website_form_custom" name="website_form_signature"/></div></div></div>
+                                        <div class="mb-0 py-2 col-12 s_website_form_submit s_website_form_no_submit_label" data-name="Submit Button">
+                                            <div style="width: 200px;" class="s_website_form_label"></div>
+                                            <a href="#" role="button" class="btn btn-primary s_website_form_send">Envoyer le message</a>
+                                            <span id="s_website_form_result"></span>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </section>
+                        <p class="tc-form-hint">Nous vous répondons au plus vite. Vous pouvez aussi nous écrire directement à <a href="mailto:contact@thecol.ch">contact@thecol.ch</a>.</p>
+                    </div>
+
+                    <div class="tc-contact-aside">
+                        <div class="tc-aside-card">
+                            <h3>Nous joindre directement</h3>
+                            <p>Question, idée de nouveau point de vente, envie de devenir distributeur&#160;: on vous répond avec plaisir.</p>
+                            <a class="tc-contact-line" href="mailto:contact@thecol.ch">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+                                contact@thecol.ch
+                            </a>
+                            <a class="tc-contact-line" href="https://www.instagram.com/thecol.frib/" target="_blank" rel="noopener">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg>
+                                @thecol.frib
+                            </a>
+                            <a class="tc-contact-line" href="https://www.facebook.com/thecol.frib/" target="_blank" rel="noopener">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 22v-8h2.8l.5-3.5h-3.3V8.2c0-1 .3-1.7 1.7-1.7h1.7V3.4c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.9H7.5V14h2.7v8h3.3Z"/></svg>
+                                ThéCol
+                            </a>
+                            <span class="tc-contact-line">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-7.5-7-12a7 7 0 0 1 14 0c0 4.5-7 12-7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>
+                                ThéCol Sàrl — Fribourg, Suisse
+                            </span>
+                        </div>
+
+                        <div class="tc-aside-card tc-aside-mint">
+                            <h3>Distributeurs</h3>
+                            <p>Vous êtes déjà distributeur&#160;? Envoyez votre commande directement par e-mail à <a href="mailto:commande@thecol.ch">commande@thecol.ch</a>. Pas encore&#160;? Utilisez le formulaire, c'est avec plaisir que nous vous renseignerons.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- ======================= CGV (texte officiel de la boutique) ======================= -->
+            <section class="tc tc-section tc-section-tight" id="cgv">
+                <div class="container">
+                    <div class="tc-section-head">
+                        <span class="tc-overline">Bon à savoir</span>
+                        <h2>Conditions générales de vente</h2>
+                        <p class="tc-lead">De la boutique en ligne <a href="https://www.thecol.ch/shop">www.thecol.ch</a></p>
+                    </div>
+                    <div class="tc-cgv-list">
+                        <details class="tc-faq">
+                            <summary>Prix <span class="tc-faq-plus" aria-hidden="true">+</span></summary>
+                            <div class="tc-faq-body"><p>Les prix de notre boutique en ligne sont indiqués en francs suisses, montants nets, TVA incluse.</p><p>Les prix affichés sont les prix destinés aux clients privés. Les distributeurs et autres clients commerciaux ne passent pas par la boutique en ligne pour passer leurs commandes en bénéficiant des rabais, paiements sur facture et des autres modalités de ventes qui leurs sont réservées.</p></div>
+                        </details>
+                        <details class="tc-faq">
+                            <summary>Disponibilité <span class="tc-faq-plus" aria-hidden="true">+</span></summary>
+                            <div class="tc-faq-body"><p>Notre engagement de livraison est nul en cas de défaillance ou non-respect des délais d'approvisionnement de la part de nos propres fournisseurs, et dans la mesure où cette indisponibilité n'est pas imputable à ThéCol SàRL. En cas d'indisponibilité d'un produit, nous vous informerons dans les meilleurs délais.</p></div>
+                        </details>
+                        <details class="tc-faq">
+                            <summary>Modalités de paiement <span class="tc-faq-plus" aria-hidden="true">+</span></summary>
+                            <div class="tc-faq-body"><p>Les méthodes de paiement disponibles dans la boutique en ligne sont le paiement par carte bancaire (Visa, MasterCard) et Paypal.</p><p>Les clients qui souhaitent d'autres moyens de paiement (virement bancaire, twint ou cash à la livraison si elle est réalisée par nos soins) peuvent nous contacter. Nous nous réservons le droit d'accepter ou refuser la demande au cas par cas.</p></div>
+                        </details>
+                        <details class="tc-faq">
+                            <summary>Livraison et transport <span class="tc-faq-plus" aria-hidden="true">+</span></summary>
+                            <div class="tc-faq-body"><p>Les différentes options de livraison possibles sont automatiquement affichées pour chaque commande au moment de la validation du panier en fonction du montant de la commande et de l'adresse de livraison (basé sur le canton sélectionné).</p><p>L'envoi des articles disponibles est effectué par poste dans un délai de 3 à 5 jours environ. Une participation de votre part est demandée lors du paiement et est calculée en fonction du montant de votre commande.</p><p>Dans le canton de Fribourg, nous proposons également d'effectuer nous-mêmes la livraison sous 3 à 5 jours.</p><p>Dans les cantons de Vaud, Genève, Valais, Neuchâtel et Jura nous proposons de livrer nous-mêmes votre commande lorsque nous livrons nos distributeurs dans la région, sous un délai de 30 jours maximum.</p><p>ThéCol SàRL se réserve le droit d'effectuer la livraison y compris si l'option d'envoi postal est sélectionné, si le délai de livraison n'est pas impacté négativement. La différence de coût des différentes méthodes d'expédition n'est pas remboursée.</p><p>Si les délais de livraison annoncés ne peuvent être respectés, ThéCol SàRL en informe le client dans les meilleurs délais.</p></div>
+                        </details>
+                        <details class="tc-faq">
+                            <summary>Retour ou échange de marchandises <span class="tc-faq-plus" aria-hidden="true">+</span></summary>
+                            <div class="tc-faq-body"><p>Malgré le plus grand soin apporté lors de l'emballage des bouteilles, ces dernières peuvent être exposées à des chocs lors de l'expédition postale. Le client est tenu de vérifier l'état des marchandises livrées sans attendre et en cas de dommage d'en informer ThéCol SàRL dans les plus brefs délais. Nous renverrons les articles concernés sans frais supplémentaire. Nous nous réservons le droit de demander des éléments de preuve (par exemple&#160;: photos) et de refuser le renvoi ou remboursement en cas d'abus.</p></div>
+                        </details>
+                        <details class="tc-faq">
+                            <summary>Protection des données <span class="tc-faq-plus" aria-hidden="true">+</span></summary>
+                            <div class="tc-faq-body"><p>Toutes les données à caractère personnel seront considérées comme confidentielles. Les informations nécessaires à la gestion de la commande feront l'objet d'un traitement informatique et peuvent être communiquées à des entreprises associées dans le cadre de la gestion de la commande.</p></div>
+                        </details>
+                        <details class="tc-faq">
+                            <summary>Droit applicable et for juridique <span class="tc-faq-plus" aria-hidden="true">+</span></summary>
+                            <div class="tc-faq-body"><p>Le droit applicable est le droit Suisse, et tout litige sera traité dans le canton de Fribourg.</p></div>
+                        </details>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </t>
+</t>

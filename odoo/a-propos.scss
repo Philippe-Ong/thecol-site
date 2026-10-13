@@ -1,0 +1,99 @@
+// ==========================================================================
+//  ThéCol — page À propos (à coller À LA SUITE des blocs précédents
+//  dans user_custom_rules.scss ; réutilise tc-split, tc-ico, tc-cta…)
+// ==========================================================================
+
+// ---------- Le goût des belles choses ----------
+
+.tc-feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+.tc-feature {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 34px 30px;
+  .tc-ico { width: 52px; height: 52px; border-radius: 16px; margin-bottom: 20px; }
+}
+.tc .tc-feature h3 { margin-bottom: 10px; }
+.tc .tc-feature p { color: var(--ink-soft); font-size: 0.98rem; }
+
+// ---------- Fabrication artisanale ----------
+
+.tc .tc-craft-title { margin-bottom: 36px; }
+.tc-craft-list { display: grid; gap: 26px; }
+.tc-craft-item { display: flex; gap: 18px; }
+.tc-num {
+  flex: none; width: 44px; height: 44px; border-radius: 50%;
+  background: var(--mint); color: var(--green-800);
+  font-family: var(--font-display); font-weight: 600; font-size: 1.15rem;
+  display: grid; place-items: center;
+}
+.tc .tc-craft-item h3 { margin-bottom: 6px; }
+.tc .tc-craft-item p { color: var(--ink-soft); font-size: 0.98rem; }
+
+// ---------- Équipe ----------
+
+.tc-team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+.tc-member {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  &:hover { transform: translateY(-6px); box-shadow: var(--shadow); }
+  > img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
+}
+.tc-member-body { padding: 22px 22px 26px; }
+.tc-role {
+  display: inline-block; background: var(--mint); color: var(--green-800);
+  font-size: 0.76rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 5px 12px; border-radius: 999px; margin-bottom: 12px;
+}
+.tc .tc-member-body h3 { margin-bottom: 8px; }
+.tc .tc-member-body p { font-size: 0.92rem; color: var(--ink-soft); }
+
+// ---------- Chronologie ----------
+
+.tc-timeline { position: relative; max-width: 760px; margin: 0 auto; padding-left: 34px; }
+.tc-timeline::before {
+  content: ""; position: absolute; left: 8px; top: 8px; bottom: 8px;
+  width: 2px; border-radius: 2px;
+  background: linear-gradient(var(--green-light), var(--mint));
+}
+.tc-milestone {
+  position: relative; padding: 0 0 44px 26px;
+  &:last-child { padding-bottom: 0; }
+  &::before {
+    content: ""; position: absolute; left: -34px; top: 6px;
+    width: 18px; height: 18px; border-radius: 50%; margin-left: 8px;
+    background: var(--green); border: 4px solid var(--mint-soft);
+    box-shadow: 0 0 0 2px var(--green-light);
+  }
+}
+.tc-date {
+  display: inline-block; margin-bottom: 8px;
+  font-weight: 700; font-size: 0.82rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--green-700);
+}
+.tc .tc-milestone h3 { margin-bottom: 8px; }
+.tc .tc-milestone p { color: var(--ink-soft); max-width: 58ch; }
+
+// ---------- Galerie ----------
+
+.tc-gallery { columns: 3 260px; column-gap: 16px; }
+.tc .tc-gallery img {
+  width: 100%; height: auto;
+  margin-bottom: 16px; border-radius: var(--radius-sm);
+  break-inside: avoid;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  &:hover { transform: scale(1.03) rotate(-1deg); box-shadow: var(--shadow); }
+}
+
+.tc-about-cta { padding-top: 0; }
+
+// ---------- Responsive ----------
+
+@media (max-width: 1020px) {
+  .tc-team-grid { grid-template-columns: repeat(2, 1fr); }
+  .tc-feature-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 560px) {
+  .tc-team-grid, .tc-feature-grid { grid-template-columns: 1fr; }
+  .tc-gallery { columns: 2 150px; }
+}

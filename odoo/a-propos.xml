@@ -1,0 +1,197 @@
+        <div id="wrap" class="oe_structure oe_empty">
+
+            <!-- ======================= En-tête de page ======================= -->
+            <section class="tc tc-page-hero">
+                <div class="tc-hero-mountain" aria-hidden="true"></div>
+                <div class="container">
+                    <span class="tc-overline">
+                        <svg width="28" height="18" viewBox="0 0 28 18" aria-hidden="true"><g fill="currentColor"><path d="M2 16C8 14 16 9 26 2" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/><ellipse cx="8" cy="11" rx="4.5" ry="2.2" transform="rotate(-30 8 11)"/><ellipse cx="15" cy="7.5" rx="4.5" ry="2.2" transform="rotate(-30 15 7.5)"/><ellipse cx="22" cy="4" rx="4.5" ry="2.2" transform="rotate(-30 22 4)"/></g></svg>
+                        À propos de nous
+                    </span>
+                    <h1>Ce qui nous différencie&#160;?<br/>C'est avant tout <em>la passion</em>.</h1>
+                    <p class="tc-lead">Quatre amis, un travail de maturité, et l'envie de faire briller le terroir de nos régions dans une bouteille de thé froid.</p>
+                </div>
+            </section>
+
+            <!-- ======================= Le goût des belles choses ======================= -->
+            <section class="tc tc-section tc-section-tight">
+                <div class="container">
+                    <div class="tc-section-head tc-reveal">
+                        <span class="tc-overline">Nos ingrédients</span>
+                        <h2>Le goût des belles choses</h2>
+                    </div>
+                    <div class="tc-feature-grid">
+                        <article class="tc-feature tc-reveal">
+                            <div class="tc-ico">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                            </div>
+                            <h3>Produits locaux</h3>
+                            <p>Fruits, plantes, épices… Les terroirs fribourgeois et suisse sont nos sources d'inspiration et d'influence.</p>
+                        </article>
+                        <article class="tc-feature tc-reveal">
+                            <div class="tc-ico">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.2 5.4L20 10l-5.8 1.6L12 17l-2.2-5.4L4 10l5.8-1.6L12 3Z"/></svg>
+                            </div>
+                            <h3>Saveurs originales</h3>
+                            <p>Découvrez le thé froid pensé différemment. Notre marque de fabrique&#160;: des saveurs qui sortent des classiques.</p>
+                        </article>
+                        <article class="tc-feature tc-reveal">
+                            <div class="tc-ico">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-4.6-9.3-9A5.4 5.4 0 0 1 12 6.6 5.4 5.4 0 0 1 21.3 12c-2.3 4.4-9.3 9-9.3 9Z"/></svg>
+                            </div>
+                            <h3>Matière première premium</h3>
+                            <p>On reconnaît un passionné à sa capacité à parler de son domaine des heures durant. Nous collaborons avec des partenaires impliqués qui nous fournissent les meilleurs ingrédients.</p>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ======================= Fabrication artisanale ======================= -->
+            <section class="tc tc-section tc-section-mint">
+                <div class="container tc-split">
+                    <div class="tc-reveal">
+                        <span class="tc-overline">Notre savoir-faire</span>
+                        <h2 class="tc-craft-title">Fabrication artisanale</h2>
+                        <div class="tc-craft-list">
+                            <div class="tc-craft-item">
+                                <span class="tc-num">1</span>
+                                <div>
+                                    <h3>Gage de qualité</h3>
+                                    <p>C'est en réalisant nous-mêmes la production artisanale que nous pouvons en garantir un contrôle total, et ainsi aspirer à la meilleure des qualités.</p>
+                                </div>
+                            </div>
+                            <div class="tc-craft-item">
+                                <span class="tc-num">2</span>
+                                <div>
+                                    <h3>Le meilleur, et puis c'est tout</h3>
+                                    <p>Arômes, extraits, concentrés, colorants, conservateurs, antioxydants&#160;? Pas de ça chez nous — on a des frissons rien qu'en y pensant. Simplement goûtu, rafraîchissant et pas trop sucré.</p>
+                                </div>
+                            </div>
+                            <div class="tc-craft-item">
+                                <span class="tc-num">3</span>
+                                <div>
+                                    <h3>Le secret&#160;? Le soin qu'on y met</h3>
+                                    <p>Parce que c'est dans les détails que naît l'authenticité.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tc-split-img tc-reveal">
+                        <img src="https://philippe-ong.github.io/thecol-site/assets/web/photo-production-1280.webp" alt="Bouteilles ThéCol en cours de production" loading="lazy"/>
+                        <span class="tc-badge-round">Contrôle<br/>total</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ======================= Équipe ======================= -->
+            <section class="tc tc-section">
+                <div class="container">
+                    <div class="tc-section-head tc-center tc-reveal">
+                        <span class="tc-overline">Qui sommes-nous&#160;?</span>
+                        <h2>Quatre co-fondateurs, une passion</h2>
+                    </div>
+                    <div class="tc-team-grid">
+                        <article class="tc-member tc-reveal">
+                            <img src="https://philippe-ong.github.io/thecol-site/assets/web/team-noah.jpg" alt="Noah, co-fondateur de ThéCol" loading="lazy"/>
+                            <div class="tc-member-body">
+                                <span class="tc-role">Le cuisinier</span>
+                                <h3>Noah</h3>
+                                <p>Passionné tant par la cuisine que l'entrepreneuriat, Noah a trouvé en ThéCol l'alchimie parfaite, alliant création de recettes et gestion d'entreprise.</p>
+                            </div>
+                        </article>
+                        <article class="tc-member tc-reveal">
+                            <img src="https://philippe-ong.github.io/thecol-site/assets/web/team-philippe.jpg" alt="Philippe, co-fondateur de ThéCol" loading="lazy"/>
+                            <div class="tc-member-body">
+                                <span class="tc-role">L'ingénieur</span>
+                                <h3>Philippe</h3>
+                                <p>Personne ne relève les défis techniques aussi bien que Philippe. Sa capacité à transformer une idée en réel est un atout formidable pour ThéCol.</p>
+                            </div>
+                        </article>
+                        <article class="tc-member tc-reveal">
+                            <img src="https://philippe-ong.github.io/thecol-site/assets/web/team-loris.jpg" alt="Loris, co-fondateur de ThéCol" loading="lazy"/>
+                            <div class="tc-member-body">
+                                <span class="tc-role">Le créatif</span>
+                                <h3>Loris</h3>
+                                <p>Besoin d'une idée ou d'un avis sur l'amélioration d'une ébauche&#160;? Loris et sa vision imaginative et novatrice sont essentiels pour nous permettre de nous renouveler.</p>
+                            </div>
+                        </article>
+                        <article class="tc-member tc-reveal">
+                            <img src="https://philippe-ong.github.io/thecol-site/assets/web/team-luca.jpg" alt="Luca, co-fondateur de ThéCol" loading="lazy"/>
+                            <div class="tc-member-body">
+                                <span class="tc-role">Le penseur</span>
+                                <h3>Luca</h3>
+                                <p>Il n'y a pas un problème que Luca ne puisse résoudre. Quoi qu'il arrive, son don pour approcher les défis sous l'angle idéal nous permet de progresser au quotidien.</p>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ======================= Histoire ======================= -->
+            <section class="tc tc-section tc-section-mint">
+                <div class="container">
+                    <div class="tc-section-head tc-center tc-reveal">
+                        <span class="tc-overline">Notre parcours</span>
+                        <h2>L'histoire de ThéCol</h2>
+                    </div>
+                    <div class="tc-timeline">
+                        <div class="tc-milestone tc-reveal">
+                            <span class="tc-date">11 octobre 2021</span>
+                            <h3>Début de notre travail de maturité</h3>
+                            <p>Étudiants au collège Sainte-Croix à Fribourg, nous fondons une mini-entreprise dans le cadre de notre travail de maturité d'économie.</p>
+                        </div>
+                        <div class="tc-milestone tc-reveal">
+                            <span class="tc-date">20 juin 2022</span>
+                            <h3>Fin de notre travail de maturité</h3>
+                            <p>L'une des conditions du travail de maturité que nous venions de terminer est l'obligation de clôturer notre société en fin d'année scolaire.</p>
+                        </div>
+                        <div class="tc-milestone tc-reveal">
+                            <span class="tc-date">1<sup>er</sup> juillet 2022</span>
+                            <h3>Nous décidons de poursuivre l'aventure ThéCol</h3>
+                            <p>Durant l'année scolaire 2022–2023, nous avons passé notre maturité gymnasiale, puis avons poursuivi nos études supérieures respectives.</p>
+                        </div>
+                        <div class="tc-milestone tc-reveal">
+                            <span class="tc-date">7 juin 2024</span>
+                            <h3>Nous formons solennellement une Sàrl</h3>
+                            <p>À tout juste vingt ans, nous prenons rendez-vous chez un notaire pour ce moment à la fois bref et pourtant fort dans la vie de ThéCol.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ======================= Galerie ======================= -->
+            <section class="tc tc-section">
+                <div class="container">
+                    <div class="tc-section-head tc-center tc-reveal">
+                        <span class="tc-overline">En images</span>
+                        <h2>Nos bouteilles en balade</h2>
+                    </div>
+                    <div class="tc-gallery">
+                        <img src="https://philippe-ong.github.io/thecol-site/assets/web/photo-gal-mures-600.webp" alt="Bouteille ThéCol Mûres sauvages en extérieur" loading="lazy"/>
+                        <img src="https://philippe-ong.github.io/thecol-site/assets/web/photo-gal-hibiscus-600.webp" alt="Bouteille ThéCol Hibiscus 100 cl" loading="lazy"/>
+                        <img src="https://philippe-ong.github.io/thecol-site/assets/web/photo-gal-herbes-600.webp" alt="Bouteille ThéCol Herbes des Alpes en extérieur" loading="lazy"/>
+                        <img src="https://philippe-ong.github.io/thecol-site/assets/web/photo-gal-poire-600.webp" alt="Bouteille ThéCol Poire à Botzi en extérieur" loading="lazy"/>
+                        <img src="https://philippe-ong.github.io/thecol-site/assets/web/photo-caisse-600.webp" alt="Caisse de bouteilles ThéCol Fleur de Sureau" loading="lazy"/>
+                        <img src="https://philippe-ong.github.io/thecol-site/assets/web/photo-mures-100-600.webp" alt="Grande bouteille ThéCol Mûres sauvages au jardin" loading="lazy"/>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ======================= CTA ======================= -->
+            <section class="tc tc-section tc-section-tight tc-about-cta">
+                <div class="container">
+                    <div class="tc-cta tc-reveal">
+                        <div class="tc-cta-mountain" aria-hidden="true"></div>
+                        <h2>Envie de goûter à l'aventure&#160;?</h2>
+                        <p>Retrouvez nos cinq saveurs chez nos distributeurs partenaires, dans toute la Suisse romande.</p>
+                        <div class="tc-actions">
+                            <a class="btn tc-btn tc-btn-light" href="/nos-produits">Découvrir nos thés</a>
+                            <a class="btn tc-btn tc-btn-ghost-light" href="/distributeurs">Points de vente</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </t>
+</t>

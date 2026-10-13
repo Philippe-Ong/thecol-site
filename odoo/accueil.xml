@@ -1,0 +1,233 @@
+<t name="Homepage" t-name="website.homepage">
+    <t t-call="website.layout">
+        <t t-set="pageName" t-value="'homepage'"/>
+        <div id="wrap" class="oe_structure oe_empty">
+
+            <!-- ======================= Hero ======================= -->
+            <section class="tc tc-hero">
+                <div class="container tc-hero-inner">
+                    <div>
+                        <span class="tc-overline">
+                            <svg width="28" height="18" viewBox="0 0 28 18" aria-hidden="true"><g fill="currentColor"><path d="M2 16C8 14 16 9 26 2" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/><ellipse cx="8" cy="11" rx="4.5" ry="2.2" transform="rotate(-30 8 11)"/><ellipse cx="15" cy="7.5" rx="4.5" ry="2.2" transform="rotate(-30 15 7.5)"/><ellipse cx="22" cy="4" rx="4.5" ry="2.2" transform="rotate(-30 22 4)"/></g></svg>
+                            Thé froid artisanal · Swiss made
+                        </span>
+                        <h1 class="tc-display">Le <em>terroir</em> dans une boisson.</h1>
+                        <p class="tc-lead">Parce que la diversité de nos régions est bien trop belle pour ne pas en profiter.</p>
+                        <div class="tc-actions">
+                            <a class="btn tc-btn" href="/shop">Découvrir nos thés
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+                            </a>
+                            <a class="btn tc-btn tc-btn-ghost" href="/distributeurs">Où nous trouver</a>
+                        </div>
+                        <ul class="tc-hero-facts">
+                            <li><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Sans arômes ni conservateurs</li>
+                            <li><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Pas trop sucré</li>
+                            <li><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Production artisanale</li>
+                        </ul>
+                    </div>
+
+                    <div class="tc-hero-art">
+                        <div class="tc-hero-blob" aria-hidden="true"></div>
+                        <div class="tc-hero-mountain" aria-hidden="true"></div>
+                        <svg class="tc-sprig tc-s1" width="70" height="46" viewBox="0 0 28 18" aria-hidden="true"><g fill="currentColor"><path d="M2 16C8 14 16 9 26 2" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round"/><ellipse cx="8" cy="11" rx="4.5" ry="2.2" transform="rotate(-30 8 11)"/><ellipse cx="15" cy="7.5" rx="4.5" ry="2.2" transform="rotate(-30 15 7.5)"/><ellipse cx="22" cy="4" rx="4.5" ry="2.2" transform="rotate(-30 22 4)"/></g></svg>
+                        <svg class="tc-sprig tc-s2" width="60" height="40" viewBox="0 0 28 18" aria-hidden="true"><g fill="currentColor"><path d="M2 16C8 14 16 9 26 2" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round"/><ellipse cx="8" cy="11" rx="4.5" ry="2.2" transform="rotate(-30 8 11)"/><ellipse cx="15" cy="7.5" rx="4.5" ry="2.2" transform="rotate(-30 15 7.5)"/><ellipse cx="22" cy="4" rx="4.5" ry="2.2" transform="rotate(-30 22 4)"/></g></svg>
+                        <img class="tc-hero-bottle" src="https://philippe-ong.github.io/thecol-site/assets/web/hero-hibiscus-ai.webp" alt="Bouteille de thé froid artisanal ThéCol Hibiscus" width="479" height="1400" fetchpriority="high"/>
+                        <span class="tc-hero-chip tc-c1" aria-hidden="true"><span class="tc-swiss-cross"></span>Swiss made</span>
+                        <span class="tc-hero-chip tc-c2" aria-hidden="true"><span class="tc-leaf-dot"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C7 7 5 11 5 15a7 7 0 0 0 14 0c0-4-2-8-7-13Z"/></svg></span>100&#160;% artisanal</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ======================= Chiffres clés ======================= -->
+            <section class="tc tc-stats" aria-label="ThéCol en quelques chiffres">
+                <div class="container tc-stats-grid">
+                    <div class="tc-stat"><b>5</b><span>saveurs originales</span></div>
+                    <div class="tc-stat"><b>3</b><span>formats — 25, 50 &amp; 100&#160;cl</span></div>
+                    <div class="tc-stat"><b>34</b><span>points de vente partenaires</span></div>
+                    <div class="tc-stat"><b>2021</b><span>né à Fribourg</span></div>
+                </div>
+            </section>
+
+            <!-- ======================= Origines ======================= -->
+            <section class="tc tc-section">
+                <div class="container tc-split">
+                    <div class="tc-split-img tc-reveal">
+                        <img src="https://philippe-ong.github.io/thecol-site/assets/web/photo-groupe-1280.webp" alt="Bouteilles de thé froid ThéCol fraîchement produites" loading="lazy"/>
+                        <span class="tc-badge-round">Brassé à<br/>Fribourg</span>
+                    </div>
+                    <div class="tc-reveal">
+                        <span class="tc-overline">
+                            <svg width="28" height="18" viewBox="0 0 28 18" aria-hidden="true"><g fill="currentColor"><path d="M2 16C8 14 16 9 26 2" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/><ellipse cx="8" cy="11" rx="4.5" ry="2.2" transform="rotate(-30 8 11)"/><ellipse cx="15" cy="7.5" rx="4.5" ry="2.2" transform="rotate(-30 15 7.5)"/><ellipse cx="22" cy="4" rx="4.5" ry="2.2" transform="rotate(-30 22 4)"/></g></svg>
+                            Nos origines
+                        </span>
+                        <h2>D'un projet étudiant au futur du rafraîchissement</h2>
+                        <p class="tc-lead">Nous avons créé notre thé froid durant nos études, et souhaitons aujourd'hui offrir une boisson d'une qualité inégalée.</p>
+                        <a class="tc-link-arrow" href="/about-us">Découvrir notre histoire
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ======================= Piliers ======================= -->
+            <section class="tc tc-section tc-section-tight tc-section-mint">
+                <div class="container">
+                    <div class="tc-section-head tc-center tc-reveal">
+                        <span class="tc-overline">Ce qui nous anime</span>
+                        <h2>Bien plus qu'une boisson</h2>
+                    </div>
+                    <div class="tc-cards-3">
+                        <article class="tc-pillar tc-reveal">
+                            <div class="tc-ico">
+                                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 3 4 8 5-5 5 15H2L8 3Z"/></svg>
+                            </div>
+                            <h3>Faire briller notre terroir</h3>
+                            <p>Savoir profiter de la diversité si riche de nos régions.</p>
+                        </article>
+                        <article class="tc-pillar tc-reveal">
+                            <div class="tc-ico">
+                                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2h4"/><path d="M10 2v4.3c0 .6-.2 1.1-.6 1.6C8 9.5 7 11.4 7 13.5V19a3 3 0 0 0 3 3h4a3 3 0 0 0 3-3v-5.5c0-2.1-1-4-2.4-5.6-.4-.5-.6-1-.6-1.6V2"/><path d="M7.2 14h9.6"/></svg>
+                            </div>
+                            <h3>Bien plus qu'un thé froid, un style de vie</h3>
+                            <p>Le meilleur des ingrédients, simple, pas trop sucré.</p>
+                        </article>
+                        <article class="tc-pillar tc-reveal">
+                            <div class="tc-ico">
+                                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.2 5.4L20 10l-5.8 1.6L12 17l-2.2-5.4L4 10l5.8-1.6L12 3Z"/><path d="M18.5 15.5l.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9.9-2.1Z"/></svg>
+                            </div>
+                            <h3>D'une qualité inégalée</h3>
+                            <p>Retrouvez au travers de nos produits, la passion que nous y mettons.</p>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ======================= Saveurs ======================= -->
+            <section class="tc tc-section">
+                <div class="container">
+                    <div class="tc-section-head tc-center tc-reveal">
+                        <span class="tc-overline">La gamme</span>
+                        <h2>Cinq saveurs qui sortent des classiques</h2>
+                        <p class="tc-lead">Notre marque de fabrique&#160;: des saveurs originales, inspirées des terroirs fribourgeois et suisse.</p>
+                    </div>
+                    <div class="tc-flavor-row">
+                        <a class="tc-flavor-card tc-reveal" href="/shop?search=hibiscus">
+                            <img src="https://philippe-ong.github.io/thecol-site/assets/web/produit-hibiscus-480.webp" alt="ThéCol Hibiscus" loading="lazy"/>
+                            <b>Hibiscus</b>
+                            <span>Floral &amp; éclatant</span>
+                        </a>
+                        <a class="tc-flavor-card tc-reveal" href="/shop?search=sauvages">
+                            <img src="https://philippe-ong.github.io/thecol-site/assets/web/produit-mures-480.webp" alt="ThéCol Mûres sauvages" loading="lazy"/>
+                            <b>Mûres sauvages</b>
+                            <span>Fruité &amp; gourmand</span>
+                        </a>
+                        <a class="tc-flavor-card tc-reveal" href="/shop?search=sureau">
+                            <img src="https://philippe-ong.github.io/thecol-site/assets/web/produit-sureau-480.webp" alt="ThéCol Fleur de Sureau" loading="lazy"/>
+                            <b>Fleur de Sureau</b>
+                            <span>Doux &amp; délicat</span>
+                        </a>
+                        <a class="tc-flavor-card tc-reveal" href="/shop?search=alpes">
+                            <img src="https://philippe-ong.github.io/thecol-site/assets/web/produit-herbes-480.webp" alt="ThéCol Herbes des Alpes" loading="lazy"/>
+                            <b>Herbes des Alpes</b>
+                            <span>Frais &amp; herbacé</span>
+                        </a>
+                        <a class="tc-flavor-card tc-reveal" href="/shop?search=botzi">
+                            <img src="https://philippe-ong.github.io/thecol-site/assets/web/produit-poire-480.webp" alt="ThéCol Poire à Botzi" loading="lazy"/>
+                            <b>Poire à Botzi</b>
+                            <span>La fierté fribourgeoise</span>
+                        </a>
+                    </div>
+                    <div class="tc-center tc-more">
+                        <a class="btn tc-btn" href="/shop">Voir tous nos produits
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ======================= FAQ ======================= -->
+            <section class="tc tc-section tc-section-tight tc-section-mint" id="faq">
+                <div class="container">
+                    <div class="tc-section-head tc-center tc-reveal">
+                        <span class="tc-overline">FAQ</span>
+                        <h2>Les questions les plus posées</h2>
+                        <p class="tc-lead">Vous ne trouvez pas ce que vous cherchez&#160;? <a href="/contactus">Contactez-nous</a>.</p>
+                    </div>
+                    <div class="tc-faq-list">
+                        <details class="tc-faq" open="open">
+                            <summary>Où puis-je trouver du ThéCol&#160;? <span class="tc-faq-plus" aria-hidden="true">+</span></summary>
+                            <div class="tc-faq-body">
+                                <p>Nous nous efforçons d'améliorer notre disponibilité en proposant nos produits auprès de petits commerçants dans une région géographique la plus complète possible, afin de vous permettre d'avoir accès à un point de vente facilement. Vous pourrez retrouver l'ensemble de nos distributeurs actuels <a href="/distributeurs">ici</a>. Vous pensez à un nouveau point de vente pour nous ou gérez un établissement&#160;? <a href="/contactus">Contactez-nous&#160;!</a></p>
+                            </div>
+                        </details>
+                        <details class="tc-faq">
+                            <summary>Combien de temps tiennent les bouteilles et comment les stocker&#160;? <span class="tc-faq-plus" aria-hidden="true">+</span></summary>
+                            <div class="tc-faq-body">
+                                <p>Bon à savoir&#160;: nos bouteilles se conservent jusqu’à 6 mois et n’ont pas besoin d’être réfrigérées tant qu’elles ne sont pas ouvertes&#160;!</p>
+                            </div>
+                        </details>
+                        <details class="tc-faq">
+                            <summary>Les bouteilles sont-elles consignées&#160;? <span class="tc-faq-plus" aria-hidden="true">+</span></summary>
+                            <div class="tc-faq-body">
+                                <p>Pour des raisons de logistique, nous n'appliquons pas de consigne sur nos bouteilles. Vous pouvez donc les garder ou les rendre. La plupart de nos distributeurs acceptent de récupérer vos bouteilles vides et nous les transmettent lorsque nous les livrons à nouveau, mais vous pouvez aussi leur trouver une nouvelle utilisation&#160;: gourde, vase, lampe ou chandelier, partagez-nous vos meilleures idées&#160;!</p>
+                            </div>
+                        </details>
+                        <details class="tc-faq">
+                            <summary>Comment passer ma commande en tant que distributeur&#160;? <span class="tc-faq-plus" aria-hidden="true">+</span></summary>
+                            <div class="tc-faq-body">
+                                <p>Si vous êtes déjà distributeur, vous pouvez nous envoyer votre commande par mail à l'adresse <a href="mailto:commande@thecol.ch">commande@thecol.ch</a> ou à toute autre adresse mail avec laquelle vous auriez déjà eu contact. Si vous n'êtes pas encore distributeur, êtes intéressé à le devenir et souhaitez en savoir plus, n'hésitez pas à <a href="/contactus">nous contacter</a>, c'est avec plaisir que nous vous renseignerons.</p>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ======================= CTA ======================= -->
+            <section class="tc tc-section">
+                <div class="container">
+                    <div class="tc-cta tc-reveal">
+                        <div class="tc-cta-mountain" aria-hidden="true"></div>
+                        <h2>Pour se faire plaisir la conscience tranquille</h2>
+                        <p>Retrouvez nos thés froids artisanaux chez l'un de nos <b>34</b> distributeurs partenaires ou commandez directement en ligne.</p>
+                        <div class="tc-actions">
+                            <a class="btn tc-btn tc-btn-light" href="/distributeurs">Trouver un point de vente</a>
+                            <a class="btn tc-btn tc-btn-ghost-light" href="/shop">Boutique en ligne
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+        <!-- Hors de #wrap : l'éditeur glisser-déposer ne touche pas à ce bloc -->
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Où puis-je trouver du ThéCol ?",
+              "acceptedAnswer": { "@type": "Answer", "text": "Nous nous efforçons d'améliorer notre disponibilité en proposant nos produits auprès de petits commerçants dans une région géographique la plus complète possible. Vous retrouverez l'ensemble de nos distributeurs actuels sur la page Distributeurs. Vous pensez à un nouveau point de vente pour nous ou gérez un établissement ? Contactez-nous !" }
+            },
+            {
+              "@type": "Question",
+              "name": "Combien de temps tiennent les bouteilles et comment les stocker ?",
+              "acceptedAnswer": { "@type": "Answer", "text": "Bon à savoir : nos bouteilles se conservent jusqu'à 6 mois et n'ont pas besoin d'être réfrigérées tant qu'elles ne sont pas ouvertes. Une fois ouvertes, direction le réfrigérateur !" }
+            },
+            {
+              "@type": "Question",
+              "name": "Les bouteilles sont-elles consignées ?",
+              "acceptedAnswer": { "@type": "Answer", "text": "Pour des raisons de logistique, nous n'appliquons pas de consigne sur nos bouteilles. Vous pouvez donc les garder ou les rendre. La plupart de nos distributeurs acceptent de récupérer vos bouteilles vides et nous les transmettent lorsque nous les livrons à nouveau." }
+            },
+            {
+              "@type": "Question",
+              "name": "Comment passer ma commande en tant que distributeur ?",
+              "acceptedAnswer": { "@type": "Answer", "text": "Si vous êtes déjà distributeur, vous pouvez nous envoyer votre commande par mail à l'adresse commande@thecol.ch. Si vous n'êtes pas encore distributeur et souhaitez en savoir plus, n'hésitez pas à nous contacter, c'est avec plaisir que nous vous renseignerons." }
+            }
+          ]
+        }
+        </script>
+    </t>
+</t>

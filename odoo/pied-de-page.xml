@@ -1,0 +1,54 @@
+            <section class="tc tc-footer">
+                <div class="tc-footer-mountain" aria-hidden="true"></div>
+                <div class="container">
+                    <div class="tc-footer-grid">
+                        <div class="tc-footer-brand">
+                            <div class="tc-foot-logo"><span class="tc-foot-m" aria-hidden="true"></span><b>ThéCol</b></div>
+                            <p>Le terroir dans une boisson. Thé froid artisanal, swiss made, brassé avec passion à Fribourg.</p>
+                            <div class="tc-social-row">
+                                <a href="https://www.instagram.com/thecol.frib/" target="_blank" rel="noopener" aria-label="Instagram">
+                                    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg>
+                                </a>
+                                <a href="https://www.facebook.com/thecol.frib/" target="_blank" rel="noopener" aria-label="Facebook">
+                                    <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 22v-8h2.8l.5-3.5h-3.3V8.2c0-1 .3-1.7 1.7-1.7h1.7V3.4c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.9H7.5V14h2.7v8h3.3Z"/></svg>
+                                </a>
+                            </div>
+                        </div>
+                        <nav aria-label="Navigation du pied de page">
+                            <p class="tc-footer-title">Navigation</p>
+                            <ul>
+                                <li><a href="/">Accueil</a></li>
+                                <li><a href="/nos-produits">Nos produits</a></li>
+                                <li><a href="/shop">Boutique en ligne</a></li>
+                                <li><a href="/distributeurs">Points de vente</a></li>
+                                <li><a href="/about-us">À propos</a></li>
+                                <li><a href="/contactus">Nous contacter</a></li>
+                            </ul>
+                        </nav>
+                        <div>
+                            <p class="tc-footer-title">Nos saveurs</p>
+                            <ul>
+                                <li><a href="/nos-produits#hibiscus">Hibiscus</a></li>
+                                <li><a href="/nos-produits#mures">Mûres sauvages</a></li>
+                                <li><a href="/nos-produits#sureau">Fleur de Sureau</a></li>
+                                <li><a href="/nos-produits#herbes">Herbes des Alpes</a></li>
+                                <li><a href="/nos-produits#poire">Poire à Botzi</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="tc-footer-title">Contact</p>
+                            <ul>
+                                <li><a href="mailto:contact@thecol.ch">contact@thecol.ch</a></li>
+                                <li><a href="mailto:commande@thecol.ch">commande@thecol.ch</a></li>
+                                <li><a href="https://www.instagram.com/thecol.frib/" target="_blank" rel="noopener">@thecol.frib</a></li>
+                                <li>Fribourg, Suisse</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="tc-footer-bottom">
+                        <span>ThéCol Sàrl — Thé froid artisanal, Fribourg</span>
+                        <a href="/contactus#cgv">Conditions générales de vente</a>
+                    </div>
+                </div>
+            </section>
+        </div>
