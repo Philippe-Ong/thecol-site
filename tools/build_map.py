@@ -28,6 +28,19 @@ LOCATIONS = (
     ("Crissier", 46.551, 6.576, "VD"), ("Champoussin", 46.209, 6.865, "VS"),
     ("Delémont", 47.365, 7.344, "JU"),
 )
+# Calque « Lacs » du SVG source : id du path -> slug stable utilisé côté JS.
+LAKES = (
+    ("path2478", "leman"), ("path2500", "neuchatel"), ("path2502", "morat"),
+    ("path2504", "bienne"), ("path2506", "thoune"), ("path2508", "brienz"),
+    ("path2389", "quatre-cantons"), ("path2391", "zoug"), ("path2393", "sempach"),
+    ("path2395", "baldegg"), ("path2397", "hallwil"), ("path2399", "aegeri"),
+    ("path2401", "sihl"), ("path2403", "zurich"), ("path2405", "walensee"),
+    ("path2407", "untersee"), ("path1085", "constance"), ("path1087", "constance-ouest"),
+    ("path3181", "lugano"), ("path3183", "majeur"),
+)
+# Étendue géographique de la Suisse utilisée par la projection linéaire des pins.
+LON_RANGE = (5.956, 10.492)
+LAT_RANGE = (45.818, 47.808)
 TOKEN_RE = re.compile(r"[AaCcHhLlMmQqSsTtVvZz]|[-+]?(?:\d*\.\d+|\d+\.?)(?:[eE][-+]?\d+)?")
 PARAMS = {"M": 2, "L": 2, "H": 1, "V": 1, "C": 6, "S": 4, "Q": 4, "T": 2, "A": 7, "Z": 0}
 
@@ -229,17 +242,17 @@ def main():
     svg=Path(sys.argv[1]) if len(sys.argv)>1 else tmp/"Suisse_cantons.svg"
     if not svg.exists(): download(svg)
     root=ET.parse(svg).getroot(); parent={c:p for p in root.iter() for c in p}
-    nodes={e.get("id"):e for e in root.iter() if e.tag.rsplit("}",1)[-1]=="path" and e.get("id") in CANTONS}
-    print("IDs canton trouvés:", " ".join(nodes))
-    missing=set(CANTONS)-set(nodes)
-    if missing: raise RuntimeError(f"Cantons manquants: {sorted(missing)}")
-    raw={}
-    for code,node in nodes.items():
+    def flatten_node(node):
         chain=[]; n=node
         while n is not None: chain.append(n); n=parent.get(n)
         matrix=(1,0,0,1,0,0)
         for elem in reversed(chain): matrix=multiply(matrix,parse_transform(elem.get("transform")))
-        raw[code]=flatten_path(node.get("d"),matrix)
+        return flatten_path(node.get("d"),matrix)
+    nodes={e.get("id"):e for e in root.iter() if e.tag.rsplit("}",1)[-1]=="path" and e.get("id") in CANTONS}
+    print("IDs canton trouvés:", " ".join(nodes))
+    missing=set(CANTONS)-set(nodes)
+    if missing: raise RuntimeError(f"Cantons manquants: {sorted(missing)}")
+    raw={code:flatten_node(node) for code,node in nodes.items()}
     pts=[p for rings in raw.values() for ring in rings for p in ring]
     minx=min(x for x,y in pts); maxx=max(x for x,y in pts); miny=min(y for x,y in pts); maxy=max(y for x,y in pts)
     margin=12.0
@@ -249,6 +262,21 @@ def main():
     ty=(700-(maxy-miny)*scale)/2-miny*scale
     scaled={c:[[(x*scale+tx,y*scale+ty) for x,y in ring] for ring in rings] for c,rings in raw.items()}
     simplified={c:[rdp(r,0.8) for r in rings] for c,rings in scaled.items()}
+
+    # Lacs : mêmes matrice, échelle et simplification que les cantons.
+    lake_ids={sid for sid,_ in LAKES}
+    lake_nodes={e.get("id"):e for e in root.iter() if e.tag.rsplit("}",1)[-1]=="path" and e.get("id") in lake_ids}
+    missing_lakes=[sid for sid,_ in LAKES if sid not in lake_nodes]
+    if missing_lakes: raise RuntimeError(f"Lacs manquants dans le SVG source: {missing_lakes}")
+    lakes={}
+    for sid,slug in LAKES:
+        rings=[[(x*scale+tx,y*scale+ty) for x,y in ring] for ring in flatten_node(lake_nodes[sid])]
+        simp=[rdp(r,0.9) for r in rings]
+        lx0,ly0,lx1,ly1=bbox_of(simp)
+        if lx1 < -5 or lx0 > 1005 or ly1 < -5 or ly0 > 705:
+            raise AssertionError(f"Lac {slug} entièrement hors viewBox: {(lx0,ly0,lx1,ly1)}")
+        lakes[slug]=simp
+        print(f"LAC {slug}: {sum(len(r) for r in rings)} -> {sum(len(r) for r in simp)} pts, bbox x={lx0:.0f}..{lx1:.0f} y={ly0:.0f}..{ly1:.0f}")
     allpts=[p for rings in scaled.values() for ring in rings for p in ring]
     bx=(min(x for x,y in allpts),max(x for x,y in allpts)); by=(min(y for x,y in allpts),max(y for x,y in allpts))
     finalpts=[p for rings in simplified.values() for ring in rings for p in ring]
@@ -260,7 +288,7 @@ def main():
     for c in CANTONS: print(f"POINTS {c}: {sum(len(r) for r in scaled[c])} -> {sum(len(r) for r in simplified[c])}")
     projected={}; placed={}; adjustments=[]
     for name,lat,lon,code in LOCATIONS:
-        p=(lerp(bx[0],bx[1],(lon-5.956)/(10.492-5.956)),lerp(by[1],by[0],(lat-45.818)/(47.808-45.818)))
+        p=(lerp(bx[0],bx[1],(lon-LON_RANGE[0])/(LON_RANGE[1]-LON_RANGE[0])),lerp(by[1],by[0],(lat-LAT_RANGE[0])/(LAT_RANGE[1]-LAT_RANGE[0])))
         projected[name]=p
         if not inside(p,simplified[code]):
             raise AssertionError(f"Projection réelle de {name} hors {code}: {p}")
@@ -315,7 +343,11 @@ def main():
     print(f"DISTANCE MIN: {minimum[1]} / {minimum[2]} = {minimum[0]:.2f}")
     print("AJUSTEMENTS:", ", ".join(f"{n} ({delta:.3f})" for n,_,delta in adjustments) or "aucun")
     canton_json=",\n".join(f'    {json.dumps(c)}: {json.dumps(path_string(simplified[c]))}' for c in CANTONS)
+    lake_json=",\n".join(f'    {json.dumps(s)}: {json.dumps(path_string(lakes[s]))}' for _,s in LAKES)
     loc_json=",\n".join(f'    {json.dumps(n,ensure_ascii=False)}: [{fmt(placed[n][0][0])}, {fmt(placed[n][0][1])}]' for n,_,_,_ in LOCATIONS)
+    geoloc_json=",\n".join(f'    {json.dumps(n,ensure_ascii=False)}: [{lat}, {lon}]' for n,lat,lon,_ in LOCATIONS)
+    proj_json=(f'{{ lon: [{LON_RANGE[0]}, {LON_RANGE[1]}], lat: [{LAT_RANGE[0]}, {LAT_RANGE[1]}],'
+               f' x: [{round(bx[0],2)}, {round(bx[1],2)}], y: [{round(by[0],2)}, {round(by[1],2)}] }}')
 
     # Calcule les positions optimales des labels pour FR, VD, VS, JU, GE, NE :
     # on maximise min(distance au pin le plus proche, distance au bord du polygone).
@@ -342,7 +374,15 @@ def main():
     zoom_viewbox=f"{fmt(zoom_minx)} {fmt(zoom_miny)} {fmt(zoom_maxx-zoom_minx)} {fmt(zoom_maxy-zoom_miny)}"
     print(f"ZOOM FR: {zoom_viewbox}")
 
-    content='/* Carte simplifiée de la Suisse — adapté de « Suisse cantons.svg » par Pymouss44, Wikimedia Commons, CC BY-SA 4.0 (https://commons.wikimedia.org/wiki/File:Suisse_cantons.svg) */\nwindow.THECOL_GEO = {\n  viewBox: "0 0 1000 700",\n  cantons: {\n'+canton_json+'\n  },\n  labels: {\n'+label_json+'\n  },\n  loc: {\n'+loc_json+'\n  },\n  zoom: { viewBox: '+json.dumps(zoom_viewbox)+' }\n};\n'
+    content=('/* Carte simplifiée de la Suisse (cantons et lacs) — adapté de « Suisse cantons.svg » par Pymouss44, Wikimedia Commons, CC BY-SA 4.0 (https://commons.wikimedia.org/wiki/File:Suisse_cantons.svg) */\n'
+             'window.THECOL_GEO = {\n  viewBox: "0 0 1000 700",\n  cantons: {\n'+canton_json+'\n  },\n'
+             '  lakes: {\n'+lake_json+'\n  },\n'
+             '  labels: {\n'+label_json+'\n  },\n  loc: {\n'+loc_json+'\n  },\n'
+             '  /* Coordonnées WGS84 [lat, lon] des localités — distances réelles côté client */\n'
+             '  geoLoc: {\n'+geoloc_json+'\n  },\n'
+             '  /* Projection linéaire lon/lat -> coordonnées carte (mêmes constantes que ce script) */\n'
+             '  proj: '+proj_json+',\n'
+             '  zoom: { viewBox: '+json.dumps(zoom_viewbox)+' }\n};\n')
     out=root_dir/"js/map-suisse.js"; out.write_text(content,encoding="utf-8")
     # Re-parse exactly the rounded path representation written to JavaScript.
     written=[]

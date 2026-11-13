@@ -203,6 +203,18 @@
   syncPosCounters();
 
   var CANTONS = ["Fribourg", "Vaud", "Valais", "Jura", "Genève", "Neuchâtel"];
+
+  // Familles de commerces pour le filtre par type (select #pos-type)
+  var TYPE_GROUPS = [
+    { id: "epicerie", label: "Épiceries & boutiques", types: ["Épicerie", "Épicerie vrac", "Boutique"] },
+    { id: "fromagerie", label: "Fromageries & laiteries", types: ["Fromagerie", "Laiterie"] },
+    { id: "boulangerie", label: "Boulangeries & pâtisseries", types: ["Boulangerie", "Pâtisserie"] },
+    { id: "cafe", label: "Cafés & restaurants", types: ["Café", "Bar / Café", "Restaurant"] },
+    { id: "caviste", label: "Cavistes", types: ["Caviste"] },
+    { id: "autres", label: "Fermes & boucheries", types: ["Ferme", "Boucherie"] }
+  ];
+  var TYPE_BY_ID = {};
+  TYPE_GROUPS.forEach(function (g) { TYPE_BY_ID[g.id] = g; });
   var EMPTY_MSG = "Pas trop vite ! Notre petite entreprise se développe à son rythme. " +
     "Nous n'avons malheureusement pas encore de distributeurs dans le canton de ";
 
@@ -250,12 +262,88 @@
   if (posRoot) {
     var chipRow = document.getElementById("pos-chips");
     var searchInput = document.getElementById("pos-search");
+    var typeSelect = document.getElementById("pos-type");
     var totalEl = document.getElementById("pos-total");
     var countEl = document.getElementById("pos-count");
     var activeCanton = "Tous";
+    var activeType = "tous";
     var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     if (totalEl) totalEl.textContent = POS.length;
+
+    // Un type appartient au groupe « autres » s'il n'est listé dans aucun autre groupe
+    function groupOfType(t) {
+      for (var i = 0; i < TYPE_GROUPS.length; i++) {
+        if (TYPE_GROUPS[i].id !== "autres" && TYPE_GROUPS[i].types.indexOf(t) !== -1) return TYPE_GROUPS[i].id;
+      }
+      return "autres";
+    }
+    function typeMatches(p) {
+      return activeType === "tous" || groupOfType(p.t) === activeType;
+    }
+
+    // Options du filtre par type, avec compteurs calculés depuis les données
+    if (typeSelect) {
+      var typeCounts = {};
+      POS.forEach(function (p) {
+        var g = groupOfType(p.t);
+        typeCounts[g] = (typeCounts[g] || 0) + 1;
+      });
+      TYPE_GROUPS.forEach(function (g) {
+        var n = typeCounts[g.id] || 0;
+        if (!n) return;
+        var opt = document.createElement("option");
+        opt.value = g.id;
+        opt.textContent = g.label + " (" + n + ")";
+        typeSelect.appendChild(opt);
+      });
+      typeSelect.addEventListener("change", function () {
+        activeType = typeSelect.value || "tous";
+        var filtering = activeType !== "tous";
+        var wrap = typeSelect.closest(".pos-type-filter");
+        if (wrap) wrap.classList.toggle("filtering", filtering);
+        render();
+      });
+    }
+
+    // Données structurées SEO : liste des points de vente (schema.org/ItemList)
+    (function injectJsonLd() {
+      if (document.getElementById("pos-jsonld")) return;
+      var itemList = {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "Points de vente ThéCol",
+        "description": "Distributeurs partenaires du thé froid artisanal ThéCol en Suisse romande.",
+        "numberOfItems": POS.length,
+        "itemListElement": POS.map(function (p, i) {
+          var idx = p.a.lastIndexOf(",");
+          var street = idx === -1 ? p.a : p.a.substring(0, idx).trim();
+          var cityPart = idx === -1 ? "" : p.a.substring(idx + 1).trim();
+          var m = cityPart.match(/^(\d{4})\s+(.+)$/);
+          return {
+            "@type": "ListItem",
+            "position": i + 1,
+            "item": {
+              "@type": "Store",
+              "name": p.n,
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": street,
+                "postalCode": m ? m[1] : "",
+                "addressLocality": m ? m[2] : cityPart,
+                "addressRegion": p.c,
+                "addressCountry": "CH"
+              }
+            }
+          };
+        })
+      };
+      var s = document.createElement("script");
+      s.type = "application/ld+json";
+      s.id = "pos-jsonld";
+      s.textContent = JSON.stringify(itemList);
+      document.head.appendChild(s);
+    })();
 
     // Garde-fou : le conteneur #pos-root ne doit jamais être une zone
     // aria-live, sinon chaque re-render serait dicté intégralement par les
@@ -328,7 +416,26 @@
 
     function announce(count, cantonLabel) {
       var label = cantonLabel && cantonLabel !== "Tous" ? cantonLabel : "tous les cantons";
+      if (activeType !== "tous" && TYPE_BY_ID[activeType]) {
+        label += ", " + TYPE_BY_ID[activeType].label.toLowerCase();
+      }
       liveStatus.textContent = count + " point" + (count > 1 ? "s" : "") + " de vente trouvé" + (count > 1 ? "s" : "") + " — " + label + ".";
+    }
+
+    function resetFilters() {
+      if (searchInput) searchInput.value = "";
+      activeType = "tous";
+      if (typeSelect) {
+        typeSelect.value = "tous";
+        var wrap = typeSelect.closest(".pos-type-filter");
+        if (wrap) wrap.classList.remove("filtering");
+      }
+      if (activeCanton !== "Tous" && chipRow) {
+        var chip = chipRow.querySelector('.chip[data-canton="Tous"]');
+        if (chip) { chip.click(); return; } // click() relance render()
+      }
+      render();
+      if (searchInput) searchInput.focus();
     }
 
     /* ---------- Module carte (gated par #pos-map + window.THECOL_GEO) ---------- */
@@ -387,22 +494,57 @@
           byLoc[p.loc].push(p);
         });
 
+        // Nombre de commerces par canton (carte, tooltips et légende)
+        var cantonCounts = {};
+        POS.forEach(function (p) { cantonCounts[p.c] = (cantonCounts[p.c] || 0) + 1; });
+
+        function cantonAriaLabel(name) {
+          var count = cantonCounts[name] || 0;
+          if (count) return "Filtrer la liste : " + name + ", " + count + " commerce" + (count > 1 ? "s" : "");
+          return name + " — bientôt disponible, afficher le détail";
+        }
+
+        // Le SVG contient des cantons interactifs : il ne doit pas être aria-hidden.
         var svg = document.createElementNS(SVG_NS, "svg");
         svg.setAttribute("viewBox", geo.viewBox || ("0 0 " + VIEW_W + " " + VIEW_H));
         svg.setAttribute("xmlns", SVG_NS);
-        svg.setAttribute("aria-hidden", "true");
-        svg.setAttribute("role", "presentation");
+        svg.setAttribute("role", "group");
+        svg.setAttribute("aria-label", "Carte de la Suisse — choisir un canton pour filtrer la liste");
 
         Object.keys(geo.cantons).forEach(function (id) {
           var p = document.createElementNS(SVG_NS, "path");
           p.setAttribute("d", geo.cantons[id]);
+          var name = ID_TO_CANTON[id];
           var klass = "canton";
-          if (HAS_POS_CANTONS[ID_TO_CANTON[id]]) klass += " has-pos";
-          if (SOON_CANTONS[ID_TO_CANTON[id]]) klass += " soon";
+          if (HAS_POS_CANTONS[name]) klass += " has-pos";
+          if (SOON_CANTONS[name]) klass += " soon";
+          if (CANTONS.indexOf(name) !== -1) {
+            // Canton filtrable : bouton SVG accessible au clavier
+            klass += " clickable";
+            p.setAttribute("role", "button");
+            p.setAttribute("tabindex", "0");
+            p.setAttribute("data-canton-name", name);
+            p.setAttribute("aria-label", cantonAriaLabel(name));
+            p.setAttribute("aria-pressed", "false");
+          } else {
+            p.setAttribute("aria-hidden", "true");
+          }
           p.setAttribute("class", klass);
           p.setAttribute("data-canton-id", id);
           svg.appendChild(p);
         });
+
+        function appendLakes(svgEl) {
+          if (!geo.lakes) return;
+          Object.keys(geo.lakes).forEach(function (id) {
+            var l = document.createElementNS(SVG_NS, "path");
+            l.setAttribute("d", geo.lakes[id]);
+            l.setAttribute("class", "lake");
+            l.setAttribute("aria-hidden", "true");
+            svgEl.appendChild(l);
+          });
+        }
+        appendLakes(svg);
 
         if (ZOOM_VB) {
           var zr = document.createElementNS(SVG_NS, "rect");
@@ -412,6 +554,7 @@
           zr.setAttribute("height", cropH);
           zr.setAttribute("rx", 6);
           zr.setAttribute("class", "zoom-rect");
+          zr.setAttribute("aria-hidden", "true");
           svg.appendChild(zr);
         }
 
@@ -434,6 +577,7 @@
           t.setAttribute("y", y);
           t.setAttribute("text-anchor", "middle");
           t.setAttribute("class", "canton-label");
+          t.setAttribute("aria-hidden", "true");
           t.textContent = lb.name;
           svg.appendChild(t);
           if (lb.soon) {
@@ -442,6 +586,7 @@
             s.setAttribute("y", y + 14);
             s.setAttribute("text-anchor", "middle");
             s.setAttribute("class", "soon-label");
+            s.setAttribute("aria-hidden", "true");
             s.textContent = "Bientôt";
             svg.appendChild(s);
           }
@@ -524,6 +669,7 @@
             p.setAttribute("data-canton-id", id);
             insetSVG.appendChild(p);
           });
+          appendLakes(insetSVG);
           insetMap.appendChild(insetSVG);
 
           frLocs.forEach(function (loc, idx) {
@@ -565,23 +711,38 @@
         }
 
         if (mapLegend) {
-          var perCanton = {};
-          POS.forEach(function (p) { perCanton[p.c] = (perCanton[p.c] || 0) + 1; });
           var orderedC = [];
           CANTONS.forEach(function (c) {
-            if (perCanton[c]) orderedC.push({ name: c, n: perCanton[c] });
+            if (cantonCounts[c]) orderedC.push({ name: c, n: cantonCounts[c] });
           });
           var soonNames = Object.keys(SOON_CANTONS);
-          if (soonNames.length) orderedC.push({ name: "Bientôt (" + soonNames.join(", ") + ")", n: 0 });
           mapLegend.innerHTML = orderedC.map(function (c) {
-            return '<span class="leg"><span class="dot"></span>' + c.name +
-              (c.n ? ' <span class="cnt">' + c.n + '</span>' : '') + '</span>';
-          }).join("");
+            return '<button type="button" class="leg" data-canton="' + c.name +
+              '" aria-pressed="false" aria-label="Filtrer la liste : ' + c.name + ', ' + c.n + ' commerce' + (c.n > 1 ? 's' : '') + '">' +
+              '<span class="dot"></span>' + c.name + ' <span class="cnt">' + c.n + '</span></button>';
+          }).join("") +
+            (soonNames.length ? '<span class="leg leg-soon"><span class="dot"></span>Bientôt (' + soonNames.join(", ") + ')</span>' : "");
+          mapLegend.addEventListener("click", function (e) {
+            var b = e.target.closest && e.target.closest("button.leg");
+            if (b) toggleCanton(b.getAttribute("data-canton"));
+          });
         }
 
         function tipFor(stageEl) {
           if (!stageEl) return null;
           return stageEl.querySelector(".map-tip");
+        }
+        // Positionne une tooltip en la maintenant dans les limites du conteneur :
+        // x est borné et la flèche est décalée d'autant (--ax) pour rester sur l'ancre.
+        function placeTip(tip, stageRect, x, y, flipThresh) {
+          var half = tip.offsetWidth / 2 + 6;
+          var cx = Math.max(half, Math.min(stageRect.width - half, x));
+          tip.style.setProperty("--ax", (x - cx).toFixed(1) + "px");
+          tip.style.left = cx + "px";
+          tip.style.top = y + "px";
+          tip.classList.toggle("flip", y < flipThresh);
+          tip.classList.add("show");
+          tip.setAttribute("aria-hidden", "false");
         }
         function showTipFor(stageEl, loc, anchor) {
           var tip = tipFor(stageEl);
@@ -590,7 +751,7 @@
           if (loc === "__cluster_fr__") {
             html = '<b>Canton de Fribourg</b>' +
               '<div class="tip-canton">' + frLocs.length + ' localités</div>' +
-              '<p style="margin:6px 0 0;color:var(--ink-soft);font-size:.82rem;">Cliquez pour voir le zoom détaillé.</p>';
+              '<p class="tip-hint">Cliquez pour voir le zoom détaillé.</p>';
           } else {
             var items = byLoc[loc] || [];
             var canton = items.length ? items[0].c : "";
@@ -599,24 +760,81 @@
               '<ul>' + items.map(function (it) { return '<li>' + it.n + '</li>'; }).join("") + '</ul>';
           }
           tip.innerHTML = html;
+          if (stageEl === mapStage) cantonTipEl = null;
           var stageRect = stageEl.getBoundingClientRect();
           var anchorRect = anchor.getBoundingClientRect();
           var x = anchorRect.left - stageRect.left + anchorRect.width / 2;
           var y = anchorRect.top - stageRect.top;
-          tip.style.left = x + "px";
-          tip.style.top = y + "px";
-          tip.classList.remove("flip");
-          var flipThresh = (stageEl === insetMap) ? stageRect.height * 0.45 : 110;
-          if (y < flipThresh) tip.classList.add("flip");
-          tip.classList.add("show");
-          tip.setAttribute("aria-hidden", "false");
+          placeTip(tip, stageRect, x, y, (stageEl === insetMap) ? stageRect.height * 0.45 : 110);
         }
         function hideTipFor(stageEl) {
           var tip = tipFor(stageEl);
           if (!tip) return;
           tip.classList.remove("show");
           tip.setAttribute("aria-hidden", "true");
+          if (stageEl === mapStage) cantonTipEl = null;
         }
+
+        /* ---- Cantons cliquables : filtre synchronisé avec les chips ---- */
+        var cantonTipEl = null;
+        function toggleCanton(name) {
+          if (!chipRow || !name) return;
+          cantonTipEl = null; // force le rafraîchissement du contenu de la tooltip
+          var target = (activeCanton === name) ? "Tous" : name;
+          var chip = chipRow.querySelector('.chip[data-canton="' + target + '"]');
+          if (chip) chip.click();
+        }
+        function cantonTipHtml(name) {
+          var count = cantonCounts[name] || 0;
+          var sub = count ? count + " commerce" + (count > 1 ? "s" : "") : "Bientôt disponible";
+          var hint = (activeCanton === name) ? "Cliquer pour réafficher tous les cantons" : "Cliquer pour filtrer la liste";
+          return "<b>" + name + "</b><div class=\"tip-canton\">" + sub + "</div>" +
+            '<p class="tip-hint">' + hint + "</p>";
+        }
+        function showCantonTipAt(pathEl, clientX, clientY) {
+          var tip = tipFor(mapStage);
+          if (!tip) return;
+          if (cantonTipEl !== pathEl) {
+            tip.innerHTML = cantonTipHtml(pathEl.getAttribute("data-canton-name"));
+            cantonTipEl = pathEl;
+          }
+          var stageRect = mapStage.getBoundingClientRect();
+          placeTip(tip, stageRect, clientX - stageRect.left, clientY - stageRect.top, 110);
+        }
+        function closestClickable(target) {
+          return target && target.closest ? target.closest(".canton.clickable") : null;
+        }
+        svg.addEventListener("click", function (e) {
+          var t = closestClickable(e.target);
+          if (t) toggleCanton(t.getAttribute("data-canton-name"));
+        });
+        svg.addEventListener("keydown", function (e) {
+          if (e.key !== "Enter" && e.key !== " " && e.key !== "Spacebar") return;
+          var t = closestClickable(e.target);
+          if (!t) return;
+          e.preventDefault();
+          toggleCanton(t.getAttribute("data-canton-name"));
+        });
+        svg.addEventListener("mousemove", function (e) {
+          var t = closestClickable(e.target);
+          if (!t) { if (cantonTipEl) hideTipFor(mapStage); return; }
+          showCantonTipAt(t, e.clientX, e.clientY);
+        });
+        svg.addEventListener("mouseleave", function () {
+          if (cantonTipEl) hideTipFor(mapStage);
+        });
+        svg.addEventListener("focusin", function (e) {
+          var t = closestClickable(e.target);
+          if (!t || !t.getBBox) return;
+          var stageRect = mapStage.getBoundingClientRect();
+          var bb = t.getBBox();
+          showCantonTipAt(t,
+            stageRect.left + (bb.x + bb.width / 2) / VIEW_W * stageRect.width,
+            stageRect.top + (bb.y + bb.height / 2) / VIEW_H * stageRect.height);
+        });
+        svg.addEventListener("focusout", function () {
+          if (cantonTipEl) hideTipFor(mapStage);
+        });
 
         Object.keys(pins).forEach(function (loc) {
           var entry = pins[loc];
@@ -632,20 +850,117 @@
           hideTipFor(mapStage);
           if (insetMap) hideTipFor(insetMap);
         }
-        mapStage.addEventListener("keydown", function (e) {
-          if (e.key === "Escape") {
+        // Échap : ferme les tooltips et rend le focus (pins comme cantons)
+        function escHandler(stageEl) {
+          return function (e) {
+            if (e.key !== "Escape") return;
             hideAllTips();
             var a = document.activeElement;
-            if (a && pins[a.getAttribute("data-loc") || ""]) a.blur();
-          }
-        });
-        if (insetMap) {
-          insetMap.addEventListener("keydown", function (e) {
-            if (e.key === "Escape") {
-              hideAllTips();
-              var a = document.activeElement;
-              if (a && pins[a.getAttribute("data-loc") || ""]) a.blur();
-            }
+            if (a && a !== document.body && stageEl.contains(a) && a.blur) a.blur();
+          };
+        }
+        mapStage.addEventListener("keydown", escHandler(mapStage));
+        if (insetMap) insetMap.addEventListener("keydown", escHandler(insetMap));
+
+        /* ---- « Autour de moi » : localise le point de vente le plus proche.
+           Position projetée sur la carte via geo.proj ; distances réelles
+           calculées côté client (haversine) sur geo.geoLoc — rien n'est envoyé
+           à un serveur. ---- */
+        var mapHead = mapBand ? mapBand.querySelector(".map-head") : null;
+        if (mapHead && geo.proj && geo.geoLoc && "geolocation" in navigator) {
+          var geoActions = document.createElement("div");
+          geoActions.className = "map-actions";
+          var geoBtn = document.createElement("button");
+          geoBtn.type = "button";
+          geoBtn.id = "geo-btn";
+          geoBtn.className = "btn light small";
+          geoBtn.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 3 3 10.5l7.5 3L13.5 21 21 3Z"/></svg>Autour de moi';
+          var geoStatus = document.createElement("p");
+          geoStatus.className = "geo-status";
+          geoStatus.setAttribute("role", "status");
+          geoActions.appendChild(geoBtn);
+          geoActions.appendChild(geoStatus);
+          if (mapLegend && mapLegend.parentNode === mapHead) mapHead.insertBefore(geoActions, mapLegend);
+          else mapHead.appendChild(geoActions);
+
+          var userDot = null;
+          var geoHiTimer = null;
+          var haversineKm = function (la1, lo1, la2, lo2) {
+            var R = 6371, rad = Math.PI / 180;
+            var dLa = (la2 - la1) * rad, dLo = (lo2 - lo1) * rad;
+            var a = Math.sin(dLa / 2) * Math.sin(dLa / 2) +
+              Math.cos(la1 * rad) * Math.cos(la2 * rad) * Math.sin(dLo / 2) * Math.sin(dLo / 2);
+            return 2 * R * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+          };
+          var fmtKm = function (d) {
+            if (d < 0.95) return "à moins d’un km";
+            if (d < 10) return "à environ " + d.toFixed(1).replace(".", ",") + " km";
+            return "à environ " + Math.round(d) + " km";
+          };
+          var projectToMap = function (lat, lon) {
+            var pr = geo.proj;
+            return [
+              pr.x[0] + (pr.x[1] - pr.x[0]) * (lon - pr.lon[0]) / (pr.lon[1] - pr.lon[0]),
+              pr.y[1] + (pr.y[0] - pr.y[1]) * (lat - pr.lat[0]) / (pr.lat[1] - pr.lat[0])
+            ];
+          };
+          geoBtn.addEventListener("click", function () {
+            geoBtn.disabled = true;
+            geoStatus.textContent = "Recherche de votre position…";
+            navigator.geolocation.getCurrentPosition(function (pos) {
+              geoBtn.disabled = false;
+              var lat = pos.coords.latitude, lon = pos.coords.longitude;
+              var best = null;
+              Object.keys(geo.geoLoc).forEach(function (name) {
+                if (!byLoc[name]) return;
+                var d = haversineKm(lat, lon, geo.geoLoc[name][0], geo.geoLoc[name][1]);
+                if (!best || d < best.d) best = { name: name, d: d };
+              });
+              if (!best) {
+                geoStatus.textContent = "Impossible de déterminer le point de vente le plus proche.";
+                return;
+              }
+              // Marqueur « vous êtes ici » si la position tombe sur la carte
+              var p = projectToMap(lat, lon);
+              if (p[0] > -12 && p[0] < VIEW_W + 12 && p[1] > -12 && p[1] < VIEW_H + 12) {
+                if (!userDot) {
+                  userDot = document.createElement("span");
+                  userDot.className = "user-dot";
+                  userDot.setAttribute("aria-hidden", "true");
+                  mapStage.appendChild(userDot);
+                }
+                userDot.style.left = (Math.max(0, Math.min(VIEW_W, p[0])) / VIEW_W * 100) + "%";
+                userDot.style.top = (Math.max(0, Math.min(VIEW_H, p[1])) / VIEW_H * 100) + "%";
+                userDot.classList.add("show");
+              } else if (userDot) {
+                userDot.classList.remove("show");
+              }
+              var n = byLoc[best.name].length;
+              var intro = best.d > 120 ? "Notre réseau est encore loin de vous — le plus proche : " : "Le plus proche : ";
+              geoStatus.innerHTML = "";
+              var txt = document.createElement("span");
+              txt.innerHTML = intro + "<b>" + best.name + "</b>, " + fmtKm(best.d) +
+                " (" + n + " commerce" + (n > 1 ? "s" : "") + ").";
+              var see = document.createElement("button");
+              see.type = "button";
+              see.className = "geo-see";
+              see.textContent = "Voir dans la liste";
+              see.addEventListener("click", function () { clickPin(best.name); });
+              geoStatus.appendChild(txt);
+              geoStatus.appendChild(see);
+              if (geoHiTimer) clearTimeout(geoHiTimer);
+              if (isFrLoc(best.name)) setHiPin("__cluster_fr__", true);
+              setHiPin(best.name, true);
+              geoHiTimer = setTimeout(function () {
+                if (isFrLoc(best.name)) setHiPin("__cluster_fr__", false);
+                setHiPin(best.name, false);
+              }, 4000);
+            }, function (err) {
+              geoBtn.disabled = false;
+              geoStatus.textContent = (err && err.code === 1)
+                ? "Position refusée. Autorisez la géolocalisation pour trouver le point de vente le plus proche."
+                : "Position indisponible pour le moment — réessayez plus tard.";
+            }, { enableHighAccuracy: false, timeout: 8000, maximumAge: 300000 });
           });
         }
 
@@ -663,6 +978,17 @@
         }
         function lightCanton(canton) {
           clearCantonLit();
+          // Reflète le filtre actif sur les cantons cliquables et la légende
+          svg.querySelectorAll(".canton.clickable").forEach(function (el) {
+            el.setAttribute("aria-pressed", el.getAttribute("data-canton-name") === canton ? "true" : "false");
+          });
+          if (mapLegend) {
+            mapLegend.querySelectorAll("button.leg").forEach(function (b) {
+              var on = b.getAttribute("data-canton") === canton;
+              b.classList.toggle("active", on);
+              b.setAttribute("aria-pressed", on ? "true" : "false");
+            });
+          }
           if (!canton || canton === "Tous") return;
           var id = CANTON_TO_ID[canton];
           if (!id) return;
@@ -866,12 +1192,13 @@
 
       cantonsToShow.forEach(function (canton) {
         var items = POS.filter(function (p) {
-          return p.c === canton && (!q || norm(p.n + " " + p.a + " " + (p.loc || "")).indexOf(q) !== -1);
+          return p.c === canton && typeMatches(p) &&
+            (!q || norm(p.n + " " + p.a + " " + (p.loc || "")).indexOf(q) !== -1);
         });
         var all = POS.filter(function (p) { return p.c === canton; });
 
         if (all.length === 0) {
-          if (activeCanton === canton || (activeCanton === "Tous" && !q)) {
+          if (activeCanton === canton || (activeCanton === "Tous" && !q && activeType === "tous")) {
             html += '<div class="canton-title"><h2>' + canton + '</h2><span class="count-pill">0</span></div>';
             html += '<div class="empty-canton"><b>Pas trop vite !</b> ' +
               EMPTY_MSG.replace("Pas trop vite ! ", "").replace(/^Notre/, "Notre") + canton + ".&nbsp;" +
@@ -886,7 +1213,10 @@
       });
 
       if (!html) {
-        html = '<div class="empty-canton"><b>Aucun résultat.</b> Essayez un autre nom de commerce ou de localité.</div>';
+        html = '<div class="empty-canton"><b>Aucun résultat.</b> Essayez un autre nom de commerce ou de localité.' +
+          '<br><button type="button" class="pos-reset">' +
+          '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>' +
+          'Réinitialiser les filtres</button></div>';
       }
       posRoot.innerHTML = html;
 
@@ -934,6 +1264,10 @@
       });
     }
     if (searchInput) searchInput.addEventListener("input", render);
+    posRoot.addEventListener("click", function (e) {
+      var btn = e.target.closest && e.target.closest(".pos-reset");
+      if (btn) resetFilters();
+    });
     render();
   }
 

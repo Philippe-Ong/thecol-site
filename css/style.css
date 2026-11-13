@@ -491,6 +491,34 @@ details.faq[open] .faq-plus { transform: rotate(45deg); background: var(--green)
 .page-hero .lead { max-width: 62ch; }
 .page-hero .hero-mountain { top: auto; bottom: -12%; height: 80%; opacity: 0.05; width: 70%; left: auto; right: -18%; transform: none; }
 
+/* Hero points de vente : texte + photo */
+.pos-hero-grid {
+  display: grid; grid-template-columns: 1.15fr 0.85fr;
+  gap: 48px; align-items: center;
+}
+.pos-hero-art {
+  position: relative;
+  justify-self: end;
+  width: min(360px, 100%);
+  padding: 18px 10px;
+}
+.pos-hero-photo {
+  margin: 0;
+  transform: rotate(2.5deg);
+  border-radius: 24px;
+  overflow: hidden;
+  border: 7px solid var(--card);
+  box-shadow: var(--shadow);
+  background: var(--mint-soft);
+}
+.pos-hero-photo img {
+  display: block; width: 100%;
+  height: 330px; object-fit: cover; object-position: center 24%;
+}
+.pos-hero-art .hero-chip.pc1 { top: 2px; left: -26px; }
+.pos-hero-art .hero-chip.pc2 { bottom: 4px; right: -12px; animation-delay: -2.6s; }
+.pos-hero-art .leaf-dot svg { display: block; }
+
 /* ---------- Produits ---------- */
 
 /* Bandeau de prix unique (mêmes prix pour toutes les saveurs) */
@@ -668,6 +696,70 @@ a.arch:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
 }
 .map-legend .leg .cnt { color: rgba(255, 255, 255, 0.7); font-weight: 600; }
 
+/* Légende cliquable : chaque canton est un bouton de filtre */
+.map-legend button.leg {
+  font: inherit;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.map-legend button.leg:hover { border-color: var(--mint); background: rgba(255, 255, 255, 0.14); }
+.map-legend button.leg.active {
+  background: rgba(200, 244, 210, 0.2);
+  border-color: var(--mint);
+  color: #fff;
+}
+.map-legend button.leg:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.map-legend .leg-soon .dot {
+  background: transparent;
+  border: 1.5px dashed var(--mint);
+  box-shadow: none;
+}
+
+/* Bouton « Autour de moi » + statut de géolocalisation */
+.map-actions {
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: 10px 16px;
+  margin-top: 18px;
+}
+.geo-status { margin: 0; font-size: 0.92rem; color: rgba(255, 255, 255, 0.92); }
+.geo-status b { color: #fff; }
+.geo-see {
+  background: none; border: 0; padding: 0; margin-left: 8px;
+  color: var(--mint);
+  font: inherit; font-weight: 600;
+  text-decoration: underline; text-underline-offset: 3px;
+  cursor: pointer;
+}
+.geo-see:hover { color: #fff; }
+.geo-see:focus-visible { outline: 2px solid #fff; outline-offset: 2px; border-radius: 4px; }
+
+/* Marqueur « vous êtes ici » */
+.map-stage .user-dot {
+  position: absolute; z-index: 4;
+  width: 15px; height: 15px;
+  border-radius: 50%;
+  background: #5aa9ff;
+  border: 2.5px solid #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+.map-stage .user-dot.show { opacity: 1; }
+.map-stage .user-dot::after {
+  content: "";
+  position: absolute; inset: -2.5px;
+  border-radius: 50%;
+  border: 2px solid rgba(90, 169, 255, 0.8);
+  animation: userPulse 2s ease-out infinite;
+}
+@keyframes userPulse {
+  from { transform: scale(1); opacity: 0.8; }
+  to   { transform: scale(2.6); opacity: 0; }
+}
+
 .map-stage {
   position: relative;
   width: 100%;
@@ -683,6 +775,26 @@ a.arch:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
 .map-stage .canton.has-pos { fill: rgba(200, 244, 210, 0.16); }
 .map-stage .canton.lit { fill: rgba(200, 244, 210, 0.34); stroke: var(--mint); stroke-width: 1.2; }
 .map-stage .canton.soon { stroke-dasharray: 5 5; opacity: 0.55; }
+
+/* Cantons cliquables (filtre) : curseur, survol et focus clavier visibles */
+.map-stage .canton.clickable { cursor: pointer; }
+.map-stage .canton.clickable:hover { fill: rgba(200, 244, 210, 0.26); stroke: rgba(200, 244, 210, 0.8); }
+.map-stage .canton.clickable:focus-visible {
+  outline: none;
+  fill: rgba(200, 244, 210, 0.3);
+  stroke: #fff;
+  stroke-width: 1.6;
+}
+.map-stage .canton.soon.clickable:hover,
+.map-stage .canton.soon.clickable:focus-visible { opacity: 0.85; }
+
+/* Lacs : dessinés par-dessus les cantons, jamais interactifs */
+.map-stage .lake {
+  fill: rgba(147, 208, 235, 0.34);
+  stroke: rgba(196, 233, 248, 0.5);
+  stroke-width: 0.7;
+  pointer-events: none;
+}
 
 .map-stage .canton-label {
   font-family: var(--font-body);
@@ -784,7 +896,7 @@ button.map-pin.hi::after { animation-duration: 0.9s; opacity: 0.7; }
 .map-tip.flip { transform: translate(-50%, 0) translateY(14px); }
 .map-tip::after {
   content: "";
-  position: absolute; left: 50%; bottom: -7px;
+  position: absolute; left: calc(50% + var(--ax, 0px)); bottom: -7px;
   width: 14px; height: 14px;
   background: var(--card);
   transform: translateX(-50%) rotate(45deg);
@@ -795,6 +907,7 @@ button.map-pin.hi::after { animation-duration: 0.9s; opacity: 0.7; }
 .map-tip .tip-canton { font-size: 0.78rem; color: var(--ink-soft); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.1em; }
 .map-tip ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 3px; color: var(--ink-soft); }
 .map-tip ul li { font-size: 0.84rem; line-height: 1.35; }
+.map-tip .tip-hint { margin: 6px 0 0; font-size: 0.78rem; color: var(--green-700); font-weight: 600; }
 
 .map-credit {
   font-size: 0.78rem;
@@ -843,6 +956,7 @@ button.map-pin.hi::after { animation-duration: 0.9s; opacity: 0.7; }
 .map-inset .inset-stage .canton.has-pos { opacity: 1; }
 .map-inset .inset-stage .canton.lit { opacity: 1; }
 .map-inset .inset-stage .soon { display: none; } /* Pas de Bientôt à zoomer */
+.map-inset .inset-stage .lake { vector-effect: non-scaling-stroke; stroke-width: 1; }
 
 /* Pin cluster (carte principale) — pastille agrégée */
 button.map-pin.cluster {
@@ -916,6 +1030,41 @@ button.map-pin.cluster:focus-visible .dot { transform: translate(-50%, -50%) sca
 }
 .pos-toolbar .pos-search input:focus { border-color: var(--green-light); box-shadow: 0 0 0 4px rgba(73, 189, 88, 0.15); }
 .pos-toolbar .pos-search svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--ink-soft); }
+
+/* Filtre par type de commerce */
+.pos-type-filter { position: relative; flex: none; display: inline-flex; }
+.pos-type-filter select {
+  appearance: none; -webkit-appearance: none; -moz-appearance: none;
+  border: 1.5px solid var(--line); background: var(--card);
+  border-radius: 999px; padding: 9px 36px 9px 16px;
+  font: inherit; font-weight: 600; font-size: 0.88rem; color: var(--ink-soft);
+  cursor: pointer; outline: none; max-width: 240px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease, background 0.2s ease;
+}
+.pos-type-filter select:hover { border-color: var(--green-light); color: var(--green-700); }
+.pos-type-filter select:focus-visible { border-color: var(--green-light); box-shadow: 0 0 0 4px rgba(73, 189, 88, 0.15); }
+.pos-type-filter::after {
+  content: ""; position: absolute; right: 15px; top: 50%;
+  width: 8px; height: 8px; pointer-events: none;
+  border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+  transform: translateY(-70%) rotate(45deg);
+  color: var(--ink-soft);
+}
+.pos-type-filter.filtering select { background: var(--green); border-color: var(--green); color: #fff; }
+.pos-type-filter.filtering::after { color: #fff; }
+
+/* Bouton « réinitialiser les filtres » (état aucun résultat) */
+.pos-reset {
+  display: inline-flex; align-items: center; gap: 7px;
+  margin-top: 16px;
+  border: 1.5px solid var(--line); background: var(--card);
+  border-radius: 999px; padding: 9px 18px;
+  font: inherit; font-weight: 600; font-size: 0.88rem;
+  color: var(--green-700); cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.pos-reset:hover { border-color: var(--green-light); background: var(--mint-soft); }
+.pos-reset:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
 
 .chip-row { display: flex; flex-wrap: wrap; gap: 8px; }
 .chip {
@@ -1407,12 +1556,16 @@ body.cart-open .cart-drawer { transform: none; visibility: visible; }
   .pos-grid.anim .pos-card { animation: none; }
   button.map-pin::after { animation: none; opacity: 0; }
   .map-tip { transition: none; }
+  .map-stage .user-dot::after { animation: none; opacity: 0; }
 }
 
 /* ---------- Responsive ---------- */
 
 @media (max-width: 1020px) {
   .flavor-row, .flavor-row.four { grid-template-columns: repeat(3, 1fr); }
+  .pos-hero-grid { gap: 32px; }
+  .pos-hero-art { width: min(300px, 100%); }
+  .pos-hero-photo img { height: 280px; }
   .team-grid { grid-template-columns: repeat(2, 1fr); }
   .pos-grid { grid-template-columns: repeat(2, 1fr); }
   .cards-3, .feature-grid { grid-template-columns: 1fr 1fr; }
@@ -1423,6 +1576,8 @@ body.cart-open .cart-drawer { transform: none; visibility: visible; }
 }
 
 @media (max-width: 860px) {
+  .pos-hero-grid { grid-template-columns: 1fr; }
+  .pos-hero-art { display: none; }
   .hero-inner { grid-template-columns: 1fr; padding: 28px 0 48px; gap: 22px; }
   /* Texte/CTA avant l'illustration : ordre DOM respecté, pas d'inversion */
   .hero-art { min-height: 320px; order: 0; }
@@ -1487,6 +1642,8 @@ body.cart-open .cart-drawer { transform: none; visibility: visible; }
   .pos-toolbar .chip-row::-webkit-scrollbar { height: 4px; }
   .pos-toolbar .chip-row::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
   .pos-toolbar .chip { white-space: nowrap; flex: none; }
+  .pos-type-filter { flex: 1 1 100%; }
+  .pos-type-filter select { width: 100%; max-width: none; }
   .pos-count { display: none; }
   .pos-stats { gap: 18px 26px; }
 }

@@ -20,7 +20,7 @@
   <link rel="icon" type="image/svg+xml" href="assets/web/montagne.svg">
   <link rel="icon" type="image/png" sizes="192x192" href="assets/web/icon-192.png">
   <link rel="apple-touch-icon" href="assets/web/icon-192.png">
-  <link rel="stylesheet" href="css/style.css?v=7">
+  <link rel="stylesheet" href="css/style.css?v=8">
 </head>
 <body>
 
@@ -52,19 +52,34 @@
 
   <main id="main-content">
     <!-- ======================= En-tête de page ======================= -->
-    <section class="page-hero">
+    <section class="page-hero pos-hero">
       <div class="hero-mountain" aria-hidden="true"></div>
-      <div class="wrap">
-        <span class="overline">
-          <svg width="28" height="18" viewBox="0 0 28 18" aria-hidden="true"><g fill="currentColor"><path d="M2 16C8 14 16 9 26 2" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/><ellipse cx="8" cy="11" rx="4.5" ry="2.2" transform="rotate(-30 8 11)"/><ellipse cx="15" cy="7.5" rx="4.5" ry="2.2" transform="rotate(-30 15 7.5)"/><ellipse cx="22" cy="4" rx="4.5" ry="2.2" transform="rotate(-30 22 4)"/></g></svg>
-          Où nous trouver
-        </span>
-        <h1>Points de <em style="color:var(--green-700)">vente</em></h1>
-        <p class="lead">Nos bouteilles sont actuellement disponibles chez <b><span id="pos-total" data-pos-count>34</span> distributeurs partenaires</b>. Trouvez celui qui vous convient&nbsp;!</p>
-        <div class="pos-stats" aria-label="Aperçu du réseau">
-          <div class="pos-stat"><b data-countup>34</b><span>distributeurs partenaires</span></div>
-          <div class="pos-stat"><b data-countup>4</b><span>cantons</span></div>
-          <div class="pos-stat"><b data-countup>27</b><span>localités</span></div>
+      <div class="wrap pos-hero-grid">
+        <div class="pos-hero-text">
+          <span class="overline">
+            <svg width="28" height="18" viewBox="0 0 28 18" aria-hidden="true"><g fill="currentColor"><path d="M2 16C8 14 16 9 26 2" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/><ellipse cx="8" cy="11" rx="4.5" ry="2.2" transform="rotate(-30 8 11)"/><ellipse cx="15" cy="7.5" rx="4.5" ry="2.2" transform="rotate(-30 15 7.5)"/><ellipse cx="22" cy="4" rx="4.5" ry="2.2" transform="rotate(-30 22 4)"/></g></svg>
+            Où nous trouver
+          </span>
+          <h1>Points de <em style="color:var(--green-700)">vente</em></h1>
+          <p class="lead">Nos bouteilles sont actuellement disponibles chez <b><span id="pos-total" data-pos-count>34</span> distributeurs partenaires</b>. Trouvez celui qui vous convient&nbsp;!</p>
+          <div class="pos-stats" aria-label="Aperçu du réseau">
+            <div class="pos-stat"><b data-countup>34</b><span>distributeurs partenaires</span></div>
+            <div class="pos-stat"><b data-countup>4</b><span>cantons</span></div>
+            <div class="pos-stat"><b data-countup>27</b><span>localités</span></div>
+          </div>
+        </div>
+        <div class="pos-hero-art">
+          <figure class="pos-hero-photo">
+            <picture>
+              <source srcset="assets/web/photo-caisse-600.webp 600w, assets/web/photo-caisse-1100.webp 1100w" sizes="(max-width: 900px) 0px, 360px" type="image/webp">
+              <img src="assets/web/photo-caisse.jpg" alt="Bouteilles de thé froid ThéCol en caisse, prêtes à être livrées chez nos distributeurs" width="600" height="784" fetchpriority="high">
+            </picture>
+          </figure>
+          <span class="hero-chip pc1">
+            <span class="leaf-dot" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-7.5-7-12a7 7 0 0 1 14 0c0 4.5-7 12-7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg></span>
+            Partout en Suisse romande
+          </span>
+          <span class="hero-chip pc2"><span class="swiss-cross" aria-hidden="true"></span>Livrées par nos soins</span>
         </div>
       </div>
     </section>
@@ -77,10 +92,10 @@
           <div class="map-head">
             <span class="map-kicker">La carte du terroir</span>
             <h2><span data-pos-count>34</span> adresses qui ont du goût</h2>
-            <p class="map-sub">Survolez un point pour découvrir le commerce, cliquez pour le retrouver dans la liste.</p>
-            <div class="map-legend" id="map-legend" aria-label="Légende de la carte"></div>
+            <p class="map-sub">Survolez un point pour découvrir les commerces, cliquez un canton pour filtrer la liste — ou laissez-nous trouver l'adresse la plus proche de chez vous.</p>
+            <div class="map-legend" id="map-legend" aria-label="Légende de la carte et filtres par canton"></div>
           </div>
-          <div class="map-stage" id="pos-map" aria-label="Carte des points de vente en Suisse — chaque point est sélectionnable">
+          <div class="map-stage" id="pos-map">
             <noscript>
               <p style="color:#fff;padding:20px;text-align:center;">La carte interactive nécessite JavaScript. La liste des points de vente, la recherche et les filtres aussi — écrivez-nous à commande@thecol.ch et nous vous indiquerons le distributeur le plus proche.</p>
             </noscript>
@@ -89,7 +104,7 @@
             <p class="inset-caption">Canton de Fribourg <span aria-hidden="true">— zoom ×3</span></p>
             <div class="map-stage inset-stage" id="pos-inset-map"></div>
           </aside>
-          <p class="map-credit">Tracé des cantons adapté de « Suisse cantons.svg » par Pymouss44 — Wikimedia Commons, licence CC BY-SA 4.0.</p>
+          <p class="map-credit">Tracé des cantons et des lacs adapté de « Suisse cantons.svg » par Pymouss44 — Wikimedia Commons, licence CC BY-SA 4.0.</p>
         </div>
       </div>
     </section>
@@ -102,6 +117,12 @@
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
             <input type="search" id="pos-search" placeholder="Rechercher un commerce ou une localité…" aria-label="Rechercher un point de vente">
           </div>
+          <label class="pos-type-filter" for="pos-type">
+            <span class="visually-hidden">Filtrer par type de commerce</span>
+            <select id="pos-type">
+              <option value="tous">Tous les commerces</option>
+            </select>
+          </label>
           <div class="chip-row" id="pos-chips" role="group" aria-label="Filtrer par canton"></div>
           <span class="pos-count" id="pos-count" aria-live="off"></span>
         </div>
@@ -175,7 +196,7 @@
     </div>
   </footer>
 
-  <script src="js/map-suisse.js?v=1"></script>
-  <script src="js/main.js?v=6"></script>
+  <script src="js/map-suisse.js?v=2"></script>
+  <script src="js/main.js?v=8"></script>
 </body>
 </html>
