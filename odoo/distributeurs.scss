@@ -297,16 +297,87 @@
   b { color: var(--ink); }
 }
 
+// ---------- Hero : texte + photo ----------
+
+.tc-pos-hero-grid {
+  display: grid; grid-template-columns: 1.15fr 0.85fr;
+  gap: 48px; align-items: center;
+}
+.tc-pos-hero-art {
+  position: relative;
+  justify-self: end;
+  width: 100%; max-width: 360px;
+  padding: 18px 10px;
+  .tc-hero-chip.tc-pc1 { top: 2px; left: -26px; }
+  .tc-hero-chip.tc-pc2 { bottom: 4px; right: -12px; animation-delay: -2.6s; }
+  .tc-leaf-dot svg { display: block; }
+}
+.tc-pos-hero-photo {
+  margin: 0;
+  transform: rotate(2.5deg);
+  border-radius: 24px;
+  overflow: hidden;
+  border: 7px solid var(--card);
+  box-shadow: var(--shadow);
+  background: var(--mint-soft);
+  img { display: block; width: 100%; height: 330px; object-fit: cover; object-position: center 24%; }
+}
+
+// ---------- Filtre par type de commerce ----------
+
+.tc-pos-type-filter {
+  position: relative; flex: none; display: inline-flex;
+  select {
+    appearance: none; -webkit-appearance: none; -moz-appearance: none;
+    border: 1.5px solid var(--line); background: var(--card);
+    border-radius: 999px; padding: 9px 36px 9px 16px;
+    font-family: var(--font-body); font-weight: 600; font-size: 0.88rem; line-height: 1.4;
+    color: var(--ink-soft); cursor: pointer; outline: none; max-width: 240px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease, background 0.2s ease;
+    &:hover { border-color: var(--green-light); color: var(--green-700); }
+    &:focus-visible { border-color: var(--green-light); box-shadow: 0 0 0 4px rgba(73, 189, 88, 0.15); }
+  }
+  &::after {
+    content: ""; position: absolute; right: 15px; top: 50%;
+    width: 8px; height: 8px; pointer-events: none;
+    border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+    transform: translateY(-70%) rotate(45deg);
+    color: var(--ink-soft);
+  }
+  &.filtering select { background: var(--green); border-color: var(--green); color: #fff; }
+  &.filtering::after { color: #fff; }
+}
+
+// Bouton « Réinitialiser les filtres » (état sans résultat)
+.tc-pos-reset {
+  display: inline-flex; align-items: center; gap: 7px;
+  margin-top: 16px;
+  border: 1.5px solid var(--line); background: var(--card);
+  border-radius: 999px; padding: 9px 18px;
+  font-family: var(--font-body); font-weight: 600; font-size: 0.88rem; line-height: 1.4;
+  color: var(--green-700); cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+  &:hover { border-color: var(--green-light); background: var(--mint-soft); }
+  &:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+}
+
 // ---------- Responsive ----------
 
 @media (max-width: 1020px) {
   .tc-pos-grid { grid-template-columns: repeat(2, 1fr); }
   .tc-map-band { padding: 36px 30px 28px; }
+  .tc-pos-hero-grid { gap: 32px; }
+  .tc-pos-hero-art { max-width: 300px; }
+  .tc-pos-hero-photo img { height: 280px; }
 }
 
 // Les étiquettes sont en unités de la carte (viewBox de 1000 de large) : la
 // carte rétrécit, il faut donc les GROSSIR pour qu'elles restent lisibles.
 @media (max-width: 860px) {
+  .tc-pos-hero-grid { grid-template-columns: 1fr; }
+  .tc-pos-hero-art { display: none; }
+  .tc-pos-type-filter { flex: 1 1 100%; }
+  .tc-pos-type-filter select { width: 100%; max-width: none; }
   .tc-map-band { padding: 30px 22px 22px; border-radius: 22px; }
   .tc-canton-label { font-size: 15px; }
   .tc-soon-label { font-size: 13px; }

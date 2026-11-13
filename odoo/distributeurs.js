@@ -21,6 +21,25 @@
   var CLUSTER = "__cluster_fr__";
   var SVG_NS = "http://www.w3.org/2000/svg";
 
+  // Familles de commerces du filtre par type (select #tc-pos-type)
+  var TYPE_GROUPS = [
+    { id: "epicerie", label: "Épiceries & boutiques", types: ["Épicerie", "Épicerie vrac", "Boutique"] },
+    { id: "fromagerie", label: "Fromageries & laiteries", types: ["Fromagerie", "Laiterie"] },
+    { id: "boulangerie", label: "Boulangeries & pâtisseries", types: ["Boulangerie", "Pâtisserie"] },
+    { id: "cafe", label: "Cafés & restaurants", types: ["Café", "Bar / Café", "Restaurant"] },
+    { id: "caviste", label: "Cavistes", types: ["Caviste"] },
+    { id: "autres", label: "Fermes & boucheries", types: [] }
+  ];
+  var TYPE_BY_ID = {};
+  TYPE_GROUPS.forEach(function (g) { TYPE_BY_ID[g.id] = g; });
+  // Un type inconnu retombe dans « autres » : aucune carte ne disparaît du filtre.
+  function groupOfType(t) {
+    for (var i = 0; i < TYPE_GROUPS.length; i++) {
+      if (TYPE_GROUPS[i].id !== "autres" && TYPE_GROUPS[i].types.indexOf(t) !== -1) return TYPE_GROUPS[i].id;
+    }
+    return "autres";
+  }
+
   function start() {
     try {
       initPos();
@@ -56,11 +75,13 @@
     var groups = Array.prototype.slice.call(list.querySelectorAll(".tc-canton-group"));
     var entries = Array.prototype.slice.call(list.querySelectorAll(".tc-pos-card")).map(function (card) {
       var h = card.querySelector("h3");
+      var tEl = card.querySelector(".tc-pos-type span");
       return {
         card: card,
         name: h ? h.textContent.trim() : "",
         canton: card.getAttribute("data-canton") || "",
         loc: card.getAttribute("data-loc") || "",
+        type: tEl ? tEl.textContent.trim() : "",
         text: norm(card.textContent)
       };
     });
@@ -81,7 +102,9 @@
     var search = document.getElementById("tc-pos-search");
     var chipRow = document.getElementById("tc-pos-chips");
     var countEl = document.getElementById("tc-pos-count");
+    var typeSelect = document.getElementById("tc-pos-type");
     var activeCanton = "Tous";
+    var activeType = "tous";
 
     var live = el("p", "tc-visually-hidden");
     live.setAttribute("aria-live", "polite");
@@ -89,9 +112,89 @@
     list.parentNode.insertBefore(live, list);
 
     var noResult = el("div", "tc-empty-canton");
-    noResult.innerHTML = "<b>Aucun résultat.</b> Essayez un autre nom de commerce ou de localité.";
+    noResult.innerHTML = "<b>Aucun résultat.</b> Essayez un autre nom de commerce ou de localité.<br>";
+    var resetBtn = el("button", "tc-pos-reset");
+    resetBtn.type = "button";
+    resetBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Réinitialiser les filtres';
+    resetBtn.addEventListener("click", resetFilters);
+    noResult.appendChild(resetBtn);
     noResult.hidden = true;
     list.appendChild(noResult);
+
+    // Filtre par type de commerce : options calculées depuis les cartes
+    if (typeSelect) {
+      var typeCounts = {};
+      entries.forEach(function (p) {
+        var g = groupOfType(p.type);
+        typeCounts[g] = (typeCounts[g] || 0) + 1;
+      });
+      TYPE_GROUPS.forEach(function (g) {
+        if (!typeCounts[g.id]) return;
+        var o = document.createElement("option");
+        o.value = g.id;
+        o.textContent = g.label + " (" + typeCounts[g.id] + ")";
+        typeSelect.appendChild(o);
+      });
+      typeSelect.addEventListener("change", function () {
+        activeType = typeSelect.value || "tous";
+        typeSelect.parentNode.classList.toggle("filtering", activeType !== "tous");
+        render();
+      });
+    }
+
+    function typeOk(p) {
+      return activeType === "tous" || groupOfType(p.type) === activeType;
+    }
+
+    function resetFilters() {
+      if (search) search.value = "";
+      activeType = "tous";
+      if (typeSelect) {
+        typeSelect.value = "tous";
+        typeSelect.parentNode.classList.remove("filtering");
+      }
+      var all = chipRow && chipRow.querySelector('.tc-chip[data-canton="Tous"]');
+      if (activeCanton !== "Tous" && all) all.click(); // le clic relance render()
+      else render();
+      if (search) search.focus();
+    }
+
+    // Données structurées SEO : liste des points de vente (schema.org/ItemList)
+    (function injectJsonLd() {
+      if (document.getElementById("tc-pos-jsonld")) return;
+      var items = entries.map(function (p, i) {
+        var adr = p.card.querySelector("address");
+        var street = "", postal = "", city = "";
+        if (adr) {
+          var sp = adr.querySelector("span");
+          var b = adr.querySelector("b");
+          street = sp ? sp.textContent.replace(/,\s*$/, "").trim() : adr.textContent.trim();
+          var m = b ? b.textContent.trim().match(/^(\d{4})\s+(.+)$/) : null;
+          if (m) { postal = m[1]; city = m[2]; }
+          else if (b) city = b.textContent.trim();
+        }
+        return {
+          "@type": "ListItem", "position": i + 1,
+          "item": {
+            "@type": "Store", "name": p.name,
+            "address": {
+              "@type": "PostalAddress", "streetAddress": street, "postalCode": postal,
+              "addressLocality": city, "addressRegion": p.canton, "addressCountry": "CH"
+            }
+          }
+        };
+      });
+      var s = document.createElement("script");
+      s.type = "application/ld+json";
+      s.id = "tc-pos-jsonld";
+      s.textContent = JSON.stringify({
+        "@context": "https://schema.org", "@type": "ItemList",
+        "name": "Points de vente ThéCol",
+        "description": "Distributeurs partenaires du thé froid artisanal ThéCol en Suisse romande.",
+        "numberOfItems": entries.length, "itemListElement": items
+      });
+      document.head.appendChild(s);
+    })();
 
     if (chipRow) {
       chipRow.querySelectorAll(".tc-chip").forEach(function (chip) {
@@ -128,12 +231,12 @@
         g.querySelectorAll(".tc-pos-card").forEach(function (card) {
           var p = null;
           for (var i = 0; i < entries.length; i++) if (entries[i].card === card) { p = entries[i]; break; }
-          var ok = inCanton && (!q || (p && p.text.indexOf(q) !== -1));
+          var ok = inCanton && (!p || typeOk(p)) && (!q || (p && p.text.indexOf(q) !== -1));
           card.hidden = !ok;
           if (ok) { n++; if (p && p.loc) visibleLocs[p.loc] = true; }
         });
         var isEmpty = g.classList.contains("tc-canton-empty");
-        var showGroup = isEmpty ? (activeCanton === canton || (activeCanton === "Tous" && !q)) : n > 0;
+        var showGroup = isEmpty ? (activeCanton === canton || (activeCanton === "Tous" && !q && activeType === "tous")) : n > 0;
         g.hidden = !showGroup;
         if (isEmpty && showGroup) emptyShown = true;
         var pill = g.querySelector(".tc-count-pill");
@@ -143,6 +246,7 @@
       noResult.hidden = shown > 0 || emptyShown;
       if (countEl) countEl.textContent = plural(shown, "adresse");
       var label = activeCanton === "Tous" ? "tous les cantons" : activeCanton;
+      if (activeType !== "tous" && TYPE_BY_ID[activeType]) label += ", " + TYPE_BY_ID[activeType].label.toLowerCase();
       live.textContent = plural(shown, "point") + " de vente — " + label + ".";
       if (map) map.sync(visibleLocs, activeCanton);
     }

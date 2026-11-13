@@ -65,6 +65,13 @@ Get-Content odoo\distributeurs.xml -Raw -Encoding UTF8 | Set-Clipboard
 - La **carte, la recherche et les filtres** sont dessinés par `distributeurs.js`
   à partir de cette liste. Une nouvelle localité n'apparaît sur la carte que si elle
   existe dans `GEO.loc` (coordonnées générées par `tools/build_map.py`).
+- Le **filtre par type de commerce** (`<select id="tc-pos-type">`) est rempli par
+  `distributeurs.js` à partir du libellé de chaque carte (`.tc-pos-type span`). Les types
+  sont regroupés par famille dans `TYPE_GROUPS` ; un type inconnu tombe dans
+  « Fermes & boucheries », donc aucune carte ne disparaît. Pour une nouvelle famille,
+  ajouter une entrée à `TYPE_GROUPS`.
+- Le **JSON-LD** (`ItemList` de `Store`, utile au référencement local) est construit
+  par le script depuis les cartes, adresse au format « Rue 1, 1700 Ville ».
 - Le script **ne s'exécute pas dans l'éditeur/aperçu Odoo** (iframe) : ce qu'il ajoute
   n'est donc jamais enregistré dans la page. Pour voir la carte, ouvrir
   `/distributeurs` dans un onglet normal.

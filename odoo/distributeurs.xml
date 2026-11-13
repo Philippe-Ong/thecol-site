@@ -4,17 +4,26 @@
             <!-- ======================= En-tête de page ======================= -->
             <section class="tc tc-page-hero">
                 <div class="tc-hero-mountain" aria-hidden="true"></div>
-                <div class="container">
-                    <span class="tc-overline">
-                        <svg width="28" height="18" viewBox="0 0 28 18" aria-hidden="true"><g fill="currentColor"><path d="M2 16C8 14 16 9 26 2" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/><ellipse cx="8" cy="11" rx="4.5" ry="2.2" transform="rotate(-30 8 11)"/><ellipse cx="15" cy="7.5" rx="4.5" ry="2.2" transform="rotate(-30 15 7.5)"/><ellipse cx="22" cy="4" rx="4.5" ry="2.2" transform="rotate(-30 22 4)"/></g></svg>
-                        Où nous trouver
-                    </span>
-                    <h1>Points de <em>vente</em></h1>
-                    <p class="tc-lead">Nos bouteilles sont actuellement disponibles chez <b><span data-tc-stat="pos">34</span> distributeurs partenaires</b>. Trouvez celui qui vous convient&#160;!</p>
-                    <div class="tc-pos-stats" aria-label="Aperçu du réseau">
-                        <div class="tc-pos-stat"><b data-tc-stat="pos">34</b><span>distributeurs partenaires</span></div>
-                        <div class="tc-pos-stat"><b data-tc-stat="cantons">4</b><span>cantons</span></div>
-                        <div class="tc-pos-stat"><b data-tc-stat="locs">27</b><span>localités</span></div>
+                <div class="container tc-pos-hero-grid">
+                    <div class="tc-pos-hero-text">
+                        <span class="tc-overline">
+                            <svg width="28" height="18" viewBox="0 0 28 18" aria-hidden="true"><g fill="currentColor"><path d="M2 16C8 14 16 9 26 2" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/><ellipse cx="8" cy="11" rx="4.5" ry="2.2" transform="rotate(-30 8 11)"/><ellipse cx="15" cy="7.5" rx="4.5" ry="2.2" transform="rotate(-30 15 7.5)"/><ellipse cx="22" cy="4" rx="4.5" ry="2.2" transform="rotate(-30 22 4)"/></g></svg>
+                            Où nous trouver
+                        </span>
+                        <h1>Points de <em>vente</em></h1>
+                        <p class="tc-lead">Nos bouteilles sont actuellement disponibles chez <b><span data-tc-stat="pos">34</span> distributeurs partenaires</b>. Trouvez celui qui vous convient&#160;!</p>
+                        <div class="tc-pos-stats" aria-label="Aperçu du réseau">
+                            <div class="tc-pos-stat"><b data-tc-stat="pos">34</b><span>distributeurs partenaires</span></div>
+                            <div class="tc-pos-stat"><b data-tc-stat="cantons">4</b><span>cantons</span></div>
+                            <div class="tc-pos-stat"><b data-tc-stat="locs">27</b><span>localités</span></div>
+                        </div>
+                    </div>
+                    <div class="tc-pos-hero-art">
+                        <figure class="tc-pos-hero-photo">
+                            <img src="https://philippe-ong.github.io/thecol-site/assets/web/photo-caisse-600.webp" alt="Bouteilles de thé froid ThéCol en caisse, prêtes à être livrées chez nos distributeurs" width="600" height="784" fetchpriority="high"/>
+                        </figure>
+                        <span class="tc-hero-chip tc-pc1"><span class="tc-leaf-dot" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-7.5-7-12a7 7 0 0 1 14 0c0 4.5-7 12-7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg></span>Partout en Suisse romande</span>
+                        <span class="tc-hero-chip tc-pc2"><span class="tc-swiss-cross" aria-hidden="true"></span>Livrées par nos soins</span>
                     </div>
                 </div>
             </section>
@@ -49,6 +58,11 @@
                         <div class="tc-pos-search">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
                             <input type="search" id="tc-pos-search" placeholder="Commerce ou localité…" aria-label="Rechercher un point de vente"/>
+                        </div>
+                        <div class="tc-pos-type-filter">
+                            <select id="tc-pos-type" aria-label="Filtrer par type de commerce">
+                                <option value="tous">Tous les commerces</option>
+                            </select>
                         </div>
                         <div class="tc-chip-row" id="tc-pos-chips" role="group" aria-label="Filtrer par canton">
                         <button type="button" class="tc-chip is-active" data-canton="Tous" aria-pressed="true">Tous <span class="tc-chip-count"></span></button>
