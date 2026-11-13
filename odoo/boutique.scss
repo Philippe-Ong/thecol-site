@@ -78,6 +78,9 @@
 }
 #wrap.o_wsale_products_page .oe_product_image { border-radius: 14px; overflow: hidden; }
 #wrap.o_wsale_products_page .oe_product_image img { border-radius: 14px; }
+// Photos en portrait (2/3) : cadre 3/4 comme sur la fiche produit, au lieu
+// du carré d'Odoo qui coupait le bouchon et le goulot des bouteilles.
+#wrap.o_wsale_products_page .oe_product_image_link { aspect-ratio: 3 / 4; }
 #wrap.o_wsale_products_page .o_wsale_product_information { padding: 14px 4px 0; }
 #wrap.o_wsale_products_page .o_wsale_products_item_title {
   font-family: var(--font-body); font-weight: 600;

@@ -111,27 +111,27 @@
                         <p class="tc-lead">Notre marque de fabrique&#160;: des saveurs originales, inspirées des terroirs fribourgeois et suisse.</p>
                     </div>
                     <div class="tc-flavor-row">
-                        <a class="tc-flavor-card tc-reveal" href="/shop?search=hibiscus">
+                        <a class="tc-flavor-card tc-reveal" href="tc-produit:hibiscus">
                             <img src="https://philippe-ong.github.io/thecol-site/assets/web/produit-hibiscus-480.webp" alt="ThéCol Hibiscus" loading="lazy"/>
                             <b>Hibiscus</b>
                             <span>Floral &amp; éclatant</span>
                         </a>
-                        <a class="tc-flavor-card tc-reveal" href="/shop?search=sauvages">
+                        <a class="tc-flavor-card tc-reveal" href="tc-produit:mures">
                             <img src="https://philippe-ong.github.io/thecol-site/assets/web/produit-mures-480.webp" alt="ThéCol Mûres sauvages" loading="lazy"/>
                             <b>Mûres sauvages</b>
                             <span>Fruité &amp; gourmand</span>
                         </a>
-                        <a class="tc-flavor-card tc-reveal" href="/shop?search=sureau">
+                        <a class="tc-flavor-card tc-reveal" href="tc-produit:sureau">
                             <img src="https://philippe-ong.github.io/thecol-site/assets/web/produit-sureau-480.webp" alt="ThéCol Fleur de Sureau" loading="lazy"/>
                             <b>Fleur de Sureau</b>
                             <span>Doux &amp; délicat</span>
                         </a>
-                        <a class="tc-flavor-card tc-reveal" href="/shop?search=alpes">
+                        <a class="tc-flavor-card tc-reveal" href="tc-produit:herbes">
                             <img src="https://philippe-ong.github.io/thecol-site/assets/web/produit-herbes-480.webp" alt="ThéCol Herbes des Alpes" loading="lazy"/>
                             <b>Herbes des Alpes</b>
                             <span>Frais &amp; herbacé</span>
                         </a>
-                        <a class="tc-flavor-card tc-reveal" href="/shop?search=botzi">
+                        <a class="tc-flavor-card tc-reveal" href="tc-produit:poire">
                             <img src="https://philippe-ong.github.io/thecol-site/assets/web/produit-poire-480.webp" alt="ThéCol Poire à Botzi" loading="lazy"/>
                             <b>Poire à Botzi</b>
                             <span>La fierté fribourgeoise</span>

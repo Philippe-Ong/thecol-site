@@ -302,21 +302,25 @@
 @media (max-width: 1020px) {
   .tc-pos-grid { grid-template-columns: repeat(2, 1fr); }
   .tc-map-band { padding: 36px 30px 28px; }
-  .tc-canton-label { font-size: 10px; }
 }
 
+// Les étiquettes sont en unités de la carte (viewBox de 1000 de large) : la
+// carte rétrécit, il faut donc les GROSSIR pour qu'elles restent lisibles.
 @media (max-width: 860px) {
   .tc-map-band { padding: 30px 22px 22px; border-radius: 22px; }
-  .tc-canton-label { font-size: 9px; }
+  .tc-canton-label { font-size: 15px; }
+  .tc-soon-label { font-size: 13px; }
   .tc-map-inset { position: static; width: 100%; max-width: none; margin-top: 16px; }
   .tc-pos-toolbar { border-radius: 22px; }
-  .tc-chip-row { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 4px; }
-  .tc .tc-chip { white-space: nowrap; flex: none; }
+  .tc .tc-chip { white-space: nowrap; }
   .tc-pos-count { display: none; }
 }
 
 @media (max-width: 560px) {
   .tc-pos-grid { grid-template-columns: 1fr; }
+  // Carte trop petite pour des noms lisibles : la légende au-dessus les donne.
+  .tc-canton-label, .tc-soon-label { display: none; }
+  .tc .tc-chip { padding: 7px 13px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

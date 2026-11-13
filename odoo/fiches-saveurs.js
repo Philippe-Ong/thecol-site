@@ -6,8 +6,9 @@
    On insère juste sous le titre : sous-titre, paragraphes et pastilles.
    Le champ « Description ecommerce » d'Odoo reste affiché en dessous
    (ingrédients, valeurs nutritionnelles) et se modifie normalement.
-   Le bloc est ajouté À CÔTÉ du titre, hors des zones modifiables : il n'est
-   jamais enregistré dans la fiche produit.
+   Le bloc est ajouté À CÔTÉ du titre, hors des zones modifiables, et le
+   script ne tourne pas dans l'éditeur Odoo (iframe) : il n'est jamais
+   enregistré dans la fiche produit.
    JavaScript « classique » : pas de gabarits `...`, pas d'import.
    ========================================================================== */
 (function () {
@@ -59,6 +60,7 @@
   }
 
   function initFlavorPage() {
+    if (window.self !== window.top) return; // éditeur / aperçu Odoo
     var wrap = document.querySelector("#wrap.o_wsale_product_page");
     if (!wrap || wrap.querySelector(".tc-pd")) return;
     var title = wrap.querySelector("#product_details h1");

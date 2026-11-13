@@ -20,9 +20,9 @@
                     <div class="tc-price-banner">
                         <div class="tc-price-intro">Une multitude de saveurs, un prix unique</div>
                         <div class="tc-prices">
-                            <span class="tc-price"><span class="tc-price-size">25 cl</span><span class="tc-price-amount">CHF 3.00</span></span>
-                            <span class="tc-price"><span class="tc-price-size">50 cl</span><span class="tc-price-amount">CHF 5.00</span></span>
-                            <span class="tc-price"><span class="tc-price-size">100 cl</span><span class="tc-price-amount">CHF 8.50</span></span>
+                            <span class="tc-price"><span class="tc-price-size">25 cl</span><span class="tc-price-amount">CHF 3,00</span></span>
+                            <span class="tc-price"><span class="tc-price-size">50 cl</span><span class="tc-price-amount">CHF 5,00</span></span>
+                            <span class="tc-price"><span class="tc-price-size">100 cl</span><span class="tc-price-amount">CHF 8,50</span></span>
                         </div>
                     </div>
                 </div>
@@ -35,18 +35,18 @@
                         <div class="tc-halo" aria-hidden="true"></div>
                         <svg class="tc-sprig tc-f1" width="64" height="42" viewBox="0 0 28 18" aria-hidden="true"><g fill="currentColor"><path d="M2 16C8 14 16 9 26 2" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round"/><ellipse cx="8" cy="11" rx="4.5" ry="2.2" transform="rotate(-30 8 11)"/><ellipse cx="15" cy="7.5" rx="4.5" ry="2.2" transform="rotate(-30 15 7.5)"/><ellipse cx="22" cy="4" rx="4.5" ry="2.2" transform="rotate(-30 22 4)"/></g></svg>
                         <svg class="tc-sprig tc-f2" width="54" height="36" viewBox="0 0 28 18" aria-hidden="true"><g fill="currentColor"><path d="M2 16C8 14 16 9 26 2" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round"/><ellipse cx="8" cy="11" rx="4.5" ry="2.2" transform="rotate(-30 8 11)"/><ellipse cx="15" cy="7.5" rx="4.5" ry="2.2" transform="rotate(-30 15 7.5)"/><ellipse cx="22" cy="4" rx="4.5" ry="2.2" transform="rotate(-30 22 4)"/></g></svg>
-                        <a class="tc-arch" href="/shop?search=hibiscus" aria-label="Hibiscus — Voir la boutique &amp; commander"><img src="https://philippe-ong.github.io/thecol-site/assets/web/produit-hibiscus-960.webp" alt="Thé froid artisanal ThéCol Hibiscus" loading="lazy"/></a>
+                        <a class="tc-arch" href="tc-produit:hibiscus" aria-label="Hibiscus — Commander"><img src="https://philippe-ong.github.io/thecol-site/assets/web/produit-hibiscus-960.webp" alt="Thé froid artisanal ThéCol Hibiscus" loading="lazy"/></a>
                     </div>
                     <div class="tc-flavor-body tc-reveal">
                         <span class="tc-flavor-tag">Floral &amp; éclatant</span>
-                        <h2><a href="/shop?search=hibiscus">Hibiscus</a></h2>
+                        <h2><a href="tc-produit:hibiscus">Hibiscus</a></h2>
                         <p class="tc-flavor-sub">La fleur qui voit rouge.</p>
                         <p class="tc-flavor-desc">L'infusion de fleurs d'hibiscus lui donne sa robe rouge éclatante et sa fraîcheur légèrement acidulée. Le thé froid qui ne passe pas inaperçu.</p>
                         <div class="tc-flavor-meta">
                             <span class="tc-flavor-m"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2h4"/><path d="M10 2v4.3c0 .6-.2 1.1-.6 1.6C8 9.5 7 11.4 7 13.5V19a3 3 0 0 0 3 3h4a3 3 0 0 0 3-3v-5.5c0-2.1-1-4-2.4-5.6-.4-.5-.6-1-.6-1.6V2"/></svg>25 · 50 · 100 cl</span>
                             <span class="tc-flavor-m"><span class="tc-swiss-cross" aria-hidden="true"></span>Swiss made</span>
                         </div>
-                        <a class="btn tc-btn tc-btn-small" href="/shop?search=hibiscus">Voir la boutique &amp; commander <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>
+                        <a class="btn tc-btn tc-btn-small" href="tc-produit:hibiscus">Commander <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>
                     </div>
                 </div>
             </section>
@@ -58,18 +58,18 @@
                         <div class="tc-halo" aria-hidden="true"></div>
                         <svg class="tc-sprig tc-f1" width="64" height="42" viewBox="0 0 28 18" aria-hidden="true"><g fill="currentColor"><path d="M2 16C8 14 16 9 26 2" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round"/><ellipse cx="8" cy="11" rx="4.5" ry="2.2" transform="rotate(-30 8 11)"/><ellipse cx="15" cy="7.5" rx="4.5" ry="2.2" transform="rotate(-30 15 7.5)"/><ellipse cx="22" cy="4" rx="4.5" ry="2.2" transform="rotate(-30 22 4)"/></g></svg>
                         <svg class="tc-sprig tc-f2" width="54" height="36" viewBox="0 0 28 18" aria-hidden="true"><g fill="currentColor"><path d="M2 16C8 14 16 9 26 2" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round"/><ellipse cx="8" cy="11" rx="4.5" ry="2.2" transform="rotate(-30 8 11)"/><ellipse cx="15" cy="7.5" rx="4.5" ry="2.2" transform="rotate(-30 15 7.5)"/><ellipse cx="22" cy="4" rx="4.5" ry="2.2" transform="rotate(-30 22 4)"/></g></svg>
-                        <a class="tc-arch" href="/shop?search=sauvages" aria-label="Mûres sauvages — Voir la boutique &amp; commander"><img src="https://philippe-ong.github.io/thecol-site/assets/web/produit-mures-960.webp" alt="Thé froid artisanal ThéCol Mûres sauvages" loading="lazy"/></a>
+                        <a class="tc-arch" href="tc-produit:mures" aria-label="Mûres sauvages — Commander"><img src="https://philippe-ong.github.io/thecol-site/assets/web/produit-mures-960.webp" alt="Thé froid artisanal ThéCol Mûres sauvages" loading="lazy"/></a>
                     </div>
                     <div class="tc-flavor-body tc-reveal">
                         <span class="tc-flavor-tag">Fruité &amp; gourmand</span>
-                        <h2><a href="/shop?search=sauvages">Mûres sauvages</a></h2>
+                        <h2><a href="tc-produit:mures">Mûres sauvages</a></h2>
                         <p class="tc-flavor-sub">Le goût des balades en forêt.</p>
                         <p class="tc-flavor-desc">Fruité et gourmand comme les mûres cueillies au bord des chemins — désaltérant, et jamais trop sucré.</p>
                         <div class="tc-flavor-meta">
                             <span class="tc-flavor-m"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2h4"/><path d="M10 2v4.3c0 .6-.2 1.1-.6 1.6C8 9.5 7 11.4 7 13.5V19a3 3 0 0 0 3 3h4a3 3 0 0 0 3-3v-5.5c0-2.1-1-4-2.4-5.6-.4-.5-.6-1-.6-1.6V2"/></svg>25 · 50 · 100 cl</span>
                             <span class="tc-flavor-m"><span class="tc-swiss-cross" aria-hidden="true"></span>Swiss made</span>
                         </div>
-                        <a class="btn tc-btn tc-btn-small" href="/shop?search=sauvages">Voir la boutique &amp; commander <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>
+                        <a class="btn tc-btn tc-btn-small" href="tc-produit:mures">Commander <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>
                     </div>
                 </div>
             </section>
@@ -81,18 +81,18 @@
                         <div class="tc-halo" aria-hidden="true"></div>
                         <svg class="tc-sprig tc-f1" width="64" height="42" viewBox="0 0 28 18" aria-hidden="true"><g fill="currentColor"><path d="M2 16C8 14 16 9 26 2" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round"/><ellipse cx="8" cy="11" rx="4.5" ry="2.2" transform="rotate(-30 8 11)"/><ellipse cx="15" cy="7.5" rx="4.5" ry="2.2" transform="rotate(-30 15 7.5)"/><ellipse cx="22" cy="4" rx="4.5" ry="2.2" transform="rotate(-30 22 4)"/></g></svg>
                         <svg class="tc-sprig tc-f2" width="54" height="36" viewBox="0 0 28 18" aria-hidden="true"><g fill="currentColor"><path d="M2 16C8 14 16 9 26 2" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round"/><ellipse cx="8" cy="11" rx="4.5" ry="2.2" transform="rotate(-30 8 11)"/><ellipse cx="15" cy="7.5" rx="4.5" ry="2.2" transform="rotate(-30 15 7.5)"/><ellipse cx="22" cy="4" rx="4.5" ry="2.2" transform="rotate(-30 22 4)"/></g></svg>
-                        <a class="tc-arch" href="/shop?search=sureau" aria-label="Fleur de Sureau — Voir la boutique &amp; commander"><img src="https://philippe-ong.github.io/thecol-site/assets/web/produit-sureau-960.webp" alt="Thé froid artisanal ThéCol Fleur de Sureau" loading="lazy"/></a>
+                        <a class="tc-arch" href="tc-produit:sureau" aria-label="Fleur de Sureau — Commander"><img src="https://philippe-ong.github.io/thecol-site/assets/web/produit-sureau-960.webp" alt="Thé froid artisanal ThéCol Fleur de Sureau" loading="lazy"/></a>
                     </div>
                     <div class="tc-flavor-body tc-reveal">
                         <span class="tc-flavor-tag">Doux &amp; délicat</span>
-                        <h2><a href="/shop?search=sureau">Fleur de Sureau</a></h2>
+                        <h2><a href="tc-produit:sureau">Fleur de Sureau</a></h2>
                         <p class="tc-flavor-sub">Le classique du terroir, en plus frais.</p>
                         <p class="tc-flavor-desc">Doux, floral et délicat : un grand classique de nos régions revisité en thé froid, comme un début d'été qui se déguste toute l'année.</p>
                         <div class="tc-flavor-meta">
                             <span class="tc-flavor-m"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2h4"/><path d="M10 2v4.3c0 .6-.2 1.1-.6 1.6C8 9.5 7 11.4 7 13.5V19a3 3 0 0 0 3 3h4a3 3 0 0 0 3-3v-5.5c0-2.1-1-4-2.4-5.6-.4-.5-.6-1-.6-1.6V2"/></svg>25 · 50 · 100 cl</span>
                             <span class="tc-flavor-m"><span class="tc-swiss-cross" aria-hidden="true"></span>Swiss made</span>
                         </div>
-                        <a class="btn tc-btn tc-btn-small" href="/shop?search=sureau">Voir la boutique &amp; commander <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>
+                        <a class="btn tc-btn tc-btn-small" href="tc-produit:sureau">Commander <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>
                     </div>
                 </div>
             </section>
@@ -104,18 +104,18 @@
                         <div class="tc-halo" aria-hidden="true"></div>
                         <svg class="tc-sprig tc-f1" width="64" height="42" viewBox="0 0 28 18" aria-hidden="true"><g fill="currentColor"><path d="M2 16C8 14 16 9 26 2" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round"/><ellipse cx="8" cy="11" rx="4.5" ry="2.2" transform="rotate(-30 8 11)"/><ellipse cx="15" cy="7.5" rx="4.5" ry="2.2" transform="rotate(-30 15 7.5)"/><ellipse cx="22" cy="4" rx="4.5" ry="2.2" transform="rotate(-30 22 4)"/></g></svg>
                         <svg class="tc-sprig tc-f2" width="54" height="36" viewBox="0 0 28 18" aria-hidden="true"><g fill="currentColor"><path d="M2 16C8 14 16 9 26 2" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round"/><ellipse cx="8" cy="11" rx="4.5" ry="2.2" transform="rotate(-30 8 11)"/><ellipse cx="15" cy="7.5" rx="4.5" ry="2.2" transform="rotate(-30 15 7.5)"/><ellipse cx="22" cy="4" rx="4.5" ry="2.2" transform="rotate(-30 22 4)"/></g></svg>
-                        <a class="tc-arch" href="/shop?search=alpes" aria-label="Herbes des Alpes — Voir la boutique &amp; commander"><img src="https://philippe-ong.github.io/thecol-site/assets/web/produit-herbes-960.webp" alt="Thé froid artisanal ThéCol Herbes des Alpes" loading="lazy"/></a>
+                        <a class="tc-arch" href="tc-produit:herbes" aria-label="Herbes des Alpes — Commander"><img src="https://philippe-ong.github.io/thecol-site/assets/web/produit-herbes-960.webp" alt="Thé froid artisanal ThéCol Herbes des Alpes" loading="lazy"/></a>
                     </div>
                     <div class="tc-flavor-body tc-reveal">
                         <span class="tc-flavor-tag">Frais &amp; herbacé</span>
-                        <h2><a href="/shop?search=alpes">Herbes des Alpes</a></h2>
+                        <h2><a href="tc-produit:herbes">Herbes des Alpes</a></h2>
                         <p class="tc-flavor-sub">Un air d'alpage en bouteille.</p>
                         <p class="tc-flavor-desc">Une infusion d'herbes fraîche et herbacée, d'une buvabilité redoutable. L'esprit des alpages, à boire bien frais.</p>
                         <div class="tc-flavor-meta">
                             <span class="tc-flavor-m"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2h4"/><path d="M10 2v4.3c0 .6-.2 1.1-.6 1.6C8 9.5 7 11.4 7 13.5V19a3 3 0 0 0 3 3h4a3 3 0 0 0 3-3v-5.5c0-2.1-1-4-2.4-5.6-.4-.5-.6-1-.6-1.6V2"/></svg>25 · 50 · 100 cl</span>
                             <span class="tc-flavor-m"><span class="tc-swiss-cross" aria-hidden="true"></span>Swiss made</span>
                         </div>
-                        <a class="btn tc-btn tc-btn-small" href="/shop?search=alpes">Voir la boutique &amp; commander <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>
+                        <a class="btn tc-btn tc-btn-small" href="tc-produit:herbes">Commander <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>
                     </div>
                 </div>
             </section>
@@ -127,18 +127,18 @@
                         <div class="tc-halo" aria-hidden="true"></div>
                         <svg class="tc-sprig tc-f1" width="64" height="42" viewBox="0 0 28 18" aria-hidden="true"><g fill="currentColor"><path d="M2 16C8 14 16 9 26 2" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round"/><ellipse cx="8" cy="11" rx="4.5" ry="2.2" transform="rotate(-30 8 11)"/><ellipse cx="15" cy="7.5" rx="4.5" ry="2.2" transform="rotate(-30 15 7.5)"/><ellipse cx="22" cy="4" rx="4.5" ry="2.2" transform="rotate(-30 22 4)"/></g></svg>
                         <svg class="tc-sprig tc-f2" width="54" height="36" viewBox="0 0 28 18" aria-hidden="true"><g fill="currentColor"><path d="M2 16C8 14 16 9 26 2" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round"/><ellipse cx="8" cy="11" rx="4.5" ry="2.2" transform="rotate(-30 8 11)"/><ellipse cx="15" cy="7.5" rx="4.5" ry="2.2" transform="rotate(-30 15 7.5)"/><ellipse cx="22" cy="4" rx="4.5" ry="2.2" transform="rotate(-30 22 4)"/></g></svg>
-                        <a class="tc-arch" href="/shop?search=botzi" aria-label="Poire à Botzi — Voir la boutique &amp; commander"><img src="https://philippe-ong.github.io/thecol-site/assets/web/produit-poire-960.webp" alt="Thé froid artisanal ThéCol Poire à Botzi" loading="lazy"/></a>
+                        <a class="tc-arch" href="tc-produit:poire" aria-label="Poire à Botzi — Commander"><img src="https://philippe-ong.github.io/thecol-site/assets/web/produit-poire-960.webp" alt="Thé froid artisanal ThéCol Poire à Botzi" loading="lazy"/></a>
                     </div>
                     <div class="tc-flavor-body tc-reveal">
                         <span class="tc-flavor-tag">La fierté fribourgeoise</span>
-                        <h2><a href="/shop?search=botzi">Poire à Botzi</a></h2>
+                        <h2><a href="tc-produit:poire">Poire à Botzi</a></h2>
                         <p class="tc-flavor-sub">La poire AOP de chez nous.</p>
                         <p class="tc-flavor-desc">La petite dernière de la gamme rend hommage à la poire à Botzi AOP, l'emblème de notre canton.</p>
                         <div class="tc-flavor-meta">
                             <span class="tc-flavor-m"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2h4"/><path d="M10 2v4.3c0 .6-.2 1.1-.6 1.6C8 9.5 7 11.4 7 13.5V19a3 3 0 0 0 3 3h4a3 3 0 0 0 3-3v-5.5c0-2.1-1-4-2.4-5.6-.4-.5-.6-1-.6-1.6V2"/></svg>25 · 50 · 100 cl</span>
                             <span class="tc-flavor-m"><span class="tc-swiss-cross" aria-hidden="true"></span>Swiss made</span>
                         </div>
-                        <a class="btn tc-btn tc-btn-small" href="/shop?search=botzi">Voir la boutique &amp; commander <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>
+                        <a class="btn tc-btn tc-btn-small" href="tc-produit:poire">Commander <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>
                     </div>
                 </div>
             </section>

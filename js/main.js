@@ -159,7 +159,7 @@
     { n: "Au Bon Moment", a: "Route de Fribourg 17, 1723 Marly", c: "Fribourg", loc: "Marly", t: "Épicerie" },
     { n: "Audiopur", a: "Rue de Lausanne 12, 1700 Fribourg", c: "Fribourg", loc: "Fribourg", t: "Boutique" },
     { n: "Café de la Marionnette", a: "Derrière les Jardins 2, 1700 Fribourg", c: "Fribourg", loc: "Fribourg", t: "Café" },
-    { n: "Terre d'elles", a: "Route du Barrage 14, 1733 Treyvaux", c: "Fribourg", loc: "Treyvaux", t: "Épicerie" },
+    { n: "Terre d'elles", a: "Route du Barrage 21, 1733 Treyvaux", c: "Fribourg", loc: "Treyvaux", t: "Épicerie" },
     { n: "L'ART'isan Pâtissier", a: "Route de Fribourg 12, 1746 Prez-vers-Noréaz", c: "Fribourg", loc: "Prez-vers-Noréaz", t: "Pâtisserie" },
     { n: "1.2.3. Bocal", a: "Route de Fribourg 7A, 1784 Courtepin", c: "Fribourg", loc: "Courtepin", t: "Épicerie vrac" },
     { n: "La Vracrie", a: "Route Principale 90, 1788 Praz (Vully)", c: "Fribourg", loc: "Praz (Vully)", t: "Épicerie vrac" },

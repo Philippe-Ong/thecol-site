@@ -23,8 +23,17 @@
   background-color: var(--accent-soft);
   border: 1px solid var(--line); border-radius: 26px;
   box-shadow: var(--shadow);
+  // Photos en portrait (2/3 à 9/16) : cadre 3/4 comme le prototype, au lieu du
+  // carré d'Odoo (option « Ratio d'image ») qui coupait le haut et le bas.
+  aspect-ratio: 3 / 4;
+}
+#wrap.o_wsale_product_page .o_carousel_product_outer .product_detail_img {
+  object-fit: contain; border-radius: 0;
 }
 #wrap.o_wsale_product_page .carousel-indicators li.active { border-color: var(--accent); }
+
+// « Ajouter au panier » cliqué pendant un changement de format (prix-formats.js)
+#wrap.o_wsale_product_page [name="add_to_cart"].tc-cart-wait { opacity: 0.75; cursor: progress; }
 
 // ---------- Étiquette, titre, sous-titre ----------
 

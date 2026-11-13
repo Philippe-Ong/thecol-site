@@ -21,7 +21,8 @@ Ce dossier contient le code prêt à coller dans l'éditeur de code du site Odoo
 | `contact-cgv.xml` | Page `/contactus` : remplace la section `id="cgv"` (CGV officielles reprises de l'ancien pied de page) |
 | `boutique.scss` | `user_custom_rules.scss`, à la suite des blocs précédents (liste `/shop` + fiches produit, CSS uniquement) |
 | `fiche-produit.scss` | `user_custom_rules.scss`, après `boutique.scss` (fiche produit façon prototype, couleur par saveur ; le bloc de saveur est ajouté par `fiches-saveurs.js`) |
-| `prix-formats.js` | `user_custom_javascript.js`, à la suite (prix complet sous chaque pilule 25/50/100 cl) |
+| `pages-odoo.scss` | `user_custom_rules.scss`, en dernier (pages natives d'Odoo : panier, commande, connexion, CGV `/terms`, 404 — fond crème et polices du site) |
+| `prix-formats.js` | `user_custom_javascript.js`, à la suite (prix complet sous chaque pilule 25/50/100 cl ; la ligne `var PRICES` est resynchronisée avec `tools/products.json` par `tools/deploy_odoo.py`. Retient aussi un clic sur « Ajouter au panier » donné pendant le changement de format, sinon l'ancien format part au panier) |
 | `fiches-saveurs.js` | `user_custom_javascript.js`, à la suite : sous-titre, paragraphes et pastilles de chaque saveur (reconnue d'après le nom du produit) |
 | `distributeurs.xml` | **XML (HTML)** → vue de la page `/distributeurs` : garder la 1re ligne `<t name=… t-name=…>`, remplacer tout le reste |
 
@@ -67,32 +68,57 @@ Get-Content odoo\distributeurs.xml -Raw -Encoding UTF8 | Set-Clipboard
 - Le script **ne s'exécute pas dans l'éditeur/aperçu Odoo** (iframe) : ce qu'il ajoute
   n'est donc jamais enregistré dans la page. Pour voir la carte, ouvrir
   `/distributeurs` dans un onglet normal.
+- `prix-formats.js` et `fiches-saveurs.js` ne s'exécutent pas non plus dans l'éditeur :
+  connecté, Odoo affiche le site dans une iframe et leurs observateurs se relançaient
+  avec ceux de l'éditeur (page figée).
 - Le fichier JS doit rester en JavaScript « classique » (pas de gabarits `` ` ``,
   pas d'`import`) : Odoo le minifie comme un script ordinaire.
 
-## Provisoire : images et polices sur GitHub Pages
+## Images et polices
 
-Les images, `montagne.svg` et les polices Fraunces/Outfit sont chargées depuis
-`https://philippe-ong.github.io/thecol-site/assets/`. C'est suffisant pour tester, mais
-**avant la mise en production** il faut les rapatrier dans Odoo :
+Dans les fichiers de ce dossier, les images, `montagne.svg` et les polices Fraunces/Outfit
+pointent vers `https://philippe-ong.github.io/thecol-site/assets/`. `tools/deploy_odoo.py`
+(étape `assets`) les téléverse dans la médiathèque d'Odoo et réécrit ces URL en
+`/web/image/...` ou `/web/content/...` : le site déployé ne dépend plus de GitHub Pages.
+
+En collage manuel, il faut faire ce rapatriement à la main :
 
 - **Images** : en mode Modifier, double-cliquer sur chaque image → *Remplacer* →
   téléverser le fichier depuis `assets/web/`.
 - **Polices et `montagne.svg`** : les téléverser dans la médiathèque, puis remplacer
   `$tc-assets` / les `url(...)` dans `user_custom_rules.scss` par les URL `/web/content/...`.
-  Autre option pour les polices : les ajouter via Google Fonts dans le panneau
-  *Thème* d'Odoo.
+  Éviter Google Fonts (panneau *Thème*) : chaque visite enverrait l'adresse IP à Google.
+
+## Réglages de la base (étape `site` de `tools/deploy_odoo.py`)
+
+- **Nom du site** « ThéCol » (suffixe des titres d'onglet) et, si la société porte encore
+  le nom technique de la base (`thecol-test`), **nom de société** « ThéCol Sàrl »
+  (« Copyright © » du pied de page, e-mails de commande).
+- **Titres SEO des pages d'Odoo** (boutique, panier, commande, connexion, 404, recherche,
+  CGV) : sans eux, l'onglet affiche le nom interne anglais du gabarit (« Products »,
+  « Shopping Cart »…). Les fiches produit reprennent le titre des pages `produit-*.html`.
+- **Traductions** qu'Odoo 20 n'a pas encore en français (« Name », « Company », « Search... »…).
+- **`/terms`** : la page des conditions générales de la société (Comptabilité → Paramètres)
+  reçoit les CGV de la section `id="cgv"` de `contact.xml`, à la place du texte d'exemple
+  d'Odoo. Modifier les CGV dans `contact.xml`, puis relancer `--steps pages,site`.
+- **`/privacy`** (page vide créée par Odoo) est dépubliée. Une vraie déclaration de
+  protection des données (nLPD) pourra y être publiée plus tard.
 
 ## Liens utilisés (pages existantes d'Odoo)
 
 | Ancien fichier statique | URL Odoo |
 |---|---|
-| `produits.html`, `produit-*.html` | `/shop`, `/shop?search=<saveur>` |
+| `produits.html` | `/nos-produits` |
+| `produit-*.html` | fiche produit `/shop/<saveur>-<id>` |
 | `points-de-vente.html` | `/distributeurs` |
 | `a-propos.html` | `/about-us` |
 | `contact.html` | `/contactus` |
 
-La Poire à Botzi n'est pas encore dans la boutique Odoo : sa carte pointe vers `/shop`.
+Les liens vers une fiche produit s'écrivent `href="tc-produit:hibiscus"` (clé de
+`tools/products.json`) dans `accueil.xml` et `produits.xml` : l'URL contient l'id Odoo,
+différent d'une base à l'autre, et `tools/deploy_odoo.py` la lit dans la base visée.
+En collage manuel, remplacer ces repères par l'URL de la fiche (bouton *Aller au site*
+du produit). Le menu n'a plus d'entrée « Boutique » : on commande depuis la fiche.
 
 ## Étapes suivantes
 
@@ -104,4 +130,4 @@ La Poire à Botzi n'est pas encore dans la boutique Odoo : sa carte pointe vers 
 - [x] Page Contact (formulaire Odoo natif conservé tel quel, habillé en CSS)
 - [x] Style de la boutique `/shop` et des fiches produit (SCSS uniquement)
 - [ ] Fiches produit : créer 5 produits à variantes « Format » (25/50/100 cl) et archiver les 15 anciens
-- [ ] Rapatrier images et polices dans Odoo
+- [x] Rapatrier images et polices dans Odoo (étape `assets` du script)

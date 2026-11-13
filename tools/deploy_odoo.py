@@ -9,6 +9,9 @@ Remplace les collages manuels décrits dans odoo/README.md :
   scripts   odoo/*.js concaténés → user_custom_javascript.js
   pages     /, /contactus, /about-us, /nos-produits, /distributeurs (+ SEO)
   footer    contenu du pied de page (odoo/pied-de-page.xml)
+  header    logo du site, bloc téléphone de démonstration masqué
+  site      nom du site et de la société, titres et traductions des pages
+            d'Odoo (boutique, panier, connexion…), CGV de /terms, /privacy
   menus     menu principal
   products  5 saveurs à variantes « Format » 25/50/100 cl (tools/products.json)
   verify    relit les pages publiques et le bundle CSS
@@ -31,12 +34,15 @@ Python standard, aucune dépendance.
 import argparse
 import base64
 import hashlib
+import html
 import json
 import mimetypes
 import os
 import re
 import sys
+import unicodedata
 import urllib.error
+import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
 from pathlib import Path
@@ -50,14 +56,18 @@ DEFAULT_URL = "https://thecol-test.odoo.com"
 GH = "https://philippe-ong.github.io/thecol-site/"
 GH_REF = re.compile(re.escape(GH) + r"(assets/[^\"')\s]+)")
 ASSET_MARK = "thecol-site:"  # ir.attachment.description, pour retrouver nos fichiers
+PRODUCT_REF = re.compile(r"tc-produit:(\w+)")  # lien vers une fiche produit, clé de products.json
 
 # Ordre de collage de odoo/README.md
 SCSS_FILES = ["thecol.scss", "distributeurs.scss", "produits.scss", "contact.scss",
-              "a-propos.scss", "entete-pied.scss", "boutique.scss", "fiche-produit.scss"]
+              "a-propos.scss", "entete-pied.scss", "boutique.scss", "fiche-produit.scss",
+              "pages-odoo.scss"]
 JS_FILES = ["distributeurs.js", "prix-formats.js", "fiches-saveurs.js"]
 SCSS_URL = "/website/static/src/scss/user_custom_rules.scss"
 JS_URL = "/website/static/src/js/user_custom_javascript.js"
 BUNDLE = "web.assets_frontend"
+PALETTE_URL = "/website/static/src/scss/options/colors/user_color_palette.scss"
+THEME_COLORS = {"o-color-1": "#1b8347", "o-color-2": "#14613a"}  # primaire, secondaire
 
 # Pages créées par le script : url → (clé de vue, nom, fichier, page statique pour le SEO)
 NEW_PAGES = [
@@ -67,11 +77,54 @@ NEW_PAGES = [
 ]
 SEO_EXISTING = [("website.homepage", "index.html"), ("website.contactus", "contact.html")]
 
-MENU = [("Accueil", "/"), ("Nos produits", "/nos-produits"), ("Boutique", "/shop"),
+MENU = [("Accueil", "/"), ("Nos produits", "/nos-produits"),
         ("Points de vente", "/distributeurs"), ("À propos", "/about-us")]
+MENU_REMOVED = ["/shop"]  # « Boutique » : on commande depuis Nos produits → fiche produit
 
 FORMAT_VALUES = ["25", "50", "100"]  # clés de tools/products.json → « 25 cl »…
-STEPS = ["assets", "styles", "scripts", "pages", "footer", "menus", "products", "verify"]
+TAX_RATE = 2.6  # TVA réduite, boissons sans alcool ; prix de products.json TTC
+LOGO_FILE = "assets/web/logo-header.png"
+HEADER_HIDDEN_VIEWS = ["website.header_text_element"]
+
+# Étape « site ». Le nom du site suit chaque titre d'onglet (« Panier | ThéCol ») ;
+# celui de la société, le « Copyright © » du pied de page et les e-mails de commande.
+SITE_NAME = "ThéCol"
+COMPANY_NAME = "ThéCol Sàrl"
+# Nom de société donné par Odoo à la création de la base (« thecol-test ») : seul
+# ce cas est renommé, un nom déjà saisi à la main est conservé.
+COMPANY_PLACEHOLDER = re.compile(r"^[a-z0-9_-]+$")
+# Pages rendues par un gabarit d'Odoo : sans titre SEO, l'onglet affiche le nom
+# interne (anglais) du gabarit, « Products », « Shopping Cart », « Login »…
+VIEW_SEO = {
+    "website_sale.products": ("Boutique en ligne — ThéCol | Thés froids artisanaux suisses",
+                              "Commandez en ligne les thés froids artisanaux ThéCol : Hibiscus, Mûres "
+                              "sauvages, Fleur de Sureau, Herbes des Alpes et Poire à Botzi, en 25, 50 ou 100 cl."),
+    "website_sale.cart": ("Panier — ThéCol", None),
+    "website_sale.address": ("Commande : adresse — ThéCol", None),
+    "website_sale.payment": ("Commande : paiement — ThéCol", None),
+    "website_sale.confirmation": ("Commande confirmée — ThéCol", None),
+    "web.login": ("Connexion — ThéCol", None),
+    "auth_signup.signup": ("Créer un compte — ThéCol", None),
+    "auth_signup.reset_password": ("Mot de passe oublié — ThéCol", None),
+    "http_routing.404": ("Page introuvable — ThéCol", None),
+    "website.page_404": ("Page introuvable — ThéCol", None),
+    "website.list_hybrid": ("Résultats de recherche — ThéCol", None),
+    "account.account_terms_conditions_page": (
+        "Conditions générales de vente — ThéCol",
+        "Conditions générales de vente de la boutique en ligne ThéCol : prix, disponibilité, "
+        "paiement, livraison, retours et protection des données."),
+}
+# Termes qu'Odoo 20 ne traduit pas encore en français (constatés sur le site)
+TRANSLATIONS = {
+    "portal.address_form_fields": {"Name": "Nom", "Company": "Société", "City...": "Ville…"},
+    "website.website_search_box_input": {"Search...": "Rechercher…"},
+    "website_sale.products": {"Grid": "Grille",
+                              "Try to refine your search criteria.": "Essayez d'affiner vos critères de recherche."},
+    "website_sale.total": {"Paid": "Payé"},
+    "website.layout": {"breadcrumb": "Fil d'Ariane"},
+}
+UNPUBLISHED_PAGES = ["/privacy"]  # page vide créée par Odoo ; les CGV ont une section « Protection des données »
+STEPS = ["assets", "styles", "scripts", "pages", "footer", "header", "site", "menus", "products", "verify"]
 
 
 class OdooError(RuntimeError):
@@ -148,6 +201,28 @@ def check_xml(arch, label):
         raise SystemExit("XML invalide pour %s : %s" % (label, e))
 
 
+def same_xml(a, b):
+    """Odoo réenregistre <div></div> en <div/> et &#160; en espace insécable :
+    on compare la forme canonique, espaces regroupés."""
+    canon = lambda s: re.sub(r"\s+", " ", ET.canonicalize(s.strip()))
+    try:
+        return canon(a) == canon(b)
+    except ET.ParseError:
+        return a.strip() == b.strip()
+
+
+PRICES_LINE = re.compile(r"^(\s*var PRICES = ).*;$", re.M)
+
+
+def format_prices_json():
+    """Table des prix par format pour prix-formats.js, d'après tools/products.json."""
+    catalog = json.loads((ROOT / "tools" / "products.json").read_text(encoding="utf-8"))
+    strip = lambda s: "".join(c for c in unicodedata.normalize("NFD", s.lower())
+                              if not unicodedata.combining(c)).strip()
+    return json.dumps({strip(p["name"]): {"%s cl" % f: float(p["formats"][f]) for f in FORMAT_VALUES}
+                       for p in catalog.values()}, ensure_ascii=False)
+
+
 def static_meta(html_file):
     """<title> et meta description d'une page du site statique."""
     html = (ROOT / html_file).read_text(encoding="utf-8")
@@ -158,10 +233,40 @@ def static_meta(html_file):
             unescape(desc.group(1)) if desc else None)
 
 
+def cgv_terms_html():
+    """CGV de la page /terms, tirées de la section id="cgv" de odoo/contact.xml.
+
+    Une seule source pour les deux pages : les accordéons <details> deviennent
+    des titres <h2> suivis de leurs paragraphes.
+    """
+    m = re.search(r'<section\b[^>]*\bid="cgv".*?</section>', read_text("contact.xml"), re.S)
+    if not m:
+        raise SystemExit('contact.xml : section id="cgv" introuvable')
+    section = ET.fromstring(m.group(0))
+    inner = lambda el: (el.text or "") + "".join(ET.tostring(c, encoding="unicode") for c in el)
+    overline = section.find(".//*[@class='tc-overline']")
+    title = section.find(".//h2")
+    lead = section.find(".//*[@class='tc-lead']")
+    parts = ['<div class="tc-terms">']
+    if overline is not None:
+        parts.append('<p class="tc-terms-overline">%s</p>' % html.escape(overline.text.strip()))
+    parts.append("<h1>%s</h1>" % html.escape(title.text.strip()))
+    if lead is not None:
+        parts.append('<p class="tc-terms-lead">%s</p>' % inner(lead).strip())
+    for det in section.iter("details"):
+        summary = det.find("summary")
+        parts.append("<h2>%s</h2>" % html.escape((summary.text or "").strip()))
+        body = det.find("div")
+        parts.extend(ET.tostring(p, encoding="unicode").strip() for p in body)
+    parts.append("</div>")
+    return "\n".join(parts)
+
+
 class Deployer:
     def __init__(self, odoo):
         self.odoo = odoo
         self.asset_urls = {}
+        self.product_urls = {}
         site = odoo.read("website", [], ["name", "menu_id", "default_lang_id"], limit=1, order="id")[0]
         self.website_id = site["id"]
         self.menu_id = site["menu_id"] and site["menu_id"][0]
@@ -215,7 +320,28 @@ class Deployer:
     def rewrite(self, text):
         if not self.asset_urls:
             self.step_assets()
-        return GH_REF.sub(lambda m: self.asset_urls[m.group(1)], text)
+        text = GH_REF.sub(lambda m: self.asset_urls[m.group(1)], text)
+        return PRODUCT_REF.sub(lambda m: self.product_url(m.group(1)), text)
+
+    def product_url(self, pid):
+        """URL de la fiche produit (« tc-produit:hibiscus » dans les XML).
+
+        L'URL contient l'id Odoo (/shop/hibiscus-3), différent d'une base à
+        l'autre : elle est donc lue dans la base au moment du déploiement.
+        """
+        if pid not in self.product_urls:
+            catalog = json.loads((ROOT / "tools" / "products.json").read_text(encoding="utf-8"))
+            if pid not in catalog:
+                raise SystemExit("tc-produit:%s : clé absente de tools/products.json" % pid)
+            name = catalog[pid]["name"]
+            found = self.odoo.read("product.template", [["name", "=", name]], ["website_url"], limit=1)
+            if found:
+                self.product_urls[pid] = found[0]["website_url"]
+            else:  # base neuve : l'étape products n'a pas encore créé le produit
+                print("  ⚠ produit « %s » introuvable : lien vers la recherche, "
+                      "relancer --steps pages après products" % name)
+                self.product_urls[pid] = "/shop?search=" + urllib.parse.quote(name)
+        return self.product_urls[pid]
 
     # ------------------------------------------------------- styles / scripts
     def save_custom_asset(self, url, content, file_type):
@@ -241,9 +367,19 @@ class Deployer:
     def step_styles(self):
         content = self.concat(SCSS_FILES, "/* ===== odoo/%s (tools/deploy_odoo.py) ===== */\n")
         self.save_custom_asset(SCSS_URL, content, "scss")
+        # Couleurs du thème (comme Site → Thème → Couleurs) : tous les btn-primary
+        # d'Odoo (« Ajouter au panier », formulaires…) passent du violet au vert.
+        if self.odoo.dry_run:
+            print("  [dry-run] palette du thème : %s" % THEME_COLORS)
+            return
+        self.odoo.call("website.assets", "make_scss_customization", url=PALETTE_URL, values=THEME_COLORS)
+        print("  palette du thème : %s" % THEME_COLORS)
 
     def step_scripts(self):
         content = self.concat(JS_FILES, "/* ===== odoo/%s (tools/deploy_odoo.py) ===== */\n")
+        content, n = PRICES_LINE.subn(lambda m: m.group(1) + format_prices_json() + ";", content)
+        if n != 1:
+            raise SystemExit("prix-formats.js : ligne « var PRICES = … ; » introuvable")
         self.save_custom_asset(JS_URL, content, "js")
 
     # ------------------------------------------------------------------ views
@@ -266,7 +402,7 @@ class Deployer:
 
     def write_arch(self, view, arch, label):
         check_xml(arch, label)
-        if view["arch"].strip() == arch.strip():
+        if same_xml(view["arch"], arch):
             print("  inchangé : %s" % label)
             return
         self.backup(label, view["arch"])
@@ -274,6 +410,12 @@ class Deployer:
         # à partir de cette version, comme pour une modification dans l'éditeur.
         self.odoo.write("ir.ui.view", [view["id"]], {"arch": arch}, label,
                         context={"lang": "en_US"})
+        # Pour un terme à peine modifié (« CHF 3.00 » → « CHF 3,00 », « Barrage 14 » →
+        # « Barrage 21 »), Odoo garde l'ancienne traduction : la langue du site, que voient
+        # les visiteurs, reçoit donc aussi le nouveau texte.
+        if self.lang != "en_US":
+            self.odoo.write("ir.ui.view", [view["id"]], {"arch": arch}, "%s (%s)" % (label, self.lang),
+                            context={"lang": self.lang})
 
     def write_seo(self, key, html_file):
         title, desc = static_meta(html_file)
@@ -346,6 +488,85 @@ class Deployer:
             raise SystemExit('Pied de page : <div id="footer"> … </xpath> non trouvé.')
         self.write_arch(dict(view, key="website.footer_custom"), new, "website.footer_custom")
 
+    def step_header(self):
+        logo = (ROOT / LOGO_FILE).read_bytes()
+        sha1 = hashlib.sha1(logo).hexdigest()
+        site = self.odoo.read("website", [["id", "=", self.website_id]], ["logo"])[0]
+        current = site["logo"]
+        if isinstance(current, dict):  # Odoo 20 : binaire renvoyé en {"content": base64}
+            current = current.get("content")
+        if not isinstance(current, str) or hashlib.sha1(base64.b64decode(current)).hexdigest() != sha1:
+            self.odoo.write("website", [self.website_id], {"logo": b64(logo)}, "logo " + LOGO_FILE)
+        # Bloc « Texte » de l'en-tête (faux numéro +1 555…) : le site statique n'en a pas.
+        # Écrit avec website_id dans le contexte → copie propre au site, la vue générique reste.
+        for key in HEADER_HIDDEN_VIEWS:
+            view = self.find_view(key)
+            if view and view["active"]:
+                self.odoo.write("ir.ui.view", [view["id"]], {"active": False}, "masquer " + key)
+
+    # ------------------------------------------------------------------- site
+    def step_site(self):
+        # Hors contexte du site : sinon Odoo copierait chaque gabarit générique
+        # pour le site (COW) et la copie ne suivrait plus les mises à jour d'Odoo.
+        generic = {"website_id": False}
+
+        site = self.odoo.read("website", [["id", "=", self.website_id]], ["name", "company_id"])[0]
+        if site["name"] != SITE_NAME:
+            self.odoo.write("website", [self.website_id], {"name": SITE_NAME}, "nom du site → " + SITE_NAME)
+        company = self.odoo.read("res.company", [["id", "=", site["company_id"][0]]],
+                                 ["name", "terms_type", "invoice_terms_html"])[0]
+        if COMPANY_PLACEHOLDER.match(company["name"]):
+            self.odoo.write("res.company", [company["id"]], {"name": COMPANY_NAME},
+                            "société « %s » → %s" % (company["name"], COMPANY_NAME))
+        elif company["name"] != COMPANY_NAME:
+            print("  société « %s » conservée (nom déjà saisi)" % company["name"])
+
+        for key, (title, desc) in VIEW_SEO.items():
+            for view in self.odoo.read("ir.ui.view", [["key", "=", key]],
+                                       ["website_meta_title", "website_meta_description"],
+                                       context={"active_test": False}):
+                vals = {"website_meta_title": title}
+                if desc:
+                    vals["website_meta_description"] = desc
+                if any(view[k] != v for k, v in vals.items()):
+                    self.odoo.write("ir.ui.view", [view["id"]], vals, "titre " + key, context=generic)
+
+        for key, terms in TRANSLATIONS.items():
+            for view in self.odoo.read("ir.ui.view", [["key", "=", key]], ["id"],
+                                       context={"active_test": False}):
+                current = self.odoo.call("ir.ui.view", "get_field_translations", ids=[view["id"]],
+                                         field_name="arch_db", langs=[self.lang])
+                rows = current[0] if current and isinstance(current[0], list) else current
+                done = {r["source"]: r["value"] for r in rows}
+                todo = {src: dst for src, dst in terms.items() if src in done and done[src] != dst}
+                if not todo:
+                    continue
+                if self.odoo.dry_run:
+                    print("  [dry-run] traduire %s : %s" % (key, ", ".join(todo)))
+                    continue
+                self.odoo.call("ir.ui.view", "update_field_translations", ids=[view["id"]],
+                               field_name="arch_db", translations={self.lang: todo}, context=generic)
+                print("  traduit %s : %s" % (key, ", ".join("%s → %s" % kv for kv in todo.items())))
+
+        for url in UNPUBLISHED_PAGES:
+            for page in self.odoo.read("website.page", [["url", "=", url],
+                                                        ["website_id", "in", [self.website_id, False]]],
+                                       ["is_published"]):
+                if page["is_published"]:
+                    self.odoo.write("website.page", [page["id"]], {"is_published": False},
+                                    "dépublier " + url, context=generic)
+
+        # /terms affiche les « Conditions générales » de la société (Comptabilité →
+        # Paramètres) : texte d'exemple d'Odoo (« My Company », droit américain) remplacé.
+        if company["terms_type"] != "html":
+            print("  /terms désactivée (conditions générales en texte simple) : rien à faire")
+            return
+        terms = cgv_terms_html()
+        flat = lambda s: " ".join(html.unescape(re.sub(r"<[^>]+>", " ", s or "")).split())
+        if flat(company["invoice_terms_html"]) != flat(terms):
+            self.odoo.write("res.company", [company["id"]], {"invoice_terms_html": terms},
+                            "CGV de /terms (depuis contact.xml)")
+
     # ------------------------------------------------------------------ menus
     def step_menus(self):
         existing = self.odoo.read("website.menu", [["parent_id", "=", self.menu_id]],
@@ -359,8 +580,41 @@ class Deployer:
                                                       website_id=self.website_id), name)
             elif menu["name"] != name or menu["sequence"] != seq * 10:
                 self.odoo.write("website.menu", [menu["id"]], vals, name)
+        for url in MENU_REMOVED:
+            menu = by_url.get(url)
+            if not menu:
+                continue
+            if self.odoo.dry_run:
+                print("  [dry-run] supprimer website.menu #%s : %s" % (menu["id"], menu["name"]))
+            else:
+                self.odoo.call("website.menu", "unlink", ids=[menu["id"]])
+                print("  supprimé website.menu #%s : %s" % (menu["id"], menu["name"]))
 
     # --------------------------------------------------------------- products
+    def sale_tax_id(self):
+        """TVA suisse à taux réduit (boissons sans alcool), prix catalogue TTC.
+
+        La localisation CH ne fournit que « 2.6% » hors taxe : on la copie
+        (lignes de répartition et grille de TVA comprises) en version TTC, sans
+        toucher à l'originale qui peut servir aux factures hors taxe.
+        """
+        base = [["type_tax_use", "=", "sale"], ["amount_type", "=", "percent"], ["amount", "=", TAX_RATE]]
+        found = self.odoo.read("account.tax", base + [["price_include_override", "=", "tax_included"]],
+                               ["name"], limit=1)
+        if found:
+            return found[0]["id"]
+        src = self.odoo.read("account.tax", base, ["name"], limit=1, order="id")
+        if not src:
+            raise SystemExit("Taxe de vente %s %% introuvable (localisation suisse installée ?)" % TAX_RATE)
+        name = "%s%% TTC" % TAX_RATE
+        if self.odoo.dry_run:
+            print("  [dry-run] copier la taxe « %s » en « %s »" % (src[0]["name"], name))
+            return None
+        new_id = self.odoo.call("account.tax", "copy", ids=[src[0]["id"]], default={
+            "name": name, "price_include_override": "tax_included"})[0]
+        print("  créé account.tax #%s : %s" % (new_id, name))
+        return new_id
+
     def step_products(self):
         catalog = json.loads((ROOT / "tools" / "products.json").read_text(encoding="utf-8"))
         names = {f: "%s cl" % f for f in FORMAT_VALUES}
@@ -382,22 +636,31 @@ class Deployer:
             if missing:
                 raise SystemExit("Attribut « Format » sans les valeurs %s" % missing)
 
+        tax_id = self.sale_tax_id()
         for seq, (pid, p) in enumerate(catalog.items(), start=1):
             prices = {f: float(p["formats"][f]) for f in FORMAT_VALUES}
             base = prices[FORMAT_VALUES[0]]
-            _, desc = static_meta(p["page"])
+            title, desc = static_meta(p["page"])
             image = (ROOT / "assets" / "web" / ("produit-%s.jpg" % pid)).read_bytes()
             vals = {
                 "list_price": base,
+                "taxes_id": [[6, 0, [tax_id] if tax_id else []]],
                 "sale_ok": True,
                 "is_published": True,
                 "website_sequence": seq * 10,
-                "description_ecommerce": "<p>%s</p>" % desc if desc else False,
+                "website_meta_title": title,  # sinon « Hibiscus | <nom du site> »
                 "website_meta_description": desc,
             }
-            found = self.odoo.read("product.template", [["name", "=", p["name"]]], ["id"], limit=1)
+            found = self.odoo.read("product.template", [["name", "=", p["name"]]],
+                                   ["description_ecommerce"], limit=1)
             if found:
                 tmpl_id = found[0]["id"]
+                # « Description ecommerce » : réservée aux ingrédients / valeurs nutritives
+                # saisis dans Odoo. On n'y met plus la meta description (doublon du bloc
+                # de fiches-saveurs.js) et on retire celle qu'une version précédente y avait mise.
+                flat = lambda s: " ".join(html.unescape(re.sub(r"<[^>]+>", "", s or "")).split())
+                if desc and flat(found[0]["description_ecommerce"]) == flat(desc):
+                    vals["description_ecommerce"] = False
                 self.odoo.write("product.template", [tmpl_id], vals, p["name"])
             else:
                 tmpl_id = self.odoo.create("product.template", dict(
@@ -423,15 +686,15 @@ class Deployer:
         for url in ["/", "/nos-produits", "/distributeurs", "/about-us", "/contactus", "/shop"]:
             try:
                 with urllib.request.urlopen(self.odoo.url + url, timeout=60) as resp:
-                    html = resp.read().decode("utf-8", "replace")
+                    page = resp.read().decode("utf-8", "replace")
                     status = resp.status
             except urllib.error.HTTPError as e:
-                html, status = "", e.code
-            custom = "tc-footer" in html
+                page, status = "", e.code
+            custom = "tc-footer" in page
             print("  %-15s HTTP %s %s" % (url, status, "ok" if custom else "← pied de page ThéCol absent"))
             ok &= status == 200 and custom
             if url == "/":
-                css = re.search(r'href="(/web/assets/[^"]*web\.assets_frontend[^"]*\.css)"', html)
+                css = re.search(r'href="(/web/assets/[^"]*web\.assets_frontend[^"]*\.css)"', page)
                 if css:
                     with urllib.request.urlopen(self.odoo.url + css.group(1), timeout=60) as resp:
                         bundle = resp.read().decode("utf-8", "replace")
@@ -439,6 +702,18 @@ class Deployer:
                     print("  bundle CSS     %s" % ("ok (.tc-hero présent)" if compiled
                                                    else "← styles ThéCol absents : erreur de compilation ?"))
                     ok &= compiled
+        # Pages d'Odoo : titre ThéCol (pas le nom du gabarit) et vraies CGV
+        for url in ["/shop", "/shop/cart", "/web/login", "/terms"]:
+            try:
+                with urllib.request.urlopen(self.odoo.url + url, timeout=60) as resp:
+                    page = resp.read().decode("utf-8", "replace")
+            except urllib.error.HTTPError as e:
+                page = e.read().decode("utf-8", "replace")
+            title = re.search(r"<title>(.*?)</title>", page, re.S)
+            title = html.unescape(title.group(1).strip()) if title else ""
+            good = SITE_NAME in title and (url != "/terms" or "My Company" not in page)
+            print("  %-15s %s" % (url, "ok (%s)" % title if good else "← titre ou contenu à contrôler : %s" % title))
+            ok &= good
         print("Vérification : %s" % ("OK" if ok else "à contrôler"))
 
 
