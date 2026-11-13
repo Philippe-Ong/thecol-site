@@ -4,10 +4,12 @@
 Identique à `python -m http.server`, mais interdit la mise en cache :
 chaque rechargement du navigateur récupère la dernière version des fichiers.
 Usage : python serve.py  →  http://localhost:8123
+Le port peut être surchargé via la variable d'environnement PORT.
 """
 import http.server
+import os
 
-PORT = 8123
+PORT = int(os.environ.get("PORT", "8123"))
 
 
 class NoCacheHandler(http.server.SimpleHTTPRequestHandler):
