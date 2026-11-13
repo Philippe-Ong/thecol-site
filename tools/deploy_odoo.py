@@ -8,8 +8,10 @@ Remplace les collages manuels décrits dans odoo/README.md :
   styles    odoo/*.scss concaténés → user_custom_rules.scss ; couleurs du thème ;
             polices du thème sur « polices système » (plus d'appel à Google Fonts)
   scripts   odoo/*.js concaténés → user_custom_javascript.js
-  products  5 saveurs à variantes « Format » 25/50/100 cl (tools/products.json),
-            URL sans accents, TVA de vente par défaut de la société
+  products  saveurs à variantes « Format » 25/50/100 cl : les 5 du site statique
+            (tools/products.json) et celles propres à Odoo (tools/products-odoo.json,
+            non publiées tant que "published" vaut false) ; rendus de chaque format
+            (face, trois quarts) ; URL sans accents ; TVA de vente par défaut
   pages     /, /contactus, /about-us, /nos-produits, /distributeurs (+ SEO)
   footer    contenu du pied de page (odoo/pied-de-page.xml)
   header    logo, icône d'onglet et image de partage du site, bloc téléphone
@@ -47,6 +49,7 @@ import mimetypes
 import os
 import re
 import sys
+import time
 import unicodedata
 import urllib.error
 import urllib.parse
@@ -96,7 +99,14 @@ MENU_REMOVED = ["/shop"]  # « Boutique » : on commande depuis Nos produits →
 FORMAT_VALUES = ["25", "50", "100"]  # clés de tools/products.json → « 25 cl »…
 TAX_RATE = 2.6  # TVA réduite, boissons sans alcool ; prix de products.json TTC
 LOGO_FILE = "assets/web/logo-header.png"
-FAVICON_FILE = "assets/web/icon-192.png"  # icône d'onglet, comme le site statique
+# Rendus Blender de chaque bouteille : clé du catalogue, format, vue.
+RENDER_FILE = "assets/web/rendu-%s-%s-%s.webp"
+RENDER_VIEWS = [("face", "primary", "vue de face"), ("trois-quarts", "secondary", "vue de trois quarts")]
+# Le 50 cl d'abord : la première image d'un produit est sa vignette dans /shop
+# (et la suivante, celle qui apparaît au survol).
+RENDER_ORDER = ["50", "25", "100"]
+PHOTO_SEQUENCE = 90  # photos sans format (ambiance) : après les rendus du format choisi
+FAVICON_FILE = "assets/web/favicon-logo.png"  # icône d'onglet : logo sur fond vert clair, comme www.thecol.ch
 SOCIAL_IMAGE_FILE = "assets/web/photo-groupe.jpg"  # og:image des pages sans image propre
 HEADER_HIDDEN_VIEWS = ["website.header_text_element"]
 
@@ -190,16 +200,22 @@ class Odoo:
             headers={"Authorization": "bearer " + self.key,
                      "Content-Type": "application/json; charset=utf-8"},
             method="POST")
-        try:
-            with urllib.request.urlopen(req, timeout=120) as resp:
-                return json.loads(resp.read().decode("utf-8"))
-        except urllib.error.HTTPError as e:
-            body = e.read().decode("utf-8", "replace")
+        for attempt in range(6):
             try:
-                msg = json.loads(body).get("message") or body
-            except ValueError:
-                msg = body[:500]
-            raise OdooError("%s.%s → HTTP %s : %s" % (model, method, e.code, msg)) from None
+                with urllib.request.urlopen(req, timeout=120) as resp:
+                    return json.loads(resp.read().decode("utf-8"))
+            except urllib.error.HTTPError as e:
+                # 429 : Odoo Online limite les appels rapprochés (60 images d'un coup…).
+                # La requête n'a pas été traitée : on patiente, puis on la renvoie.
+                if e.code == 429 and attempt < 5:
+                    time.sleep(10 * (attempt + 1))
+                    continue
+                body = e.read().decode("utf-8", "replace")
+                try:
+                    msg = json.loads(body).get("message") or body
+                except ValueError:
+                    msg = body[:500]
+                raise OdooError("%s.%s → HTTP %s : %s" % (model, method, e.code, msg)) from None
 
     def read(self, model, domain, fields, **kw):
         return self.call(model, "search_read", domain=domain, fields=fields, **kw)
@@ -257,6 +273,23 @@ def same_xml(a, b):
 PRICES_LINE = re.compile(r"^(\s*var PRICES = ).*;$", re.M)
 
 
+def load_catalog():
+    """Saveurs du site statique, puis celles qui n'existent que dans Odoo.
+
+    tools/products.json reste la source du site statique (5 saveurs, contrôlées par
+    tools/validate_site.py) ; tools/products-odoo.json ajoute les autres, avec leur
+    titre et leur description pour les moteurs de recherche, faute de page statique.
+    """
+    catalog = json.loads((ROOT / "tools" / "products.json").read_text(encoding="utf-8"))
+    extra = ROOT / "tools" / "products-odoo.json"
+    if extra.exists():
+        for pid, p in json.loads(extra.read_text(encoding="utf-8")).items():
+            if pid in catalog:
+                raise SystemExit("products-odoo.json : « %s » existe déjà dans products.json" % pid)
+            catalog[pid] = p
+    return catalog
+
+
 def slugify(name):
     """« Mûres sauvages » → « mures-sauvages » (URL de la fiche sans accents)."""
     flat = "".join(c for c in unicodedata.normalize("NFD", name.lower()) if not unicodedata.combining(c))
@@ -264,8 +297,8 @@ def slugify(name):
 
 
 def format_prices_json():
-    """Table des prix par format pour prix-formats.js, d'après tools/products.json."""
-    catalog = json.loads((ROOT / "tools" / "products.json").read_text(encoding="utf-8"))
+    """Table des prix par format pour prix-formats.js, d'après le catalogue."""
+    catalog = load_catalog()
     strip = lambda s: "".join(c for c in unicodedata.normalize("NFD", s.lower())
                               if not unicodedata.combining(c)).strip()
     return json.dumps({strip(p["name"]): {"%s cl" % f: float(p["formats"][f]) for f in FORMAT_VALUES}
@@ -421,7 +454,7 @@ class Deployer:
         l'autre : elle est donc lue dans la base au moment du déploiement.
         """
         if pid not in self.product_urls:
-            catalog = json.loads((ROOT / "tools" / "products.json").read_text(encoding="utf-8"))
+            catalog = load_catalog()
             if pid not in catalog:
                 raise SystemExit("tc-produit:%s : clé absente de tools/products.json" % pid)
             name = catalog[pid]["name"]
@@ -765,8 +798,47 @@ class Deployer:
         print("  créé account.tax #%s : %s" % (new_id, name))
         return new_id
 
+    def product_images(self, tmpl_id, pid, name, ptav_ids):
+        """Rendus de la bouteille, un jeu par format (face puis trois quarts).
+
+        Odoo 20 rattache une image à une valeur d'attribut : la fiche montre la bouteille
+        du format choisi. La photo d'origine du produit, sans format,
+        passe après les rendus.
+        """
+        images = self.odoo.read("product.image", [["product_tmpl_id", "=", tmpl_id]],
+                                ["name", "sequence", "type", "attribute_value_ids"], order="sequence, id")
+        ours = {(i["attribute_value_ids"][0], i["type"]): i for i in images
+                if len(i["attribute_value_ids"]) == 1 and i["type"]}
+        for n, fmt in enumerate(RENDER_ORDER):
+            for m, (view, kind, label) in enumerate(RENDER_VIEWS):
+                rel = RENDER_FILE % (pid, fmt, view)
+                if not (ROOT / rel).is_file():
+                    print("  ⚠ rendu absent : %s" % rel)
+                    continue
+                data = (ROOT / rel).read_bytes()
+                vals = {"name": "%s %s cl — %s" % (name, fmt, label), "sequence": n * 10 + m, "type": kind}
+                current = ours.get((ptav_ids[fmt], kind))
+                if not current:
+                    self.odoo.create("product.image", dict(
+                        vals, product_tmpl_id=tmpl_id, image_1920=b64(data),
+                        attribute_value_ids=[[6, 0, [ptav_ids[fmt]]]]), rel)
+                    continue
+                diff = changes(current, vals)
+                stored = self.odoo.read("product.image", [["id", "=", current["id"]]], ["image_1920"])[0]["image_1920"]
+                if isinstance(stored, dict):  # Odoo 20 : binaire renvoyé en {"content": base64}
+                    stored = stored.get("content")
+                if (not isinstance(stored, str)
+                        or hashlib.sha1(base64.b64decode(stored)).digest() != hashlib.sha1(data).digest()):
+                    diff["image_1920"] = b64(data)
+                if diff:
+                    self.odoo.write("product.image", [current["id"]], diff, "%s : %s" % (rel, ", ".join(diff)))
+        for image in images:
+            if not image["attribute_value_ids"] and image["sequence"] != PHOTO_SEQUENCE:
+                self.odoo.write("product.image", [image["id"]], {"sequence": PHOTO_SEQUENCE},
+                                "photo « %s » après les rendus" % image["name"])
+
     def step_products(self):
-        catalog = json.loads((ROOT / "tools" / "products.json").read_text(encoding="utf-8"))
+        catalog = load_catalog()
         names = {f: "%s cl" % f for f in FORMAT_VALUES}
 
         attr = self.odoo.read("product.attribute", [["name", "=", "Format"]], ["value_ids"], limit=1)
@@ -798,13 +870,15 @@ class Deployer:
         for seq, (pid, p) in enumerate(catalog.items(), start=1):
             prices = {f: float(p["formats"][f]) for f in FORMAT_VALUES}
             base = prices[FORMAT_VALUES[0]]
-            title, desc = static_meta(p["page"])
-            image = (ROOT / "assets" / "web" / ("produit-%s.jpg" % pid)).read_bytes()
+            # Titre et description : ceux de la page statique, sinon ceux de products-odoo.json
+            title, desc = (static_meta(p["page"]) if p.get("page")
+                           else (p.get("meta_title"), p.get("meta_description")))
+            photo = ROOT / "assets" / "web" / ("produit-%s.jpg" % pid)
             vals = {
                 "list_price": base,
                 "taxes_id": [[6, 0, [tax_id] if tax_id else []]],
                 "sale_ok": True,
-                "is_published": True,
+                "is_published": bool(p.get("published", True)),
                 "website_sequence": seq * 10,
                 "seo_name": slugify(p["name"]),  # /shop/mures-sauvages-4, pas /shop/mûres-sauvages-4
                 "website_meta_title": title,  # sinon « Hibiscus | <nom du site> »
@@ -824,22 +898,27 @@ class Deployer:
                 if diff:
                     self.odoo.write("product.template", [tmpl_id], diff, "%s : %s" % (p["name"], ", ".join(diff)))
             else:
+                if photo.is_file():
+                    vals["image_1920"] = b64(photo.read_bytes())
                 tmpl_id = self.odoo.create("product.template", dict(
-                    vals, name=p["name"], image_1920=b64(image),
+                    vals, name=p["name"],
                     attribute_line_ids=[[0, 0, {"attribute_id": attr_id,
                                                 "value_ids": [[6, 0, list(values.values())]]}]],
                 ), p["name"])
             if not tmpl_id:
                 continue
+            ptav_ids = {}
             for ptav in self.odoo.read("product.template.attribute.value",
                                        [["product_tmpl_id", "=", tmpl_id],
                                         ["attribute_id", "=", attr_id]],
                                        ["name", "price_extra"]):
                 fmt = ptav["name"].split()[0]
+                ptav_ids[fmt] = ptav["id"]
                 extra = round(prices[fmt] - base, 2)
                 if abs(ptav["price_extra"] - extra) > 0.001:
                     self.odoo.write("product.template.attribute.value", [ptav["id"]],
                                     {"price_extra": extra}, "%s %s +%.2f" % (p["name"], ptav["name"], extra))
+            self.product_images(tmpl_id, pid, p["name"], ptav_ids)
 
     # -------------------------------------------------------------- livraison
     def ref(self, xmlid):

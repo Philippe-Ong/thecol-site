@@ -14,6 +14,11 @@
 #wrap.o_wsale_product_page:has(.tc-pd-sureau)   { --accent: #a5731f; --accent-soft: #f9e8c4; --accent-ring: rgba(165, 115, 31, 0.2); --accent-tag: rgba(165, 115, 31, 0.25); --tc-tag: "Doux & délicat"; }
 #wrap.o_wsale_product_page:has(.tc-pd-herbes)   { --accent: #63a832; --accent-soft: #e5f3cd; --accent-ring: rgba(99, 168, 50, 0.2); --accent-tag: rgba(99, 168, 50, 0.25); --tc-tag: "Frais & herbacé"; }
 #wrap.o_wsale_product_page:has(.tc-pd-poire)    { --accent: #7d8f1d; --accent-soft: #eef3c4; --accent-ring: rgba(125, 143, 29, 0.2); --accent-tag: rgba(125, 143, 29, 0.25); --tc-tag: "La fierté fribourgeoise"; }
+#wrap.o_wsale_product_page:has(.tc-pd-coing)    { --accent: #8f6c0c; --accent-soft: #fbf0c4; --accent-ring: rgba(143, 108, 12, 0.2); --accent-tag: rgba(143, 108, 12, 0.25); --tc-tag: "Doux & parfumé"; }
+#wrap.o_wsale_product_page:has(.tc-pd-menthe)   { --accent: #15805a; --accent-soft: #d8f3e6; --accent-ring: rgba(21, 128, 90, 0.2); --accent-tag: rgba(21, 128, 90, 0.25); --tc-tag: "Frais & vif"; }
+#wrap.o_wsale_product_page:has(.tc-pd-noel)     { --accent: #bf4f1d; --accent-soft: #fde3d0; --accent-ring: rgba(191, 79, 29, 0.2); --accent-tag: rgba(191, 79, 29, 0.25); --tc-tag: "Fruité & épicé"; }
+#wrap.o_wsale_product_page:has(.tc-pd-rhubarbe) { --accent: #c2476b; --accent-soft: #fadde6; --accent-ring: rgba(194, 71, 107, 0.2); --accent-tag: rgba(194, 71, 107, 0.25); --tc-tag: "Acidulé & fruité"; }
+#wrap.o_wsale_product_page:has(.tc-pd-verveine) { --accent: #5f7d12; --accent-soft: #edf4cc; --accent-ring: rgba(95, 125, 18, 0.2); --accent-tag: rgba(95, 125, 18, 0.25); --tc-tag: "Citronné & délicat"; }
 
 // ---------- Galerie sur fond de la couleur de la saveur ----------
 // (la carte n'entoure que la grande photo ; les miniatures restent sur le fond crème)

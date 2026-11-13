@@ -1,0 +1,57 @@
+{
+  "coing": {
+    "name": "Coing",
+    "published": false,
+    "meta_title": "Coing — Thé froid artisanal | ThéCol",
+    "meta_description": "ThéCol Coing : le parfum doux et légèrement acidulé du coing dans un thé froid artisanal suisse, brassé à Fribourg. 25, 50 et 100 cl.",
+    "formats": {
+      "25": "3.00",
+      "50": "5.00",
+      "100": "8.50"
+    }
+  },
+  "menthe": {
+    "name": "Menthe",
+    "published": false,
+    "meta_title": "Menthe — Thé froid artisanal | ThéCol",
+    "meta_description": "ThéCol Menthe : la fraîcheur franche de la menthe dans un thé froid artisanal suisse, brassé à Fribourg. 25, 50 et 100 cl.",
+    "formats": {
+      "25": "3.00",
+      "50": "5.00",
+      "100": "8.50"
+    }
+  },
+  "noel": {
+    "name": "Orange sanguine & cannelle",
+    "published": false,
+    "meta_title": "Orange sanguine & cannelle — Thé froid artisanal | ThéCol",
+    "meta_description": "ThéCol Orange sanguine & cannelle : notre thé froid de Noël, fruité et épicé. Artisanal suisse, brassé à Fribourg. 25, 50 et 100 cl.",
+    "formats": {
+      "25": "3.00",
+      "50": "5.00",
+      "100": "8.50"
+    }
+  },
+  "rhubarbe": {
+    "name": "Rhubarbe",
+    "published": false,
+    "meta_title": "Rhubarbe — Thé froid artisanal | ThéCol",
+    "meta_description": "ThéCol Rhubarbe : la pointe d'acidité de la rhubarbe dans un thé froid artisanal suisse, brassé à Fribourg. 25, 50 et 100 cl.",
+    "formats": {
+      "25": "3.00",
+      "50": "5.00",
+      "100": "8.50"
+    }
+  },
+  "verveine": {
+    "name": "Verveine citronnée",
+    "published": false,
+    "meta_title": "Verveine citronnée — Thé froid artisanal | ThéCol",
+    "meta_description": "ThéCol Verveine citronnée : les notes citronnées et délicates de la verveine dans un thé froid artisanal suisse, brassé à Fribourg. 25, 50 et 100 cl.",
+    "formats": {
+      "25": "3.00",
+      "50": "5.00",
+      "100": "8.50"
+    }
+  }
+}

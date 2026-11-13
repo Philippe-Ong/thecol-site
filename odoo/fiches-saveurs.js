@@ -36,7 +36,22 @@
       intro: "Une infusion herbacée redoutablement délicieuse. L'esprit de nos montagnes en bouteille." },
     { key: "poire", words: ["poire", "botzi"],
       sub: "La poire AOP de chez nous.",
-      intro: "Doux, fruité et délicat : un grand classique de nos régions revisité en thé froid. Comme un début d'automne à déguster toute l'année." }
+      intro: "Doux, fruité et délicat : un grand classique de nos régions revisité en thé froid. Comme un début d'automne à déguster toute l'année." },
+    { key: "coing", words: ["coing"],
+      sub: "Le fruit oublié, retrouvé.",
+      intro: "Le parfum doux et légèrement acidulé du coing, ce fruit de nos vergers qu'on ne croque pas mais qu'on adore. Un thé froid tout en rondeur." },
+    { key: "menthe", words: ["menthe"],
+      sub: "Le grand frais.",
+      intro: "La fraîcheur franche de la menthe dans un thé froid désaltérant. Le compagnon des journées chaudes." },
+    { key: "noel", words: ["orange", "cannelle"],
+      sub: "L'esprit de Noël, servi frais.",
+      intro: "L'orange sanguine pour le fruit, la cannelle pour la chaleur : notre thé froid de Noël, à partager pendant les fêtes." },
+    { key: "rhubarbe", words: ["rhubarbe"],
+      sub: "L'acidulé du jardin.",
+      intro: "La rhubarbe apporte sa pointe d'acidité et son petit goût de tarte de grand-mère. Vif, fruité et très rafraîchissant." },
+    { key: "verveine", words: ["verveine"],
+      sub: "La verveine du jardin, version fraîche.",
+      intro: "Les notes citronnées et délicates de la verveine dans un thé froid tout en finesse. Léger et parfumé." }
   ];
 
   function start() {

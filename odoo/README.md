@@ -106,7 +106,8 @@ plus petite existe dans `assets/web/`, un `srcset`. L'image du haut de l'accueil
 
 ## Réglages de la base (étapes `header`, `site` et `products` de `tools/deploy_odoo.py`)
 
-- **Icône d'onglet** (`icon-192.png`) et **image de partage** par défaut (`photo-groupe.jpg`),
+- **Icône d'onglet** (`favicon-logo.png` : le logo sur fond vert clair, comme sur www.thecol.ch)
+  et **image de partage** par défaut (`photo-groupe.jpg`),
   comme sur le site statique.
 - **Base de test** : balise `noindex, nofollow` dans le `<head>` de toutes les pages. Elle est
   retirée quand le script est lancé avec `--production`.
@@ -127,6 +128,23 @@ plus petite existe dans `assets/web/`, un `srcset`. L'image du haut de l'accueil
   d'Odoo. Modifier les CGV dans `contact.xml`, puis relancer `--steps pages,site`.
 - **`/privacy`** (page vide créée par Odoo) est dépubliée. Une vraie déclaration de
   protection des données (nLPD) pourra y être publiée plus tard.
+
+## Catalogue et images des fiches (étape `products` de `tools/deploy_odoo.py`)
+
+- **Deux fichiers** : `tools/products.json` (les 5 saveurs du site statique, contrôlées par
+  `tools/validate_site.py`) et `tools/products-odoo.json` (saveurs qui n'existent que dans Odoo :
+  Coing, Menthe, Orange sanguine & cannelle, Rhubarbe, Verveine citronnée). Ce second fichier porte
+  le titre et la description pour les moteurs de recherche, faute de page statique.
+- **Publication** : une saveur de `products-odoo.json` reste invisible sur le site tant que
+  `"published"` vaut `false`. Pour la mettre en ligne, passer la valeur à `true` et relancer
+  `--steps products` (la publier à la main dans Odoo serait annulé au déploiement suivant).
+- **Rendus par format** : `assets/web/rendu-<clé>-<format>-face.webp` et `-trois-quarts.webp`
+  (1200 × 1600 px, tirés des rendus Blender de 1800 × 2400 px). Odoo 20 rattache une image à une
+  valeur d'attribut : la fiche montre la bouteille du format choisi, de face puis de trois quarts,
+  et la photo d'ambiance d'origine vient ensuite. Le 50 cl de face sert de vignette dans `/shop`,
+  la vue de trois quarts apparaît au survol (au glissement du doigt sur mobile).
+- **Textes et couleurs** des fiches : `fiches-saveurs.js` (accroche, description) et
+  `fiche-produit.scss` (couleur et étiquette au-dessus du titre), une entrée par saveur.
 
 ## Livraison (étape `livraison` de `tools/deploy_odoo.py`)
 
