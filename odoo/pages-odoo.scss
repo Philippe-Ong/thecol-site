@@ -6,7 +6,10 @@
 
 // Fond crème partout : les pages ThéCol le posaient section par section, les
 // pages d'Odoo restaient blanches. Les cartes d'Odoo (.card) gardent leur blanc.
-body { background-color: #faf7ee; }
+// Police de base : le thème Odoo est réglé sur les polices système (aucun appel à Google Fonts,
+// voir THEME_FONTS dans tools/deploy_odoo.py) ; Outfit reprend la main partout, y compris
+// dans les fenêtres et notifications affichées hors de #wrapwrap.
+body { background-color: #faf7ee; font-family: "Outfit", "Segoe UI", sans-serif; }
 
 // Polices du site. Les sections .tc gardent leurs propres règles (exclues par
 // le :not) ; :where() ramène la priorité à celle d'une seule classe, au-dessus

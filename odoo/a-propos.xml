@@ -77,7 +77,7 @@
                         </div>
                     </div>
                     <div class="tc-split-img tc-reveal">
-                        <img src="https://philippe-ong.github.io/thecol-site/assets/web/photo-production-1280.webp" alt="Bouteilles ThéCol en cours de production" loading="lazy"/>
+                        <img src="https://philippe-ong.github.io/thecol-site/assets/web/photo-production-1280.webp" alt="Bouteilles ThéCol en cours de production" loading="lazy" srcset="https://philippe-ong.github.io/thecol-site/assets/web/photo-production-720.webp 720w, https://philippe-ong.github.io/thecol-site/assets/web/photo-production-1280.webp 1280w" sizes="(max-width: 991px) 92vw, 525px" width="1280" height="1925"/>
                         <span class="tc-badge-round">Contrôle<br/>total</span>
                     </div>
                 </div>
@@ -92,7 +92,7 @@
                     </div>
                     <div class="tc-team-grid">
                         <article class="tc-member tc-reveal">
-                            <img src="https://philippe-ong.github.io/thecol-site/assets/web/team-noah.jpg" alt="Noah, co-fondateur de ThéCol" loading="lazy"/>
+                            <img src="https://philippe-ong.github.io/thecol-site/assets/web/team-noah.jpg" alt="Noah, co-fondateur de ThéCol" loading="lazy" width="720" height="900"/>
                             <div class="tc-member-body">
                                 <span class="tc-role">Le cuisinier</span>
                                 <h3>Noah</h3>
@@ -100,7 +100,7 @@
                             </div>
                         </article>
                         <article class="tc-member tc-reveal">
-                            <img src="https://philippe-ong.github.io/thecol-site/assets/web/team-philippe.jpg" alt="Philippe, co-fondateur de ThéCol" loading="lazy"/>
+                            <img src="https://philippe-ong.github.io/thecol-site/assets/web/team-philippe.jpg" alt="Philippe, co-fondateur de ThéCol" loading="lazy" width="720" height="900"/>
                             <div class="tc-member-body">
                                 <span class="tc-role">L'ingénieur</span>
                                 <h3>Philippe</h3>
@@ -108,7 +108,7 @@
                             </div>
                         </article>
                         <article class="tc-member tc-reveal">
-                            <img src="https://philippe-ong.github.io/thecol-site/assets/web/team-loris.jpg" alt="Loris, co-fondateur de ThéCol" loading="lazy"/>
+                            <img src="https://philippe-ong.github.io/thecol-site/assets/web/team-loris.jpg" alt="Loris, co-fondateur de ThéCol" loading="lazy" width="720" height="900"/>
                             <div class="tc-member-body">
                                 <span class="tc-role">Le créatif</span>
                                 <h3>Loris</h3>
@@ -116,7 +116,7 @@
                             </div>
                         </article>
                         <article class="tc-member tc-reveal">
-                            <img src="https://philippe-ong.github.io/thecol-site/assets/web/team-luca.jpg" alt="Luca, co-fondateur de ThéCol" loading="lazy"/>
+                            <img src="https://philippe-ong.github.io/thecol-site/assets/web/team-luca.jpg" alt="Luca, co-fondateur de ThéCol" loading="lazy" width="720" height="900"/>
                             <div class="tc-member-body">
                                 <span class="tc-role">Le penseur</span>
                                 <h3>Luca</h3>
@@ -167,12 +167,12 @@
                         <h2>Nos bouteilles en balade</h2>
                     </div>
                     <div class="tc-gallery">
-                        <img src="https://philippe-ong.github.io/thecol-site/assets/web/photo-gal-mures-600.webp" alt="Bouteille ThéCol Mûres sauvages en extérieur" loading="lazy"/>
-                        <img src="https://philippe-ong.github.io/thecol-site/assets/web/photo-gal-hibiscus-600.webp" alt="Bouteille ThéCol Hibiscus 100 cl" loading="lazy"/>
-                        <img src="https://philippe-ong.github.io/thecol-site/assets/web/photo-gal-herbes-600.webp" alt="Bouteille ThéCol Herbes des Alpes en extérieur" loading="lazy"/>
-                        <img src="https://philippe-ong.github.io/thecol-site/assets/web/photo-gal-poire-600.webp" alt="Bouteille ThéCol Poire à Botzi en extérieur" loading="lazy"/>
-                        <img src="https://philippe-ong.github.io/thecol-site/assets/web/photo-caisse-600.webp" alt="Caisse de bouteilles ThéCol Fleur de Sureau" loading="lazy"/>
-                        <img src="https://philippe-ong.github.io/thecol-site/assets/web/photo-mures-100-600.webp" alt="Grande bouteille ThéCol Mûres sauvages au jardin" loading="lazy"/>
+                        <img src="https://philippe-ong.github.io/thecol-site/assets/web/photo-gal-mures-600.webp" alt="Bouteille ThéCol Mûres sauvages en extérieur" loading="lazy" width="600" height="400"/>
+                        <img src="https://philippe-ong.github.io/thecol-site/assets/web/photo-gal-hibiscus-600.webp" alt="Bouteille ThéCol Hibiscus 100 cl" loading="lazy" width="600" height="900"/>
+                        <img src="https://philippe-ong.github.io/thecol-site/assets/web/photo-gal-herbes-600.webp" alt="Bouteille ThéCol Herbes des Alpes en extérieur" loading="lazy" width="600" height="400"/>
+                        <img src="https://philippe-ong.github.io/thecol-site/assets/web/photo-gal-poire-600.webp" alt="Bouteille ThéCol Poire à Botzi en extérieur" loading="lazy" width="600" height="400"/>
+                        <img src="https://philippe-ong.github.io/thecol-site/assets/web/photo-caisse-600.webp" alt="Caisse de bouteilles ThéCol Fleur de Sureau" loading="lazy" width="600" height="784"/>
+                        <img src="https://philippe-ong.github.io/thecol-site/assets/web/photo-mures-100-600.webp" alt="Grande bouteille ThéCol Mûres sauvages au jardin" loading="lazy" width="600" height="900"/>
                     </div>
                 </div>
             </section>

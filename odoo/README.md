@@ -96,7 +96,24 @@ En collage manuel, il faut faire ce rapatriement à la main :
   `$tc-assets` / les `url(...)` dans `user_custom_rules.scss` par les URL `/web/content/...`.
   Éviter Google Fonts (panneau *Thème*) : chaque visite enverrait l'adresse IP à Google.
 
-## Réglages de la base (étape `site` de `tools/deploy_odoo.py`)
+Le **thème Odoo** est réglé sur « polices système » (étape `styles`, `THEME_FONTS`) : par défaut
+il charge Inter et Inter Tight chez Google sur chaque page. Ne pas choisir de police Google dans
+*Thème → Polices* ; Fraunces et Outfit viennent de `thecol.scss`.
+
+Les `<img>` portent `width`/`height` (place réservée avant le chargement) et, quand une variante
+plus petite existe dans `assets/web/`, un `srcset`. L'image du haut de l'accueil garde
+`loading="eager"` : sans cet attribut, Odoo ajoute `loading="lazy"` à toutes les images.
+
+## Réglages de la base (étapes `header`, `site` et `products` de `tools/deploy_odoo.py`)
+
+- **Icône d'onglet** (`icon-192.png`) et **image de partage** par défaut (`photo-groupe.jpg`),
+  comme sur le site statique.
+- **Base de test** : balise `noindex, nofollow` dans le `<head>` de toutes les pages. Elle est
+  retirée quand le script est lancé avec `--production`.
+- **Fiches produit** : URL sans accents (`/shop/mures-sauvages-4`) ; l'ancienne adresse redirige.
+  La **taxe de vente par défaut** de la société devient « 2.6% TTC » (un produit créé à la main
+  ne part plus avec 8,1 % hors taxe).
+- **Sujet de l'e-mail de confirmation de commande** traduit (« … : commande S000xx »).
 
 - **Nom du site** « ThéCol » (suffixe des titres d'onglet) et, si la société porte encore
   le nom technique de la base (`thecol-test`), **nom de société** « ThéCol Sàrl »

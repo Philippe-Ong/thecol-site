@@ -31,7 +31,7 @@
                         <div class="tc-hero-mountain" aria-hidden="true"></div>
                         <svg class="tc-sprig tc-s1" width="70" height="46" viewBox="0 0 28 18" aria-hidden="true"><g fill="currentColor"><path d="M2 16C8 14 16 9 26 2" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round"/><ellipse cx="8" cy="11" rx="4.5" ry="2.2" transform="rotate(-30 8 11)"/><ellipse cx="15" cy="7.5" rx="4.5" ry="2.2" transform="rotate(-30 15 7.5)"/><ellipse cx="22" cy="4" rx="4.5" ry="2.2" transform="rotate(-30 22 4)"/></g></svg>
                         <svg class="tc-sprig tc-s2" width="60" height="40" viewBox="0 0 28 18" aria-hidden="true"><g fill="currentColor"><path d="M2 16C8 14 16 9 26 2" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round"/><ellipse cx="8" cy="11" rx="4.5" ry="2.2" transform="rotate(-30 8 11)"/><ellipse cx="15" cy="7.5" rx="4.5" ry="2.2" transform="rotate(-30 15 7.5)"/><ellipse cx="22" cy="4" rx="4.5" ry="2.2" transform="rotate(-30 22 4)"/></g></svg>
-                        <img class="tc-hero-bottle" src="https://philippe-ong.github.io/thecol-site/assets/web/hero-hibiscus-ai.webp" alt="Bouteille de thé froid artisanal ThéCol Hibiscus" width="479" height="1400" fetchpriority="high"/>
+                        <img class="tc-hero-bottle" src="https://philippe-ong.github.io/thecol-site/assets/web/hero-hibiscus-ai.webp" alt="Bouteille de thé froid artisanal ThéCol Hibiscus" width="479" height="1400" fetchpriority="high" loading="eager"/>
                         <span class="tc-hero-chip tc-c1" aria-hidden="true"><span class="tc-swiss-cross"></span>Swiss made</span>
                         <span class="tc-hero-chip tc-c2" aria-hidden="true"><span class="tc-leaf-dot"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C7 7 5 11 5 15a7 7 0 0 0 14 0c0-4-2-8-7-13Z"/></svg></span>100&#160;% artisanal</span>
                     </div>
@@ -52,7 +52,7 @@
             <section class="tc tc-section">
                 <div class="container tc-split">
                     <div class="tc-split-img tc-reveal">
-                        <img src="https://philippe-ong.github.io/thecol-site/assets/web/photo-groupe-1280.webp" alt="Bouteilles de thé froid ThéCol fraîchement produites" loading="lazy"/>
+                        <img src="https://philippe-ong.github.io/thecol-site/assets/web/photo-groupe-1280.webp" alt="Bouteilles de thé froid ThéCol fraîchement produites" loading="lazy" srcset="https://philippe-ong.github.io/thecol-site/assets/web/photo-groupe-720.webp 720w, https://philippe-ong.github.io/thecol-site/assets/web/photo-groupe-1280.webp 1280w" sizes="(max-width: 991px) 92vw, 525px" width="1280" height="1178"/>
                         <span class="tc-badge-round">Brassé à<br/>Fribourg</span>
                     </div>
                     <div class="tc-reveal">
@@ -112,27 +112,27 @@
                     </div>
                     <div class="tc-flavor-row">
                         <a class="tc-flavor-card tc-reveal" href="tc-produit:hibiscus">
-                            <img src="https://philippe-ong.github.io/thecol-site/assets/web/produit-hibiscus-480.webp" alt="ThéCol Hibiscus" loading="lazy"/>
+                            <img src="https://philippe-ong.github.io/thecol-site/assets/web/produit-hibiscus-480.webp" alt="ThéCol Hibiscus" loading="lazy" width="480" height="720"/>
                             <b>Hibiscus</b>
                             <span>Floral &amp; éclatant</span>
                         </a>
                         <a class="tc-flavor-card tc-reveal" href="tc-produit:mures">
-                            <img src="https://philippe-ong.github.io/thecol-site/assets/web/produit-mures-480.webp" alt="ThéCol Mûres sauvages" loading="lazy"/>
+                            <img src="https://philippe-ong.github.io/thecol-site/assets/web/produit-mures-480.webp" alt="ThéCol Mûres sauvages" loading="lazy" width="480" height="853"/>
                             <b>Mûres sauvages</b>
                             <span>Fruité &amp; gourmand</span>
                         </a>
                         <a class="tc-flavor-card tc-reveal" href="tc-produit:sureau">
-                            <img src="https://philippe-ong.github.io/thecol-site/assets/web/produit-sureau-480.webp" alt="ThéCol Fleur de Sureau" loading="lazy"/>
+                            <img src="https://philippe-ong.github.io/thecol-site/assets/web/produit-sureau-480.webp" alt="ThéCol Fleur de Sureau" loading="lazy" width="480" height="853"/>
                             <b>Fleur de Sureau</b>
                             <span>Doux &amp; délicat</span>
                         </a>
                         <a class="tc-flavor-card tc-reveal" href="tc-produit:herbes">
-                            <img src="https://philippe-ong.github.io/thecol-site/assets/web/produit-herbes-480.webp" alt="ThéCol Herbes des Alpes" loading="lazy"/>
+                            <img src="https://philippe-ong.github.io/thecol-site/assets/web/produit-herbes-480.webp" alt="ThéCol Herbes des Alpes" loading="lazy" width="480" height="853"/>
                             <b>Herbes des Alpes</b>
                             <span>Frais &amp; herbacé</span>
                         </a>
                         <a class="tc-flavor-card tc-reveal" href="tc-produit:poire">
-                            <img src="https://philippe-ong.github.io/thecol-site/assets/web/produit-poire-480.webp" alt="ThéCol Poire à Botzi" loading="lazy"/>
+                            <img src="https://philippe-ong.github.io/thecol-site/assets/web/produit-poire-480.webp" alt="ThéCol Poire à Botzi" loading="lazy" width="480" height="853"/>
                             <b>Poire à Botzi</b>
                             <span>La fierté fribourgeoise</span>
                         </a>

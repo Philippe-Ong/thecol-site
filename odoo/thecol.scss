@@ -6,8 +6,8 @@
 //  (libsass) les évalue et plante. clamp() passe sans problème.
 // ==========================================================================
 
-// Provisoire : polices, montagne.svg et images servies par GitHub Pages (CORS ouvert).
-// À remplacer par des pièces jointes Odoo (/web/content/...) avant la mise en ligne.
+// Polices, montagne.svg et images : les URL GitHub Pages ci-dessous sont réécrites en
+// pièces jointes Odoo (/web/content/..., /web/image/...) par tools/deploy_odoo.py.
 // URL complètes volontairement : Odoo préfixe les url() construites avec #{...}.
 
 @font-face {
@@ -61,7 +61,9 @@
   // Neutralise les marges Bootstrap/Odoo : l'espacement est géré ci-dessous
   h1, h2, h3, p, ul { margin: 0; }
   ul { padding: 0; list-style: none; }
-  img { max-width: 100%; display: block; }
+  // height: auto — les <img> portent width/height (place réservée avant le chargement) :
+  // sans cela, la hauteur de l'attribut s'appliquerait telle quelle à une image rétrécie.
+  img { max-width: 100%; height: auto; display: block; }
 
   h1, h2, h3 {
     font-family: var(--font-display);

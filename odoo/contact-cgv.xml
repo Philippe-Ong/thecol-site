@@ -4,7 +4,7 @@
                     <div class="tc-section-head">
                         <span class="tc-overline">Bon à savoir</span>
                         <h2>Conditions générales de vente</h2>
-                        <p class="tc-lead">De la boutique en ligne <a href="https://www.thecol.ch/shop">www.thecol.ch</a></p>
+                        <p class="tc-lead">De la boutique en ligne <a href="/shop">www.thecol.ch</a></p>
                     </div>
                     <div class="tc-cgv-list">
                         <details class="tc-faq">

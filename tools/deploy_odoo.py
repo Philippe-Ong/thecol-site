@@ -5,15 +5,19 @@ Remplace les collages manuels décrits dans odoo/README.md :
 
   assets    images, polices et montagne.svg → médiathèque Odoo (publics),
             les URL GitHub Pages sont réécrites vers /web/image|content/...
-  styles    odoo/*.scss concaténés → user_custom_rules.scss
+  styles    odoo/*.scss concaténés → user_custom_rules.scss ; couleurs du thème ;
+            polices du thème sur « polices système » (plus d'appel à Google Fonts)
   scripts   odoo/*.js concaténés → user_custom_javascript.js
+  products  5 saveurs à variantes « Format » 25/50/100 cl (tools/products.json),
+            URL sans accents, TVA de vente par défaut de la société
   pages     /, /contactus, /about-us, /nos-produits, /distributeurs (+ SEO)
   footer    contenu du pied de page (odoo/pied-de-page.xml)
-  header    logo du site, bloc téléphone de démonstration masqué
+  header    logo, icône d'onglet et image de partage du site, bloc téléphone
+            de démonstration masqué
   site      nom du site et de la société, titres et traductions des pages
-            d'Odoo (boutique, panier, connexion…), CGV de /terms, /privacy
+            d'Odoo (boutique, panier, connexion…), CGV de /terms, /privacy,
+            « noindex » sur une base de test
   menus     menu principal
-  products  5 saveurs à variantes « Format » 25/50/100 cl (tools/products.json)
   livraison modes de livraison des CGV : La Poste (paliers selon le montant),
             par nos soins à Fribourg et lors de la tournée VD/GE/VS/NE/JU ;
             canton obligatoire dans les adresses en Suisse
@@ -71,6 +75,11 @@ JS_URL = "/website/static/src/js/user_custom_javascript.js"
 BUNDLE = "web.assets_frontend"
 PALETTE_URL = "/website/static/src/scss/options/colors/user_color_palette.scss"
 THEME_COLORS = {"o-color-1": "#1b8347", "o-color-2": "#14613a"}  # primaire, secondaire
+# Polices du thème (Site → Thème → Polices). Par défaut Odoo prend Inter / Inter Tight
+# et les charge chez Google sur chaque page (adresse IP du visiteur transmise) : le site
+# n'utilise que Fraunces et Outfit, servies par Odoo (@font-face de thecol.scss).
+VALUES_URL = "/website/static/src/scss/options/user_values.scss"
+THEME_FONTS = {k: "'SYSTEM_FONTS'" for k in ("font", "headings-font", "navbar-font", "buttons-font")}
 
 # Pages créées par le script : url → (clé de vue, nom, fichier, page statique pour le SEO)
 NEW_PAGES = [
@@ -87,6 +96,8 @@ MENU_REMOVED = ["/shop"]  # « Boutique » : on commande depuis Nos produits →
 FORMAT_VALUES = ["25", "50", "100"]  # clés de tools/products.json → « 25 cl »…
 TAX_RATE = 2.6  # TVA réduite, boissons sans alcool ; prix de products.json TTC
 LOGO_FILE = "assets/web/logo-header.png"
+FAVICON_FILE = "assets/web/icon-192.png"  # icône d'onglet, comme le site statique
+SOCIAL_IMAGE_FILE = "assets/web/photo-groupe.jpg"  # og:image des pages sans image propre
 HEADER_HIDDEN_VIEWS = ["website.header_text_element"]
 
 # Étape « site ». Le nom du site suit chaque titre d'onglet (« Panier | ThéCol ») ;
@@ -126,6 +137,11 @@ TRANSLATIONS = {
     "website_sale.total": {"Paid": "Payé"},
     "website.layout": {"breadcrumb": "Fil d'Ariane"},
 }
+# Sujets d'e-mails restés en anglais : identifiant XML du modèle → (terme, traduction)
+MAIL_SUBJECTS = {"sale.mail_template_sale_confirmation": ("}} Order {{", "}} : commande {{")}
+# Base de test : ne doit pas apparaître dans les moteurs de recherche à côté du vrai site.
+NOINDEX_META = '<meta name="robots" content="noindex, nofollow"/>'
+NOINDEX_RE = re.compile(r'\s*<meta name="robots"[^>]*>')
 UNPUBLISHED_PAGES = ["/privacy"]  # page vide créée par Odoo ; les CGV ont une section « Protection des données »
 
 # Étape « livraison » : les modes décrits dans les CGV (contact.xml, « Livraison et transport »).
@@ -149,7 +165,8 @@ CARRIERS_UNPUBLISHED = ["delivery.free_delivery_carrier"]
 # Odoo a chaque canton en plusieurs fiches, une par langue : « Freiburg » (code FR),
 # « Fribourg » (FR-FR), « Friburgo » (FR-IT). Le client choisit l'une d'elles dans le
 # formulaire d'adresse : un mode limité à des cantons les vise toutes.
-STEPS = ["assets", "styles", "scripts", "pages", "footer", "header", "site", "menus", "products",
+# products avant pages : les liens « tc-produit: » lisent l'URL des fiches dans la base.
+STEPS = ["assets", "styles", "scripts", "products", "pages", "footer", "header", "site", "menus",
          "livraison", "verify"]
 
 
@@ -238,6 +255,12 @@ def same_xml(a, b):
 
 
 PRICES_LINE = re.compile(r"^(\s*var PRICES = ).*;$", re.M)
+
+
+def slugify(name):
+    """« Mûres sauvages » → « mures-sauvages » (URL de la fiche sans accents)."""
+    flat = "".join(c for c in unicodedata.normalize("NFD", name.lower()) if not unicodedata.combining(c))
+    return re.sub(r"[^a-z0-9]+", "-", flat).strip("-")
 
 
 def format_prices_json():
@@ -330,8 +353,9 @@ def cgv_terms_html():
 
 
 class Deployer:
-    def __init__(self, odoo):
+    def __init__(self, odoo, production=False):
         self.odoo = odoo
+        self.production = production
         self.asset_urls = {}
         self.product_urls = {}
         site = odoo.read("website", [], ["name", "menu_id", "default_lang_id"], limit=1, order="id")[0]
@@ -438,9 +462,12 @@ class Deployer:
         # d'Odoo (« Ajouter au panier », formulaires…) passent du violet au vert.
         if self.odoo.dry_run:
             print("  [dry-run] palette du thème : %s" % THEME_COLORS)
+            print("  [dry-run] polices du thème : %s" % THEME_FONTS)
             return
         self.odoo.call("website.assets", "make_scss_customization", url=PALETTE_URL, values=THEME_COLORS)
         print("  palette du thème : %s" % THEME_COLORS)
+        self.odoo.call("website.assets", "make_scss_customization", url=VALUES_URL, values=THEME_FONTS)
+        print("  polices du thème : polices système (Fraunces et Outfit viennent de thecol.scss)")
 
     def step_scripts(self):
         content = self.concat(JS_FILES, "/* ===== odoo/%s (tools/deploy_odoo.py) ===== */\n")
@@ -564,12 +591,43 @@ class Deployer:
             current = current.get("content")
         if not isinstance(current, str) or hashlib.sha1(base64.b64decode(current)).hexdigest() != sha1:
             self.odoo.write("website", [self.website_id], {"logo": b64(logo)}, "logo " + LOGO_FILE)
+        self.site_image("social_default_image", SOCIAL_IMAGE_FILE)
+        self.site_image("favicon", FAVICON_FILE, converted=True)
         # Bloc « Texte » de l'en-tête (faux numéro +1 555…) : le site statique n'en a pas.
         # Écrit avec website_id dans le contexte → copie propre au site, la vue générique reste.
         for key in HEADER_HIDDEN_VIEWS:
             view = self.find_view(key)
             if view and view["active"]:
                 self.odoo.write("ir.ui.view", [view["id"]], {"active": False}, "masquer " + key)
+
+    def site_image(self, field, rel, converted=False):
+        """Image du site (champ binaire de « website »), renvoyée seulement si elle a changé.
+
+        converted : Odoo réenregistre l'image dans un autre format (icône d'onglet → ICO) ;
+        on ne peut donc pas la comparer au fichier. Ce qu'Odoo a rendu après le dernier
+        envoi est noté dans .odoo-backup/ et sert de repère au passage suivant.
+        """
+        data = (ROOT / rel).read_bytes()
+        sha1 = hashlib.sha1(data).hexdigest()
+
+        def stored():
+            value = self.odoo.read("website", [["id", "=", self.website_id]], [field])[0][field]
+            if isinstance(value, dict):
+                value = value.get("content")
+            return hashlib.sha1(base64.b64decode(value)).hexdigest() if isinstance(value, str) else None
+
+        host = re.sub(r"\W+", "_", self.odoo.url.split("//", 1)[-1])
+        note = BACKUP_DIR / host / (field + ".sha1")
+        expected = sha1
+        if converted:
+            seen = note.read_text().split() if note.exists() else []
+            expected = seen[1] if len(seen) == 2 and seen[0] == sha1 else None
+        if expected and stored() == expected:
+            return
+        self.odoo.write("website", [self.website_id], {field: b64(data)}, "%s ← %s" % (field, rel))
+        if converted and not self.odoo.dry_run:
+            note.parent.mkdir(parents=True, exist_ok=True)
+            note.write_text("%s %s" % (sha1, stored()))
 
     # ------------------------------------------------------------------- site
     def step_site(self):
@@ -587,6 +645,29 @@ class Deployer:
                             "société « %s » → %s" % (company["name"], COMPANY_NAME))
         elif company["name"] != COMPANY_NAME:
             print("  société « %s » conservée (nom déjà saisi)" % company["name"])
+
+        # Base de test : « noindex » dans le <head> de toutes les pages ; retiré en production.
+        head = self.odoo.read("website", [["id", "=", self.website_id]],
+                              ["custom_code_head"])[0]["custom_code_head"] or ""
+        wanted = NOINDEX_RE.sub("", head).strip()
+        if not self.production:
+            wanted = (wanted + "\n" + NOINDEX_META).strip()
+        # Odoo réenregistre la balise à sa façon (sans « / » final) : on regarde si elle est là.
+        if bool(NOINDEX_RE.search(head)) == self.production:
+            self.odoo.write("website", [self.website_id], {"custom_code_head": wanted or False},
+                            "retirer « noindex » (production)" if self.production
+                            else "« noindex » sur toutes les pages (base de test)")
+
+        for xmlid, (term, french) in MAIL_SUBJECTS.items():
+            tmpl_id = self.ref(xmlid)
+            found = tmpl_id and self.odoo.read("mail.template", [["id", "=", tmpl_id]], ["subject"],
+                                               context={"lang": self.lang})
+            if not found:
+                print("  ⚠ modèle d'e-mail %s introuvable" % xmlid)
+            elif term in (found[0]["subject"] or ""):
+                self.odoo.write("mail.template", [tmpl_id],
+                                {"subject": found[0]["subject"].replace(term, french)},
+                                "sujet en français : %s" % xmlid, context={"lang": self.lang})
 
         for key, (title, desc) in VIEW_SEO.items():
             for view in self.odoo.read("ir.ui.view", [["key", "=", key]],
@@ -629,7 +710,9 @@ class Deployer:
             print("  /terms désactivée (conditions générales en texte simple) : rien à faire")
             return
         terms = cgv_terms_html()
-        flat = lambda s: " ".join(html.unescape(re.sub(r"<[^>]+>", " ", s or "")).split())
+        # Texte seul, plus la cible des liens (Odoo réécrit le reste du balisage à l'enregistrement).
+        links = lambda s: re.sub(r'<a\b[^>]*\bhref="([^"]*)"[^>]*>', lambda m: " %s " % m.group(1), s or "")
+        flat = lambda s: " ".join(html.unescape(re.sub(r"<[^>]+>", " ", links(s))).split())
         if flat(company["invoice_terms_html"]) != flat(terms):
             self.odoo.write("res.company", [company["id"]], {"invoice_terms_html": terms},
                             "CGV de /terms (depuis contact.xml)")
@@ -704,6 +787,14 @@ class Deployer:
                 raise SystemExit("Attribut « Format » sans les valeurs %s" % missing)
 
         tax_id = self.sale_tax_id()
+        # Taxe de vente par défaut de la société : sinon un produit créé à la main dans Odoo
+        # part avec « 8.1% » hors taxe (taux normal) au lieu de la TVA réduite TTC des thés.
+        site = self.odoo.read("website", [["id", "=", self.website_id]], ["company_id"])[0]
+        company = self.odoo.read("res.company", [["id", "=", site["company_id"][0]]],
+                                 ["account_sale_tax_id"])[0]
+        if tax_id and (company["account_sale_tax_id"] or [None])[0] != tax_id:
+            self.odoo.write("res.company", [company["id"]], {"account_sale_tax_id": tax_id},
+                            "taxe de vente par défaut → %s%% TTC" % TAX_RATE)
         for seq, (pid, p) in enumerate(catalog.items(), start=1):
             prices = {f: float(p["formats"][f]) for f in FORMAT_VALUES}
             base = prices[FORMAT_VALUES[0]]
@@ -715,11 +806,12 @@ class Deployer:
                 "sale_ok": True,
                 "is_published": True,
                 "website_sequence": seq * 10,
+                "seo_name": slugify(p["name"]),  # /shop/mures-sauvages-4, pas /shop/mûres-sauvages-4
                 "website_meta_title": title,  # sinon « Hibiscus | <nom du site> »
                 "website_meta_description": desc,
             }
             found = self.odoo.read("product.template", [["name", "=", p["name"]]],
-                                   ["description_ecommerce"], limit=1)
+                                   list(vals) + ["description_ecommerce"], limit=1)
             if found:
                 tmpl_id = found[0]["id"]
                 # « Description ecommerce » : réservée aux ingrédients / valeurs nutritives
@@ -728,7 +820,9 @@ class Deployer:
                 flat = lambda s: " ".join(html.unescape(re.sub(r"<[^>]+>", "", s or "")).split())
                 if desc and flat(found[0]["description_ecommerce"]) == flat(desc):
                     vals["description_ecommerce"] = False
-                self.odoo.write("product.template", [tmpl_id], vals, p["name"])
+                diff = changes(found[0], vals)
+                if diff:
+                    self.odoo.write("product.template", [tmpl_id], diff, "%s : %s" % (p["name"], ", ".join(diff)))
             else:
                 tmpl_id = self.odoo.create("product.template", dict(
                     vals, name=p["name"], image_1920=b64(image),
@@ -884,7 +978,7 @@ def main():
 
     odoo = Odoo(args.url, key, args.dry_run)
     try:
-        dep = Deployer(odoo)
+        dep = Deployer(odoo, production=args.production)
         for step in STEPS:
             if step in steps:
                 print("== %s" % step)
