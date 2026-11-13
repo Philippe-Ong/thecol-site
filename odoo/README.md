@@ -104,6 +104,30 @@ En collage manuel, il faut faire ce rapatriement à la main :
 - **`/privacy`** (page vide créée par Odoo) est dépubliée. Une vraie déclaration de
   protection des données (nLPD) pourra y être publiée plus tard.
 
+## Livraison (étape `livraison` de `tools/deploy_odoo.py`)
+
+Les modes proposés au moment de commander reprennent les CGV (« Livraison et transport ») :
+
+| Mode | Où | Prix |
+|---|---|---|
+| Envoi postal (La Poste), 3 à 5 jours | toute la Suisse | paliers `POSTAL_TIERS` selon le montant TTC |
+| Livraison par nos soins, 3 à 5 jours | canton de Fribourg | gratuite |
+| Livraison par nos soins (tournée régionale), 30 jours max. | VD, GE, VS, NE, JU | gratuite |
+
+- **Paliers provisoires** : moins de CHF 30 → 9.00 ; moins de 60 → 12.00 ; moins de 100 → 15.00 ;
+  dès 100 → offert. Mettre les vrais tarifs dans `POSTAL_TIERS`, puis relancer `--steps livraison`
+  (le texte « offerte dès CHF … » suit le dernier palier).
+- Chaque mode a son produit de livraison (`LIV-POSTE`, `LIV-FRIBOURG`, `LIV-TOURNEE`) : c'est par
+  cette référence que le script le retrouve. Les frais de port portent la TVA « 2.6% TTC » des thés.
+- Odoo a chaque canton en une fiche par langue (« Freiburg » FR, « Fribourg » FR-FR,
+  « Friburgo » FR-IT) : les modes par canton visent toutes les variantes. Ne pas renommer ces fiches
+  (on créerait des doublons dans la liste du formulaire d'adresse).
+- Le canton devient **obligatoire** dans les adresses en Suisse : sans canton, un client de
+  Fribourg ne verrait que l'envoi postal.
+- « Livraison standard » (créée par Odoo, gratuite, tous pays) est retirée du site mais reste
+  utilisable pour les commandes saisies au bureau.
+- Hors de Suisse, aucun mode n'est proposé : la commande ne peut pas aboutir.
+
 ## Liens utilisés (pages existantes d'Odoo)
 
 | Ancien fichier statique | URL Odoo |
@@ -131,3 +155,7 @@ du produit). Le menu n'a plus d'entrée « Boutique » : on commande depuis la f
 - [x] Style de la boutique `/shop` et des fiches produit (SCSS uniquement)
 - [ ] Fiches produit : créer 5 produits à variantes « Format » (25/50/100 cl) et archiver les 15 anciens
 - [x] Rapatrier images et polices dans Odoo (étape `assets` du script)
+- [x] Modes de livraison des CGV (étape `livraison`), paliers postaux provisoires
+- [ ] Vrais paliers de l'envoi postal dans `POSTAL_TIERS`
+- [ ] Paiement (carte Visa/MasterCard et PayPal selon les CGV) : aucun moyen publié, une commande
+      ne peut pas encore aboutir

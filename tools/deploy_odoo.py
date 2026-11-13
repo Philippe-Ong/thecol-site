@@ -14,6 +14,9 @@ Remplace les collages manuels décrits dans odoo/README.md :
             d'Odoo (boutique, panier, connexion…), CGV de /terms, /privacy
   menus     menu principal
   products  5 saveurs à variantes « Format » 25/50/100 cl (tools/products.json)
+  livraison modes de livraison des CGV : La Poste (paliers selon le montant),
+            par nos soins à Fribourg et lors de la tournée VD/GE/VS/NE/JU ;
+            canton obligatoire dans les adresses en Suisse
   verify    relit les pages publiques et le bundle CSS
 
 Le script est rejouable : il met à jour ce qui existe déjà au lieu de dupliquer.
@@ -124,7 +127,30 @@ TRANSLATIONS = {
     "website.layout": {"breadcrumb": "Fil d'Ariane"},
 }
 UNPUBLISHED_PAGES = ["/privacy"]  # page vide créée par Odoo ; les CGV ont une section « Protection des données »
-STEPS = ["assets", "styles", "scripts", "pages", "footer", "header", "site", "menus", "products", "verify"]
+
+# Étape « livraison » : les modes décrits dans les CGV (contact.xml, « Livraison et transport »).
+# Envoi postal : (commande TTC inférieure à, participation TTC), None = au-delà du dernier palier.
+# PALIERS PROVISOIRES (13.11.2026) : à remplacer par les tarifs réels, puis --steps livraison.
+POSTAL_TIERS = [(30, 9.00), (60, 12.00), (100, 15.00), (None, 0.00)]
+# (référence du produit de livraison, qui sert à retrouver le mode ; nom ; cantons, [] = toute
+# la Suisse ; prix fixe, None = paliers POSTAL_TIERS ; texte affiché au client sous le nom)
+CARRIERS = [
+    ("LIV-POSTE", "Envoi postal (La Poste)", [], None,
+     "Expédition par La Poste sous 3 à 5 jours environ."),
+    ("LIV-FRIBOURG", "Livraison par nos soins (canton de Fribourg)", ["FR"], 0.0,
+     "Nous livrons nous-mêmes votre commande sous 3 à 5 jours environ."),
+    ("LIV-TOURNEE", "Livraison par nos soins (tournée régionale)", ["VD", "GE", "VS", "NE", "JU"], 0.0,
+     "Vaud, Genève, Valais, Neuchâtel et Jura : nous livrons votre commande lors de notre "
+     "prochaine tournée chez nos distributeurs de la région, sous 30 jours au maximum."),
+]
+SHIPPING_COUNTRY = "CH"
+# Mode créé par Odoo (gratuit, tous pays) : retiré du site, gardé pour les commandes saisies au bureau.
+CARRIERS_UNPUBLISHED = ["delivery.free_delivery_carrier"]
+# Odoo a chaque canton en plusieurs fiches, une par langue : « Freiburg » (code FR),
+# « Fribourg » (FR-FR), « Friburgo » (FR-IT). Le client choisit l'une d'elles dans le
+# formulaire d'adresse : un mode limité à des cantons les vise toutes.
+STEPS = ["assets", "styles", "scripts", "pages", "footer", "header", "site", "menus", "products",
+         "livraison", "verify"]
 
 
 class OdooError(RuntimeError):
@@ -231,6 +257,47 @@ def static_meta(html_file):
     unescape = lambda s: s.replace("&amp;", "&").replace("&#39;", "'").replace("&quot;", '"').strip()
     return (unescape(title.group(1)) if title else None,
             unescape(desc.group(1)) if desc else None)
+
+
+RULE_KEYS = ["variable", "operator", "max_value", "list_base_price", "list_price"]
+
+
+def postal_rules():
+    """Règles de prix d'Odoo d'après POSTAL_TIERS (la première règle vérifiée donne le prix)."""
+    if len(POSTAL_TIERS) < 2 or POSTAL_TIERS[-1][0] is not None:
+        raise SystemExit("POSTAL_TIERS : au moins un palier, puis (None, prix) pour la suite")
+    rules = []
+    for seq, (limit, fee) in enumerate(POSTAL_TIERS, start=1):
+        op, value = ("<", limit) if limit is not None else (">=", POSTAL_TIERS[-2][0])
+        rules.append({"sequence": seq * 10, "variable": "price", "operator": op,
+                      "max_value": float(value), "list_base_price": float(fee), "list_price": 0.0})
+    return rules
+
+
+def postal_text():
+    """Fin du texte affiché sous « Envoi postal » au moment de choisir la livraison."""
+    text = " Participation aux frais selon le montant de la commande"
+    if POSTAL_TIERS[-1][1] == 0:
+        text += ", offerte dès CHF %g" % POSTAL_TIERS[-2][0]
+    return text + "."
+
+
+def changes(record, vals):
+    """Valeurs de vals qui diffèrent de record (lu par search_read)."""
+    out = {}
+    for k, v in vals.items():
+        cur = record.get(k)
+        if isinstance(v, list):  # many2many écrit en [[6, 0, ids]]
+            same = set(cur or []) == set(v[0][2])
+        elif isinstance(cur, list):  # many2one lu en [id, nom]
+            same = cur[0] == v
+        elif isinstance(v, float):
+            same = abs((cur or 0.0) - v) < 0.001
+        else:
+            same = (cur or False) == (v or False)
+        if not same:
+            out[k] = v
+    return out
 
 
 def cgv_terms_html():
@@ -679,6 +746,84 @@ class Deployer:
                 if abs(ptav["price_extra"] - extra) > 0.001:
                     self.odoo.write("product.template.attribute.value", [ptav["id"]],
                                     {"price_extra": extra}, "%s %s +%.2f" % (p["name"], ptav["name"], extra))
+
+    # -------------------------------------------------------------- livraison
+    def ref(self, xmlid):
+        """Id d'un enregistrement d'Odoo d'après son identifiant XML (module.nom)."""
+        module, name = xmlid.split(".", 1)
+        found = self.odoo.read("ir.model.data", [["module", "=", module], ["name", "=", name]],
+                               ["res_id"], limit=1)
+        return found[0]["res_id"] if found else None
+
+    def step_livraison(self):
+        country = self.odoo.read("res.country", [["code", "=", SHIPPING_COUNTRY]], ["state_required"], limit=1)[0]
+        states = {}  # « FR » → ids des fiches Freiburg, Fribourg, Friburgo
+        for s in self.odoo.read("res.country.state", [["country_id", "=", country["id"]]], ["code"]):
+            states.setdefault(s["code"].split("-")[0], []).append(s["id"])
+        # Sans canton dans l'adresse, seul l'envoi postal serait proposé (CGV : options « basées
+        # sur le canton sélectionné »), même à un client de Fribourg.
+        if not country["state_required"]:
+            self.odoo.write("res.country", [country["id"]], {"state_required": True},
+                            "canton obligatoire dans les adresses en Suisse")
+
+        # Frais de port : prestation accessoire, même TVA que les thés (2,6 %, montants TTC).
+        tax_id = self.sale_tax_id()
+        categ_id = self.ref("delivery.product_category_deliveries")
+        for seq, (code, name, cantons, price, text) in enumerate(CARRIERS, start=1):
+            unknown = [c for c in cantons if c not in states]
+            if unknown:
+                raise SystemExit("Cantons inconnus dans la base : %s" % ", ".join(unknown))
+            if price is None:
+                text += postal_text()
+            product = {"name": name, "type": "service", "sale_ok": False, "list_price": price or 0.0,
+                       "taxes_id": [[6, 0, [tax_id] if tax_id else []]],
+                       "description_sale": text}  # affiché sous le nom du mode au moment de commander
+            if categ_id:
+                product["categ_id"] = categ_id
+            carrier = {"name": name, "sequence": seq * 10,
+                       "delivery_type": "base_on_rule" if price is None else "fixed",
+                       "country_ids": [[6, 0, [country["id"]]]],
+                       "state_ids": [[6, 0, [i for c in cantons for i in states[c]]]],
+                       "is_published": True, "active": True}
+            found = self.odoo.read("delivery.carrier", [["product_id.default_code", "=", code]],
+                                   list(carrier) + ["product_id"], limit=1, context={"active_test": False})
+            if not found:
+                product_id = self.odoo.create("product.product", dict(
+                    product, default_code=code, purchase_ok=False, invoice_policy="order"),
+                    "produit de livraison " + code)
+                if price is None:
+                    carrier["price_rule_ids"] = [[0, 0, r] for r in postal_rules()]
+                self.odoo.create("delivery.carrier", dict(carrier, product_id=product_id), name)
+                continue
+            carrier_id, product_id = found[0]["id"], found[0]["product_id"][0]
+            current = self.odoo.read("product.product", [["id", "=", product_id]], list(product),
+                                     context={"active_test": False})[0]
+            diff = changes(current, product)
+            if diff:
+                self.odoo.write("product.product", [product_id], diff, "%s : %s" % (code, ", ".join(diff)))
+            diff = changes(found[0], carrier)
+            if diff:
+                self.odoo.write("delivery.carrier", [carrier_id], diff, "%s : %s" % (name, ", ".join(diff)))
+            if price is None:
+                rules = self.odoo.read("delivery.price.rule", [["carrier_id", "=", carrier_id]], RULE_KEYS,
+                                       order="sequence, id")
+                key = lambda r: tuple(round(r[k], 2) if isinstance(r[k], float) else r[k] for k in RULE_KEYS)
+                if [key(r) for r in rules] != [key(r) for r in postal_rules()]:
+                    self.odoo.write("delivery.carrier", [carrier_id], {"price_rule_ids": [[5, 0, 0]] + [
+                        [0, 0, r] for r in postal_rules()]}, "%s : paliers" % name)
+        print("  envoi postal : %s" % ", ".join(
+            ("moins de %g → %.2f" % (limit, fee)) if limit else ("dès %g → %.2f" % (POSTAL_TIERS[-2][0], fee))
+            for limit, fee in POSTAL_TIERS))
+
+        for xmlid in CARRIERS_UNPUBLISHED:
+            carrier_id = self.ref(xmlid)
+            if not carrier_id:
+                print("  ⚠ %s introuvable : vérifier à la main les modes publiés" % xmlid)
+            found = carrier_id and self.odoo.read("delivery.carrier", [["id", "=", carrier_id]],
+                                                  ["name", "is_published"], context={"active_test": False})
+            if found and found[0]["is_published"]:
+                self.odoo.write("delivery.carrier", [carrier_id], {"is_published": False},
+                                "retirer du site « %s »" % found[0]["name"])
 
     # ----------------------------------------------------------------- verify
     def step_verify(self):
